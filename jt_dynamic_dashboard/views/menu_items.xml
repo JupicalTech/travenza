@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- <menuitem name="Dashboard" id="menu_dashboard" sequence="0" web_icon="jt_dynamic_dashboard,static/description/icon.png" action="jt_dynamic_dashboard.jt_dynamic_dashboard_action"/>
+     -->
+    <!-- <menuitem name="Charts" id="menu_dynamic_dashboard_charts"
+              parent="jt_dynamic_dashboard.menu_dashboard"
+              sequence="4" action="jt_dashboard_block_charts_action"/>
+
+    <menuitem name="Tiles" id="menu_dynamic_dashboard_tiles"
+              parent="jt_dynamic_dashboard.menu_dashboard"
+              sequence="5" action="jt_dashboard_block_tiles_action"/>
+
+	 -->
+
+    <menuitem name="Dashboard" id="menu_dynamic_dashboard" parent="crm.crm_menu_root"
+              sequence="1" action="jt_dynamic_dashboard.jt_dynamic_dashboard_action"/>
+
+    <!-- <menuitem id="jt_dashboard_temp1"
+            name="Template 1"
+            action="jt_dynamic_dashboard.action_jt_custom_dashboard"
+            sequence="2"
+            parent="jt_dynamic_dashboard.menu_dashboard"/>
+
+    <menuitem id="jt_dashboard_temp2"
+            name="Template 2"
+            action="jt_dynamic_dashboard.action_jt_custom_dashboard2"
+            sequence="3"
+            parent="jt_dynamic_dashboard.menu_dashboard"/>
+             -->
+    <!-- <menuitem name="Dashboard Settings" id="menu_dynamic_dashboard_config"
+              parent="jt_fleet_transportation.menu_fleet_config"
+              sequence="2" action="jt_dynamic_dashboard.jt_dynamic_dashboard_config"/> -->
+</odoo>

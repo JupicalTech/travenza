@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="lead_type_holiday" model="lead.type">
+            <field name="name">Holiday Package</field>
+        </record>
+
+        <record id="lead_type_air" model="lead.type">
+            <field name="name">Air Only</field>
+        </record>
+
+        <record id="lead_type_visa" model="lead.type">
+            <field name="name">Visa Only</field>
+        </record>
+
+        <record id="lead_type_combo" model="lead.type">
+            <field name="name">Combo</field>
+        </record>
+
+        <record id="lead_type_corporate" model="lead.type">
+            <field name="name">Corporate</field>
+        </record>
+
+        <record id="lead_type_cruise" model="lead.type">
+            <field name="name">Cruise</field>
+        </record>
+
+        <record id="lead_type_forex" model="lead.type">
+            <field name="name">Forex/Insurance</field>
+        </record>
+</odoo>

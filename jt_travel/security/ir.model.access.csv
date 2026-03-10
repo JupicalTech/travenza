@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lead_type,access_lead_type,model_lead_type,,1,1,1,1
+access_country_specific_checklist,access_country_specific_checklist,model_country_specific_checklist,,1,1,1,1
+access_customer_visa_application,access_customer_visa_application,model_customer_visa_application,,1,1,1,1
+access_customer_booking,access_customer_booking,model_customer_booking,,1,1,1,1
+access_visa_type_mgmt,access_visa_type_mgmt,model_visa_type,jt_travel.group_travel_crm_management,1,1,1,1
+access_visa_type_visa,access_visa_type_visa,model_visa_type,jt_travel.group_travel_crm_visa,1,1,1,1

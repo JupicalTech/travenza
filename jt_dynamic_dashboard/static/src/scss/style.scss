@@ -1,0 +1,258 @@
+.card{
+    border: none;
+    border-radius: 0px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.card-header{
+    background-color: transparent;
+    border: none;
+}
+:root {
+            /* Colors */
+            --green: #00C689;
+            --blue: #3DA5F4;
+            --red: #F1536E;
+            --yellow: #FDA006;
+            /*Fonts*/
+            --primary-font: 'Roboto', sans-serif;
+        }
+
+        html .o_web_client > .o_action_manager {
+        overflow:auto;
+        }
+
+        .bg-green {
+            background-color: var(--green);
+        }
+
+        .bg-blue {
+            background-color: var(--blue);
+        }
+
+        .bg-red {
+            background-color: var(--red);
+        }
+
+        .bg-yellow {
+            background-color: var(--yellow);
+        }
+
+        .text-color-yellow {
+            color: var(--yellow);
+        }
+
+        .text-color-green {
+            color: var(--green);
+        }
+
+        .text-color-blue {
+            color: var(--blue);
+        }
+
+        .text-color-red {
+            color: var(--red);
+        }
+
+        .text-color-yellow {
+            color: var(--yellow);
+        }
+
+        .tile-container {
+            padding: 3.2rem 1.5rem;
+            border-radius: 15px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            -moz-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                -moz-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            }
+        }
+
+        .tile-container2 {
+            padding: 3.2rem 1.5rem;
+            border-radius: 15px;
+            height:170px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            -moz-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                -moz-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            }
+        }
+        .tile-container__icon-container {
+            border-radius: 50%;
+            width: 4.75rem;
+            height: 4.75rem;
+            font-size: 28px;
+        }
+
+        .status-container__title {
+            font-family: var(--primary-font);
+            font-weight: 500;
+            font-size: 1.5rem;
+            line-height: 1.5rem;
+        }
+
+        .status-container__figures {
+            font-family: var(--primary-font);
+        }
+
+        .status-container__figures>h3 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            line-height: 1.813rem;
+        }
+
+        .tile-container__setting-icon {
+            top: 0.638rem;
+            right: 1rem;
+        }
+
+        .tile-container__remove-icon {
+            top: 0.638rem;
+            right: 3rem;
+        }
+
+        .tile-container__duplicate-icon {
+            top: 0.638rem;
+            right: 5rem;
+        }
+
+
+// Main Navbar Dropdown menu location override
+.o_menu_systray > .o_user_menu > .o-dropdown--menu{
+    left: auto !important;
+    right: 0px !important;
+}
+.button-container{
+    padding-top: 5px;
+}
+.add_block{
+    margin-left: 6px;
+}
+.tile-container__status-container{
+    padding-left: 10px;
+    word-break: break-all;
+}
+
+
+
+
+
+
+
+
+.tile-container{
+    padding: 3.2rem 1.5rem;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        -moz-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+}
+
+.tile-container2 {
+    padding: 0;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        -moz-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+    
+    .tile-left-half, .tile-right-half {
+        width: 35%;
+        height: auto !important;
+        padding: 3.2rem 0rem;
+    }
+    
+    .tile-left-half {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+    
+    .tile-right-half {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+}
+
+.tile-container2__setting-icon {
+    top: 0.638rem;
+    right: 1rem;
+}
+
+.tile-container2__remove-icon {
+    top: 0.638rem;
+    right: 3rem;
+}
+
+.tile-container2__duplicate-icon {
+    top: 0.638rem;
+    right: 5rem;
+}
+
+.tile-container__icon-container, .tile-container2__icon-container, .tile-container3__icon-container {
+    border-radius: 50%;
+    width: 4.75rem;
+    height: 4.75rem;
+    font-size: 28px;
+    padding: 0rem 2rem;
+}
+
+.status-container__title {
+    font-family: var(--primary-font);
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+}
+
+.status-container__figures {
+    font-family: var(--primary-font);
+}
+
+.status-container__figures>h3 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.813rem;
+}
+
+.tile-container__setting-icon, .tile-container2__setting-icon, .tile-container3__setting-icon {
+    top: 0.638rem;
+    right: 1rem;
+}
+
+.tile-container__remove-icon, .tile-container2__remove-icon, .tile-container3__remove-icon {
+    top: 0.638rem;
+    right: 3rem;
+}
+
+.tile-container__duplicate-icon, .tile-container2__duplicate-icon, .tile-container3__duplicate-icon {
+    top: 0.638rem;
+    right: 5rem;
+}

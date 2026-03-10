@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="crm_lead_view_form_inherit_visa" model="ir.ui.view">
+    <field name="name">crm.lead.form.inherit.visa</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+            <button name="action_create_visa_application" 
+                    string="Create Visa Application" 
+                    type="object" 
+                    class="oe_highlight"/>
+
+            <button name="action_create_customer_booking" 
+                    string="Create Customer Booking" 
+                    type="object" 
+                    class="oe_highlight"/>
+        </xpath>
+
+        <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="lead_type_id"/>
+        </xpath>
+
+        <xpath expr="//page[@name='lead']" position="after">
+                    <page string="Holiday Details" invisible="lead_type_id != %(jt_travel.lead_type_holiday)d">
+                        <group>
+                            <group>
+                                <field name="holiday_source_loc"/>
+                                <field name="holiday_destination_loc"/>
+                                <field name="holiday_duration"/>
+                            </group>
+                            <group>
+                                <field name="holiday_pas_count"/>
+                                <field name="holiday_budget"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Flight Details" invisible="lead_type_id != %(jt_travel.lead_type_air)d">
+                        <group>
+                            <group>
+                                <field name="air_departure_city"/>
+                                <field name="air_arrival_city"/>
+                                <field name="air_travel_date"/>
+                            </group>
+                            <group>
+                                <field name="air_class"/>
+                                <field name="air_trip_type"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Visa Details" invisible="lead_type_id != %(jt_travel.lead_type_visa)d">
+                        <group>
+                            <group>
+                                <field name="visa_country_id"/>
+                                <field name="visa_type_id"/>
+                                <field name="visa_appointment_date"/>
+                                <field name="passport_no"/>
+                            </group>
+                            <group>
+                                <field name="visa_submission_date"/>
+                                <field name="visa_tracking_number"/>
+                                <field name="visa_validity_period"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Combo Package Details" invisible="lead_type_id != %(jt_travel.lead_type_combo)d">
+                        <group>
+                            <group>
+                                <field name="combo_services"/>
+                                <field name="combo_total_pax"/>
+                            </group>
+                            <group>
+                                <field name="combo_start_date"/>
+                                <field name="combo_end_date"/>
+                                <field name="combo_special_reqs"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Corporate Travel" invisible="lead_type_id != %(jt_travel.lead_type_corporate)d">
+                        <group>
+                            <group>
+                                <field name="corp_company_name"/>
+                                <field name="corp_employee_id"/>
+                                <field name="corp_department"/>
+                            </group>
+                            <group>
+                                <field name="corp_billing_entity"/>
+                                <field name="corp_travel_policy"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Cruise Details" invisible="lead_type_id != %(jt_travel.lead_type_cruise)d">
+                        <group>
+                            <group>
+                                <field name="cruise_line"/>
+                                <field name="cruise_sailing_date"/>
+                                <field name="cruise_departure_port"/>
+                            </group>
+                            <group>
+                                <field name="cruise_cabin_type"/>
+                                <field name="cruise_itinerary"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Forex and Insurance" invisible="lead_type_id != %(jt_travel.lead_type_forex)d">
+                        <group>
+                            <group string="Forex">
+                                <field name="forex_currency"/>
+                                <field name="forex_amount"/>
+                            </group>
+                            <group string="Insurance">
+                                <field name="ins_policy_type"/>
+                                <field name="ins_coverage_area"/>
+                                <field name="ins_start_date"/>
+                            </group>
+                        </group>
+                    </page>
+            </xpath>
+    </field>
+</record>
+</odoo>

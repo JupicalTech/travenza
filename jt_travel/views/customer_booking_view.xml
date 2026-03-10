@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_customer_booking_list" model="ir.ui.view">
+        <field name="name">customer.booking.list</field>
+        <field name="model">customer.booking</field>
+        <field name="arch" type="xml">
+            <list string="Bookings">
+                <field name="sequence"/>
+                <field name="customer_id"/>
+                <field name="source"/>
+                <field name="destination"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="booking_type"/>
+                <field name="booking_status" widget="badge" decoration-success="booking_status == 'confirmed'"
+                                                    decoration-info="booking_status == 'delayed'"
+                                                    decoration-danger="booking_status == 'cancelled'"/>
+                <field name="sales_price"/>
+                <field name="cost_price"/>
+                <field name="profit"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_customer_booking_form" model="ir.ui.view">
+        <field name="name">customer.booking.form</field>
+        <field name="model">customer.booking</field>
+        <field name="arch" type="xml">
+            <form string="Booking">
+            <header>                    
+                    <button name="action_confirm_booking" 
+                            string="Confirm" 
+                            type="object" 
+                            class="btn-success" 
+                            invisible="booking_status in ['cancelled', 'confirmed']"/>
+
+                    <button name="action_delay_booking" 
+                            string="Delay" 
+                            type="object" 
+                            class="btn-warning"
+                            invisible="booking_status in ['confirmed', 'cancelled', 'delayed']"/>
+
+                    <button name="action_cancel_booking" 
+                            string="Cancel" 
+                            type="object" 
+                            class="btn-danger"
+                            invisible="booking_status in ['cancelled', 'confirmed']"/>
+                    
+                    <field name="booking_status" widget="statusbar" statusbar_visible="new,delayed,confirmed,cancelled"/>
+                </header>
+                <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="sequence" readonly="1"/>
+                    </h1>
+                </div>
+                    <group>
+                        <group string="Booking Details">
+                            <field name="customer_id" required="1"/>
+                            <field name="source" required="1"/>
+                            <field name="destination" required="1"/>
+                            <field name="booking_type" required="1"/>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                        </group>
+                        <group string="Financials">
+                            <field name="sales_price"/>
+                            <field name="cost_price"/>
+                            <field name="profit" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_customer_booking_kanban" model="ir.ui.view">
+    <field name="name">customer.booking.kanban</field>
+    <field name="model">customer.booking</field>
+    <field name="arch" type="xml">
+        <kanban default_group_by="booking_status" class="o_kanban_small_column" can_open="1">
+            <field name="sequence"/>
+            <field name="customer_id"/>
+            <field name="source"/>
+            <field name="destination"/>
+            <field name="booking_type"/>
+            <field name="booking_status"/>
+            <field name="sales_price"/>
+            <field name="cost_price"/>
+            <field name="profit"/>
+
+            <templates>
+                <t t-name="card">
+                    <div class="o_kanban_record oe_kanban_global_click p-0 border-0 bg-white" 
+                         style="border-radius: 12px; overflow: hidden; transition: transform 0.2s ease;">
+                        
+                        <div class="position-relative">
+
+                            <div t-if="record.booking_status.raw_value == 'confirmed'"
+                                class="ribbon ribbon-top-right">
+                                <span class="bg-success text-white small ">CONFIRMED</span>
+                            </div>
+
+                            <div t-if="record.booking_status.raw_value == 'cancelled'"
+                                class="ribbon ribbon-top-right">
+                                <span class="bg-danger text-white small">CANCELLED</span>
+                            </div>
+
+                            <div t-if="record.booking_status.raw_value == 'delayed'"
+                                class="ribbon ribbon-top-right">
+                                <span class="bg-warning text-dark small ">DELAYED</span>
+                            </div>
+
+                            <div t-if="record.booking_status.raw_value == 'new'"
+                                class="ribbon ribbon-top-right">
+                                <span class="bg-info text-white small">NEW</span>
+                            </div>
+
+                        </div>
+
+                        <div class="p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h4 class="m-0 fw-bold text-dark">
+                                    <field name="sequence"/>
+                                </h4>
+                            </div>
+
+                            <div class="text-muted mb-3 d-flex align-items-center">
+                                <div class="bg-primary-light rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 24px; height: 24px;">
+                                    <i class="fa fa-user text-primary small"/>
+                                </div>
+                                <span class="fw-semibold text-truncate"><field name="customer_id"/></span>
+                            </div>
+
+                            <div class="bg-light rounded p-2 mb-3 d-flex align-items-center justify-content-center border-dashed border-2">
+                                <div class="text-center flex-grow-1">
+                                    <small class="d-block text-muted text-uppercase">From</small>
+                                    <span class="fw-bold"><field name="source"/></span>
+                                </div>
+                                <div class="px-2">
+                                    <i class="fa fa-arrow-right text-primary fa-lg"/>
+                                </div>
+                                <div class="text-center flex-grow-1">
+                                    <small class="d-block text-muted text-uppercase">To</small>
+                                    <span class="fw-bold"><field name="destination"/></span>
+                                </div>
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted d-block">From Date</small>
+                                    <span class="fw-semibold">
+                                        <field name="from_date"/>
+                                    </span>
+                                </div>
+
+                                <div class="col-6">
+                                    <small class="text-muted d-block">To Date</small>
+                                    <span class="fw-semibold">
+                                        <field name="to_date"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <span class="badge rounded-pill bg-light text-muted border">
+                                    <field name="booking_type"/>
+                                </span>
+                            </div>
+                            <div class="row g-0 pt-2 border-top">
+                                <div class="col-4 border-end">
+                                    <small class="text-muted d-block">Sales</small>
+                                    <span class="fw-bold text-dark"><field name="sales_price"/></span>
+                                </div>
+                                <div class="col-4 border-end ps-2">
+                                    <small class="text-muted d-block">Cost</small>
+                                    <span class="fw-bold text-dark"><field name="cost_price"/></span>
+                                </div>
+                                <div class="col-4 ps-2">
+                                    <small class="text-success d-block fw-bold">Profit</small>
+                                    <span class="fw-bolder text-success fs-5"><field name="profit"/></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="o_kanban_record_manage_settings p-2 text-end">
+                            <t t-call="menu"/>
+                        </div>
+                    </div>
+                </t>
+
+                <t t-name="menu">
+                    <div class="o_kanban_card_manage_pane dropdown-menu" role="menu">
+                        <div class="o_kanban_card_manage_section">
+                            <div role="menuitem" class="dropdown-header">Quick Actions</div>
+                            <a role="menuitem" type="object" name="action_confirm_booking" class="dropdown-item">Confirm Booking</a>
+                            <a role="menuitem" type="object" name="action_delay_booking" class="dropdown-item">Delay Booking</a>
+                            <a role="menuitem" type="object" name="action_cancel_booking" class="dropdown-item text-danger">Cancel Booking</a>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+    <record id="view_customer_booking_search" model="ir.ui.view">
+    <field name="name">customer.booking.search</field>
+    <field name="model">customer.booking</field>
+    <field name="arch" type="xml">
+        <search string="Search Bookings">
+            <field name="sequence" string="Reference"/>
+            <field name="customer_id" string="Customer"/>
+            <field name="source"/>
+            <field name="destination"/>
+            
+            <separator/>
+            <filter string="Hotel Bookings" name="hotel_type" domain="[('booking_type', '=', 'hotel')]"/>
+            <filter string="Flight Bookings" name="flight_type" domain="[('booking_type', '=', 'flight')]"/>
+            
+            <separator/>
+            <filter string="Confirmed" name="confirmed" domain="[('booking_status', '=', 'confirmed')]"/>
+            <filter string="Cancelled" name="cancelled_status" domain="[('booking_status', '=', 'cancelled')]"/>
+            <filter string="Delayed" name="delayed_status" domain="[('booking_status', '=', 'delayed')]"/>
+
+            <group>
+                <filter string="Customer" name="group_by_customer" context="{'group_by': 'customer_id'}"/>
+                <filter string="Booking Type" name="group_by_type" context="{'group_by': 'booking_type'}"/>
+                <filter string="Status" name="group_by_status" context="{'group_by': 'booking_status'}"/>
+                <filter string="Source" name="group_by_source" context="{'group_by': 'source'}"/>
+                <filter string="Destination" name="group_by_destination" context="{'group_by': 'destination'}"/>
+            </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_customer_booking" model="ir.actions.act_window">
+        <field name="res_model">customer.booking</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_customer_booking_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first booking!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_customer_booking" 
+              name="Customer Bookings" 
+              parent="crm.crm_menu_root" 
+              action="action_customer_booking" 
+              sequence="3"/>
+
+</odoo>

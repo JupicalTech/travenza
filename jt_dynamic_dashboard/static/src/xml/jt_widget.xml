@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="jt_dynamic_dashboard.JtColorPicker" owl="1">
+        <div>
+            <input type="color" id="tileColorInput" class="round-color-input" t-on-change="onColorChange"  t-att-value="state.color_value"/>
+        </div>
+    </t>
+
+    <t t-name="jt_dynamic_dashboard.JttextColorPicker" owl="1">
+        <div>
+            <input type="color" id="textColorInput" class="round-color-input" t-on-change="onTextColorChange" t-att-value="state.text_color_value"/>
+        </div>
+    </t>
+
+    <t t-name="jt_dynamic_dashboard.JtIconColorPicker" owl="1">
+        <div>
+            <input type="color" id="iconColorInput" class="round-color-input" t-on-change="onIconColorChange" t-att-value="state.icon_color_value"/>
+        </div>
+    </t>
+
+    <t t-name="jt_dynamic_dashboard.JtCustomIcon" owl="1">
+        <div>
+            <input type="file" t-on-change="onInputChange"/>
+            <img t-att-src="state.imgSrc" style="max-width: 100px; max-height: 100px;" alt="your image"/>
+        </div>
+    </t>
+
+
+    <t t-name="jt_dynamic_dashboard.JtIconPicker" owl="1">
+        <div class="icon-box">
+            <div class="icon-row">
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-star"><i class="fa fa-star"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-pencil"><i class="fa fa-pencil"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-address-book"><i class="fa fa-address-book"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-user-circle-o"><i class="fa fa-user-circle-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-car"><i class="fa fa-car"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-book"><i class="fa fa-book"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-check-circle"><i class="fa fa-check-circle"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-circle"><i class="fa fa-circle"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-check-square-o"><i class="fa fa-check-square-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-cloud-upload"><i class="fa fa-cloud-upload"></i></a>
+            </div>
+            <div class="icon-row">
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-cubes"><i class="fa fa-cubes"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-eye"><i class="fa fa-eye"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-phone"><i class="fa fa-phone"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-picture-o"><i class="fa fa-picture-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-plus"><i class="fa fa-plus"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-server"><i class="fa fa-server"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-sign-in"><i class="fa fa-sign-in"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-plus-circle"><i class="fa fa-plus-circle"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-trash"><i class="fa fa-trash"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-file"><i class="fa fa-file"></i></a>
+            </div>
+            <div class="icon-row">
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-cog"><i class="fa fa-cog"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-money"><i class="fa fa-money"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-usd"><i class="fa fa-usd"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-inr"><i class="fa fa-inr"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-signal"><i class="fa fa-signal"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-tags"><i class="fa fa-tags"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-folder-open"><i class="fa fa-folder-open"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-minus"><i class="fa fa-minus"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-bookmark"><i class="fa fa-bookmark"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-calendar-plus-o"><i class="fa fa-calendar-plus-o"></i></a>
+            </div>
+
+            <div class="icon-row">
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-adjust"><i class="fa fa-adjust"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-area-chart"><i class="fa fa-area-chart"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-bars"><i class="fa fa-bars"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-bell"><i class="fa fa-bell"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-briefcase"><i class="fa fa-briefcase"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-calculator"><i class="fa fa-calculator"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-calendar-o"><i class="fa fa-calendar-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-clock-o"><i class="fa fa-clock-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-users"><i class="fa fa-users"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-hourglass-start"><i class="fa fa-hourglass-start"></i></a>
+            </div>
+            <div class="icon-row">
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-star-half-o"><i class="fa fa-star-half-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-sun-o"><i class="fa fa-sun-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-toggle-on"><i class="fa fa-toggle-on"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-archive"><i class="fa fa-archive"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-envelope-o"><i class="fa fa-envelope-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-flag"><i class="fa fa-flag"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-info-circle"><i class="fa fa-info-circle"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-commenting-o"><i class="fa fa-commenting-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-history"><i class="fa fa-history"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-recycle"><i class="fa fa-recycle"></i></a>
+            </div>
+            <div class="icon-row">
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-chain-broken"><i class="fa fa-chain-broken"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-paperclip"><i class="fa fa-paperclip"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-windows"><i class="fa fa-windows"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-share-alt"><i class="fa fa-share-alt"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-android"><i class="fa fa-android"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-superpowers"><i class="fa fa-superpowers"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-window-restore"><i class="fa fa-window-restore"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-podcast"><i class="fa fa-podcast"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-handshake-o"><i class="fa fa-handshake-o"></i></a>
+                <a class="dropdown-item_custom icon-btn" href="#" data-icon="fa fa-window-maximize"><i class="fa fa-window-maximize"></i></a>
+            </div>
+        </div>
+    </t>
+</templates>

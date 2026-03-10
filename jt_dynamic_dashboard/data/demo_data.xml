@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="demo_block_1" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#D67A9F</field>
+        <field name="text_color">#000000D</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/3d-file.gif"></field>
+    </record>
+    <record id="demo_block_2" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#89B4EC</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/digital-twin.gif"></field>
+    </record>
+    <record id="demo_block_3" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#C37F7F</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/donut-chart.gif"></field>
+    </record>
+    <record id="demo_block_4" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#DBCCFF</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/line-chart.gif"></field>
+    </record>
+    <record id="demo_block_5" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#9BABEE</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/menu.gif"></field>
+    </record>
+    <record id="demo_block_6" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#D2AC89</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/model.gif"></field>
+    </record>
+    <record id="demo_block_7" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#2DBEBE</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/settings.gif"></field>
+    </record>
+    <record id="demo_block_8" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#C4DB95</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/bar-chart.gif"></field>
+    </record>
+    <record id="demo_block_9" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">bar</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_12" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">line</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_10" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">radar</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_11" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">pie</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_13" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">doughnut</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_14" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">list</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard"/>
+        <field name="is_demo_data">True</field>
+    </record>
+
+    <!-- Demo Template 2 -->
+
+    <record id="demo_block_16" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">line</field>
+        <field name="graph_size">col-lg-12</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_15" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">bar</field>
+        <field name="graph_size">col-lg-12</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_17" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">radar</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_18" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">pie</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_19" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">doughnut</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+    </record>
+    <record id="demo_block_20" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">sum</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">graph</field>
+        <field name="graph_type">list</field>
+        <field name="graph_size">col-lg-6</field>
+        <field name="group_by" ref="base.field_res_country__name"/>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+    </record>
+
+    <record id="demo_block_21" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#aed6f1</field>
+        <field name="text_color">#000000D</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/around-the-world.gif"></field>
+    </record>
+    <record id="demo_block_22" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#c39bd3</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/clock.gif"></field>
+    </record>
+    <record id="demo_block_23" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#e6b0aa</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/cloudy.gif"></field>
+    </record>
+    <record id="demo_block_24" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color"> #f2d7d5</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/layers.gif"></field>
+    </record>
+    <record id="demo_block_25" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#9BABEE</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/message.gif"></field>
+    </record>
+    <record id="demo_block_26" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#D2AC89</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/controls.gif"></field>
+    </record>
+    <record id="demo_block_27" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#2DBEBE</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/planning.gif"></field>
+    </record>
+    <record id="demo_block_28" model="dashboard.block">
+        <field name="name">Demo</field>
+        <field name="model_id" ref="base.model_res_country"/>
+        <field name="operation">count</field>
+        <field name="measured_field" ref="base.field_res_country__id"/>
+        <field name="type">tile</field>
+        <field name="tiles_type">1</field>
+        <field name="fa_color">#000000</field>
+        <field name="tile_color">#C4DB95</field>
+        <field name="text_color">#000000</field>
+        <field name="fa_icon">fa fa-star</field>
+        <field name="client_action" ref="jt_dynamic_dashboard.action_jt_custom_dashboard2"/>
+        <field name="is_demo_data">True</field>
+        <field name="icon_type">custom</field>
+        <field name="icon_image" type="base64" file="jt_dynamic_dashboard/static/src/gifs/redesign.gif"></field>
+    </record>
+
+    <function model="dashboard.block" name="update_filename">
+        <value model="dashboard.block" eval="obj().search([]).ids"/>
+    </function>
+
+</odoo>

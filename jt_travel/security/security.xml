@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="module_category_travel_crm" model="ir.module.category">
+            <field name="name">Travel CRM Access Rights</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="group_travel_crm_sales" model="res.groups">
+            <field name="name">Sales</field>
+            <!-- <field name="category_id" ref="jt_travel.module_category_travel_crm"/> -->
+        </record>
+
+        <record id="group_travel_crm_operations" model="res.groups">
+            <field name="name">Operations</field>
+            <!-- <field name="category_id" ref="jt_travel.module_category_travel_crm"/> -->
+        </record>
+
+        <record id="group_travel_crm_visa" model="res.groups">
+            <field name="name">Visa Team</field>
+            <!-- <field name="category_id" ref="jt_travel.module_category_travel_crm"/> -->
+        </record>
+
+        <record id="group_travel_crm_accounts" model="res.groups">
+            <field name="name">Accounts</field>
+            <!-- <field name="category_id" ref="jt_travel.module_category_travel_crm"/> -->
+        </record>
+
+        <record id="group_travel_crm_management" model="res.groups">
+            <field name="name">Management</field>
+            <!-- <field name="category_id" ref="jt_travel.module_category_travel_crm"/> -->
+        </record>
+</odoo>
