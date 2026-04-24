@@ -25,6 +25,15 @@ from odoo import models, fields
 class LeadType(models.Model):
     _name = 'lead.type'
     _description = 'Lead Type'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Lead Type')
+    # team_id = fields.Many2one('travel.team', string='Assigned Team')
+    team_ids = fields.Many2many(
+        'travel.team',
+        'lead_type_travel_team_rel',
+        'lead_type_id',
+        'team_id',
+        string='Assigned Teams'
+    )
+    is_project_type = fields.Boolean(string='Requires Project')
+    tag_ids = fields.Many2many('crm.tag', string='Default Tags')

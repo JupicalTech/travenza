@@ -1,30 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <record id="lead_type_holiday" model="lead.type">
-            <field name="name">Holiday Package</field>
+    <!-- <record id="lead_type_air_tickets" model="lead.type">
+        <field name="name">Air Tickets</field>
+    </record>
+
+    <record id="lead_type_visa_assistance" model="lead.type">
+        <field name="name">Visa Assistance</field>
+    </record>
+
+    <record id="lead_type_hotels" model="lead.type">
+        <field name="name">Hotels</field>
+    </record>
+
+    <record id="lead_type_transfers_tours" model="lead.type">
+        <field name="name">Transfers and Tours</field>
+    </record>
+
+    <record id="lead_type_cruise" model="lead.type">
+        <field name="name">Cruise</field>
+    </record>
+
+    <record id="lead_type_insurance" model="lead.type">
+        <field name="name">Insurance</field>
+    </record>
+
+    <record id="lead_type_forex" model="lead.type">
+        <field name="name">Forex</field>
+    </record>
+
+    <record id="lead_type_passport_renewal" model="lead.type">
+        <field name="name">Passport Renewal</field>
+    </record>
+
+    <record id="lead_type_holiday_package" model="lead.type">
+        <field name="name">Holiday Package</field>
+    </record>
+
+    <record id="lead_type_corporate_group" model="lead.type">
+        <field name="name">Corporate Package</field>
+    </record>
+
+    <record id="lead_type_miscellaneous" model="lead.type">
+        <field name="name">Miscellaneous</field>
+    </record> -->
+
+
+    <data noupdate="1">
+        <record id="lead_type_air_tickets" model="lead.type">
+            <field name="name">Air Tickets</field>
         </record>
 
-        <record id="lead_type_air" model="lead.type">
-            <field name="name">Air Only</field>
+        <record id="lead_type_visa_assistance" model="lead.type">
+            <field name="name">Visa Assistance</field>
         </record>
 
-        <record id="lead_type_visa" model="lead.type">
-            <field name="name">Visa Only</field>
+        <record id="lead_type_hotels" model="lead.type">
+            <field name="name">Hotels</field>
         </record>
 
-        <record id="lead_type_combo" model="lead.type">
-            <field name="name">Combo</field>
-        </record>
-
-        <record id="lead_type_corporate" model="lead.type">
-            <field name="name">Corporate</field>
+        <record id="lead_type_transfers_tours" model="lead.type">
+            <field name="name">Transfers and Tours</field>
         </record>
 
         <record id="lead_type_cruise" model="lead.type">
             <field name="name">Cruise</field>
         </record>
 
-        <record id="lead_type_forex" model="lead.type">
-            <field name="name">Forex/Insurance</field>
+        <record id="lead_type_insurance" model="lead.type">
+            <field name="name">Insurance</field>
         </record>
+
+        <record id="lead_type_forex" model="lead.type">
+            <field name="name">Forex</field>
+        </record>
+
+        <record id="lead_type_passport_renewal" model="lead.type">
+            <field name="name">Passport Renewal</field>
+        </record>
+
+        <record id="lead_type_miscellaneous" model="lead.type">
+            <field name="name">Miscellaneous</field>
+        </record>
+
+        <record id="lead_type_holiday_package" model="lead.type">
+            <field name="name">Holiday Package</field>
+            <field name="is_project_type" eval="True"/>
+        </record>
+
+        <record id="lead_type_corporate_group" model="lead.type">
+            <field name="name">Corporate Package</field>
+            <field name="is_project_type" eval="True"/>
+        </record>
+    </data>
+
+
 </odoo>

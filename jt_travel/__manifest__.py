@@ -22,31 +22,45 @@
 ##############################################################################
 {
     'name': 'JT Travel',
-    'summary': 'Travel CRM',
+    'summary': 'Comprehensive Travel CRM and Operations Management for Travenza Holidays',
+    'description': 'A comprehensive ERP solution for managing travel inquiries, specialized holiday quotations, automated project creation for bookings, and document-linked billing processes.',
     'version': '19.0.1.0.0',
     'author': 'Jupical Technologies Pvt. Ltd.',
     'maintainer': 'Jupical Technologies Pvt. Ltd.',
     'website': 'https://www.jupical.io',
     'license': 'LGPL-3',
-    'depends': ['base', 'crm', 'mail'],
+    'depends': ['base', 'crm', 'mail', 'project', 'sale_project', 'web_datetime_widget', 'sale', 'sale_crm','crm_iap_enrich', 'sales_team'],
     'data': [
-        'security/security.xml',
+        'security/security_groups.xml',
+        'security/ir_rules.xml',
         'security/ir.model.access.csv',
         
-
+        'data/ir_sequence_data.xml',
 
         'demo/lead_type_data.xml',
-        'demo/visa_type_data.xml',
+        'demo/demo_tasks.xml',
+        'demo/demo_task_stages.xml',
+        'demo/crm_stages.xml',
+        'demo/crm_tags.xml',
+        'demo/travel_product_data.xml',
 
-        'data/sequence.xml',
+        'wizard/project_wizard_view.xml',
 
-        'views/lead_type_view.xml',
-        'views/country_checklist_view.xml',
-        'views/customer_visa_application_view.xml',
-        'views/customer_booking_view.xml',
+        'views/lead_type_views.xml',
         'views/crm_lead_inh_view.xml',
-        'views/visa_type_view.xml',
+        'views/travel_team_views.xml',
+        'views/project_views_inh.xml',
+        'views/task_views_inh.xml',
+        'views/travel_quotation_view.xml',
+        'views/travel_billing_views.xml',
+        'views/visa_application_view.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'jt_travel/static/src/xml/template_inheritance.xml',
+            'jt_travel/static/src/css/priority_colors.css',
+        ],
+    },
     'application': True,
     'installable': True,
     'auto_install': False,

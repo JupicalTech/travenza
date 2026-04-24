@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="view_project_task_form_documents_button" model="ir.ui.view">
+    <field name="name">project.task.form.documents.button</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_form2"/>
+    <field name="arch" type="xml">
+    <xpath expr="//header" position="inside">
+            <button
+                name="action_create_billing"
+                string="Create Bill"
+                type="object"
+                class="btn-primary"
+                invisible="not can_create_billing"/>
+            <button name="action_create_visa_application" 
+                    string="Create Visa Application" 
+                    type="object" 
+                    class="btn-primary"
+                    invisible="not is_visa_type or not can_create_billing"
+                    context="{'default_applicant_id': partner_id}"/>
+
+        </xpath>
+
+
+        <xpath expr="//div[@name='button_box']" position="inside">
+            <button
+                name="action_view_billings"
+                type="object"
+                class="oe_stat_button"
+                icon="fa-file-text-o"
+                invisible="not can_create_billing">
+                <field name="billing_count" widget="statinfo" string="Bills"/>
+            </button>
+            <button name="action_view_task_documents"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-paperclip">
+                <field name="document_count" widget="statinfo" string="Documents"/>
+            </button>
+            <button name="action_view_visa_applications" 
+                    type="object"
+                    class="oe_stat_button" 
+                    icon="fa-globe"
+                    invisible="not is_visa_type">
+                <field name="visa_count" widget="statinfo" string="Visa Applications"/>
+            </button>
+        </xpath>
+
+        <xpath expr="//field[@name='state' and @widget='project_task_state_selection']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+<!-- <xpath expr="//div[hasclass('d-flex','justify-content-end','align-items-center','px-1')]" position="replace">
+    <div class="d-flex align-items-center w-100 px-1" invisible="not active or is_template or has_project_template">
+        <field name="is_visa_type" invisible="1"/>
+        <field
+            name="visa_status"
+            widget="statusbar"
+            statusbar_visible="in_process,under_processing,approved,rejected"
+            invisible="not is_visa_type"
+            options="{'clickable': '1'}"
+            class="w-100"/>
+    </div>
+</xpath> -->
+
+
+<!-- <xpath expr="//div[@id='date_deadline_and_recurring_task']" position="after">
+    <field name="priority" widget="priority_switch" class="h3"/>
+</xpath> -->
+
+
+        <xpath expr="//sheet" position="after">
+        <footer invisible="not lead_id">
+        <button
+            name="action_save_and_view_lead_tasks"
+            type="object"
+            string="Save"
+            class="btn-primary"/>
+        <button special="cancel" string="Discard"/>
+        </footer>
+        </xpath>
+
+        <xpath expr="//page[@name='extra_info']" position="after">
+            <page string="Customer Info" name="customer_info">
+                <group string="Customer Details">
+                    <field name="lead_customer_name" readonly="1"/>
+                    <field name="lead_customer_email" readonly="1"/>
+                    <field name="lead_customer_phone" readonly="1"/>
+                    <field name="lead_salesperson_id" readonly="1"/>
+                </group>
+            </page>
+        </xpath>
+
+        <xpath expr="//field[@name='user_ids']" position="after">
+            <field name="lead_type_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+        </xpath>
+    </field>
+</record>
+
+
+
+
+<record id="project_task_kanban_hide_state_dot" model="ir.ui.view">
+    <field name="name">project.task.kanban.hide.state.dot</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_kanban"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='state'][@widget='project_task_state_selection']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//progressbar[@field='state']" position="replace"/>
+    </field>
+</record>
+
+
+<record id="project_task_list_hide_state_dot" model="ir.ui.view">
+    <field name="name">project.task.list.hide.state.dot</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_tree2"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='state'][@widget='project_task_state_selection']" position="attributes">
+            <attribute name="column_invisible">1</attribute>
+        </xpath>
+
+        <!-- <xpath expr="//field[@name='stage_id']" position="after">
+            <field name="is_visa_type" column_invisible="True"/>
+            <field name="visa_status" 
+                   widget="badge" 
+                   decoration-info="visa_status == 'in_process'" 
+                   decoration-warning="visa_status == 'under_processing'" 
+                   decoration-success="visa_status == 'approved'" 
+                   decoration-danger="visa_status == 'rejected'"
+                   invisible="not is_visa_type"
+                   optional="show"/>
+        </xpath> -->
+
+
+        <xpath expr="//field[@name='priority']" position="attributes">
+            <attribute name="column_invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='activity_ids']" position="attributes">
+            <attribute name="column_invisible">1</attribute>
+        </xpath>
+
+    </field>
+</record>
+
+
+<record id="view_task_search_form_inherit" model="ir.ui.view">
+    <field name="name">project.task.search.inherit</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_search_form"/>
+    <field name="arch" type="xml">
+
+    <!-- <xpath expr="//search" position="inside">
+            <field name="visa_status" string="Visa Status" filter_domain="[('visa_status', 'ilike', self)]"/>
+    <group>
+        <filter string="Visa Status" name="group_visa_status"
+                domain="[('is_visa_type', '=', True)]"
+                context="{'group_by': 'visa_status'}"/>
+    </group>
+    </xpath> -->
+        
+        <xpath expr="//filter[@name='private_tasks']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='blocking']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='create_date']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='date_deadline']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='open_tasks']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='filter_rotting']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='closed_tasks']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='closed_on']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='milestone']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='create_date']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//filter[@name='deadline']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr=".//filter[@name='favorite_projects']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <xpath expr=".//filter[@name='creation_date_filter']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <xpath expr=".//filter[@name='templates']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <xpath expr=".//filter[@name='company_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <xpath expr=".//filter[@name='group_by_properties']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <xpath expr=".//group/filter[@name='create_date']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+    </field>
+</record>
+
+
+</odoo>

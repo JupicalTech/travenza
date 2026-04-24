@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Demo Project -->
+    <record id="project_travenza" model="project.project">
+        <field name="name">Travenza</field>
+    </record>
+
+    <!-- Tag -->
+    <record id="tag_travenza" model="project.tags">
+        <field name="name">Travenza</field>
+    </record>
+
+    <!-- Tasks -->
+
+    <record id="task_flights" model="project.task">
+        <field name="name">Flights</field>
+        <field name="project_id" ref="jt_travel.project_travenza"/>
+        <field name="tag_ids" eval="[(4, ref('jt_travel.tag_travenza'))]"/>
+    </record>
+
+    <record id="task_hotels" model="project.task">
+        <field name="name">Hotels</field>
+        <field name="project_id" ref="jt_travel.project_travenza"/>
+        <field name="tag_ids" eval="[(4, ref('jt_travel.tag_travenza'))]"/>
+    </record>
+
+    <record id="task_tours" model="project.task">
+        <field name="name">Tours &amp; Transfers</field>
+        <field name="project_id" ref="jt_travel.project_travenza"/>
+        <field name="tag_ids" eval="[(4, ref('jt_travel.tag_travenza'))]"/>
+    </record>
+
+    <record id="task_visa" model="project.task">
+        <field name="name">Visa</field>
+        <field name="project_id" ref="jt_travel.project_travenza"/>
+        <field name="tag_ids" eval="[(4, ref('jt_travel.tag_travenza'))]"/>
+    </record>
+
+    <record id="task_insurance" model="project.task">
+        <field name="name">Insurance</field>
+        <field name="project_id" ref="jt_travel.project_travenza"/>
+        <field name="tag_ids" eval="[(4, ref('jt_travel.tag_travenza'))]"/>
+    </record>
+
+    <record id="task_misc" model="project.task">
+        <field name="name">Miscellaneous</field>
+        <field name="project_id" ref="jt_travel.project_travenza"/>
+        <field name="tag_ids" eval="[(4, ref('jt_travel.tag_travenza'))]"/>
+    </record>
+
+    <record id="task_client_deliverables" model="project.task">
+        <field name="name">Client Deliverables</field>
+        <field name="project_id" ref="jt_travel.project_travenza"/>
+        <field name="tag_ids" eval="[(4, ref('jt_travel.tag_travenza'))]"/>
+    </record>
+
+</odoo>

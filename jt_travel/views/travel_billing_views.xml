@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_travel_billing_form" model="ir.ui.view">
+        <field name="name">travel.billing.form</field>
+        <field name="model">travel.billing</field>
+        <field name="arch" type="xml">
+            <form string="Bill">
+            <header>
+                <button name="action_submit_bill" 
+                string="Submit Bill" 
+                type="object" 
+                class="oe_highlight"
+                invisible="state != 'draft'"/>
+
+                <button name="action_mark_pending" 
+                        string="Mark Pending" 
+                        type="object" 
+                        class="btn-danger"
+                        invisible="state != 'submitted'"
+                        groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_admin"/>
+                
+                <button name="action_mark_completed" 
+                        string="Mark Completed" 
+                        type="object" 
+                        class="btn-success"
+                        invisible="state == 'completed'"
+                        groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_admin"/>
+
+                <field name="state" widget="statusbar" statusbar_visible="draft,submitted,pending,completed" options="{'clickable': '1'}" groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_admin"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,submitted,pending,completed" groups="jt_travel.group_travenza_holidays_manager,jt_travel.group_travenza_holidays_user"/>
+            </header>
+                <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" readonly="1"/>
+                        <div class="o_row">
+                            <label for="bill_ref_no" string="Bill Reference:" class="oe_edit_only"/>
+                            <h3 class="mt-2">
+                                <field name="bill_ref_no" 
+                                    readonly="is_readonly_for_accountant"/>
+                            </h3>
+                        </div>
+                    </h1>
+                </div>
+                    <group string="General Information">
+                        <group>
+                            <field name="billing_type_name" invisible="1" readonly="is_readonly_for_accountant"/>
+                            <field name="lead_id" invisible="1" required="1" readonly="is_readonly_for_accountant"/>
+                            <field name="lead_type_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="lead_type_name" invisible="1" readonly="is_readonly_for_accountant"/>
+                            <field name="passenger_name" required="1" readonly="is_readonly_for_accountant"/>
+                            <field name="vendor_id" readonly="is_readonly_for_accountant" required="1"/>
+                            <field name="card_used" invisible="billing_type_name in ['Forex', 'Passport Renewal', 'Miscellaneous']" readonly="is_readonly_for_accountant"/>
+                            <field name="card_no" 
+                                    invisible="not card_used" 
+                                    required="card_used"
+                                    readonly="is_readonly_for_accountant"/>
+                                    
+                            <!-- <field name="card_amount" 
+                                    invisible="not card_used" 
+                                    required="card_used"
+                                    readonly="is_readonly_for_accountant"/> -->
+                        </group>
+                        <group>
+                            <field name="billing_account" invisible="billing_type_name == 'Air Tickets'" readonly="is_readonly_for_accountant" />
+                            <field name="net_cost" readonly="is_readonly_for_accountant" required="1"/>
+                            <field name="billing_amount" required="1" readonly="is_readonly_for_accountant"/>
+                            <field name="accountant_remark" invisible="not is_readonly_for_accountant"/>
+                        </group>
+                    </group>
+
+                    <group string="Air Ticket Details" invisible="billing_type_name != 'Air Tickets'" >
+                        <field name="pnr_ref_number" readonly="is_readonly_for_accountant"/>
+                        <field name="travel_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
+                        <field name="ticket_copy_upload" filename="ticket_copy_upload_name" string="Ticket Copy Upload" readonly="is_readonly_for_accountant"/>
+                        <field name="ticket_copy_upload_name" invisible="1" readonly="is_readonly_for_accountant"/>
+                    </group>
+
+                    <group string="Visa Details" invisible="billing_type_name != 'Visa Assistance'">
+                        <field name="visa_type_country" readonly="is_readonly_for_accountant"/>
+                        <field name="visa_applied_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
+                        <field name="visa_expected_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
+                        <field name="rejection_reason" readonly="is_readonly_for_accountant"/>
+                        <field name="vendor_type_card" readonly="is_readonly_for_accountant"/>
+                    </group>
+
+                    <group string="Hotel Details" invisible="billing_type_name != 'Hotels'">
+                        <field name="reference_number" readonly="is_readonly_for_accountant"/>
+                        <field name="hotel_name" readonly="is_readonly_for_accountant"/>
+                        <field name="check_in_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
+                        <field name="voucher_upload" filename="voucher_upload_name" readonly="is_readonly_for_accountant"/>
+                        <field name="voucher_upload_name" invisible="1" readonly="is_readonly_for_accountant"/>
+                    </group>
+
+                    <group string="Transfers &amp; Tours" invisible="billing_type_name != 'Transfers and Tours'">
+                        <field name="reference_number" readonly="is_readonly_for_accountant"/>
+                        <field name="activity_name" readonly="is_readonly_for_accountant"/>
+                        <field name="activity_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
+                        <field name="voucher_upload" filename="voucher_upload_name" readonly="is_readonly_for_accountant"/>
+                        <field name="voucher_upload_name" invisible="1" readonly="is_readonly_for_accountant"/>
+                    </group>
+
+                    <group string="Cruise Details" invisible="billing_type_name != 'Cruise'">
+                        <field name="reference_number" readonly="is_readonly_for_accountant"/>
+                        <field name="cruise_sailing_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
+                        <field name="comments" readonly="is_readonly_for_accountant"/>
+                        <field name="voucher_upload" filename="voucher_upload_name" readonly="is_readonly_for_accountant"/>
+                        <field name="voucher_upload_name" invisible="1" readonly="is_readonly_for_accountant"/>
+                    </group>
+
+                    <group string="Insurance Details" invisible="billing_type_name != 'Insurance'">
+                        <field name="reference_number" readonly="is_readonly_for_accountant"/>
+                        <field name="policy_start_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
+                        <field name="voucher_upload" filename="voucher_upload_name" readonly="is_readonly_for_accountant"/>
+                        <field name="voucher_upload_name" invisible="1" readonly="is_readonly_for_accountant"/>
+                    </group>
+
+                    <group string="Forex Details" invisible="billing_type_name != 'Forex'">
+                        <field name="currency_type_id" readonly="is_readonly_for_accountant"/>
+                    </group>
+
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_travel_billing_list" model="ir.ui.view">
+        <field name="name">travel.billing.list</field>
+        <field name="model">travel.billing</field>
+        <field name="arch" type="xml">
+            <list string="Bills">
+                <field name="name" readonly="1"/>
+                <field name="passenger_name"/>
+                <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
+                <field name="net_cost" sum="Total Net Cost"/>
+                <field name="billing_amount" sum="Total Billing"/>
+                <field name="state" 
+                        widget="badge" 
+                        decoration-info="state == 'submitted'" 
+                        decoration-danger="state == 'pending'" 
+                        decoration-success="state == 'completed'"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="action_travel_billing_all" model="ir.actions.act_window">
+        <field name="name">Bills</field>
+        <field name="res_model">travel.billing</field>
+        <field name="view_mode">list,form</field>
+    </record>
+ 
+    <menuitem id="menu_travenza_accountant_billing"
+              name="Bills"
+              action="action_travel_billing_all"
+              sequence="2"
+              groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_admin"/>
+
+<!-- Menu visibility -->
+ 
+<record id="project_todo.menu_todo_todos" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+<record id="calendar.mail_menu_calendar" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+<record id="contacts.menu_contacts" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+<record id="crm.crm_menu_root" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+<record id="sale.sale_menu_root" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+<record id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+<record id="mail.menu_root_discuss" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+<record id="project.menu_main_pm" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+<record id="account.menu_finance" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+<record id="utm.menu_link_tracker_root" model="ir.ui.menu">
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+</record>
+
+
+</odoo>

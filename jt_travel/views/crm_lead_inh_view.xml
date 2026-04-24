@@ -5,123 +5,406 @@
     <field name="model">crm.lead</field>
     <field name="inherit_id" ref="crm.crm_lead_view_form"/>
     <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='stage_id']" position="before">
+            <field name="is_in_process" invisible="1"/>
+        </xpath>
+        <xpath expr="//page[@name='lead']/group/group[4]" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+
         <xpath expr="//header" position="inside">
+           <field name="is_project_created" invisible="1"/>
+            <button name="action_open_project_wizard"
+                type="object"
+                string="Create Project"
+                class="oe_highlight"
+                icon="fa-folder"
+                invisible="not is_project_type or not id or won_status != 'won' or is_project_created"/>
+            <button name="action_create_billing" 
+                        string="Create Bill" 
+                        type="object" 
+                        class="oe_highlight" 
+                        invisible="is_project_type or not is_in_process"/>
             <button name="action_create_visa_application" 
                     string="Create Visa Application" 
                     type="object" 
-                    class="oe_highlight"/>
+                    class="oe_highlight" 
+                    invisible="won_status != 'won' or lead_type_id != %(jt_travel.lead_type_visa_assistance)d" context="{'default_applicant_id': partner_id}"/>
+        </xpath>
 
-            <button name="action_create_customer_booking" 
-                    string="Create Customer Booking" 
+
+        <xpath expr="//div[@name='button_box']" position="inside">
+            <button name="action_view_tasks"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-tasks">
+                <field name="task_count" widget="statinfo" string="Tasks"/>
+            </button>
+            <button name="action_view_projects"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-folder"
+                    invisible="not is_project_type">
+                <field name="project_count" widget="statinfo" string="Projects"/>
+            </button>
+                 <button name="action_view_billings" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-money">
+                    <field name="billing_count" widget="statinfo" string="Bills"/>
+                </button>
+            <button name="action_view_lead_documents"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-paperclip">
+                <field name="document_count" widget="statinfo" string="Documents"/>
+            </button>
+            <button name="action_open_travel_quotations"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-file-text-o">
+                <field name="quotation_count" widget="statinfo" string="Quotations"/>
+            </button>
+            <button name="action_view_visa_applications" 
                     type="object" 
-                    class="oe_highlight"/>
+                    class="oe_stat_button" 
+                    icon="fa-globe"
+                    invisible="visa_count == 0">
+                <field name="visa_count" widget="statinfo" string="Visa Applications"/>
+            </button>
+        </xpath>
+
+        <xpath expr="//field[@name='company_currency']" position="replace">
+            <field name="lead_currency_id" invisible="1"/>
+        </xpath>
+
+        <xpath expr="//field[@name='expected_revenue']" position="attributes">
+            <attribute name="options">{'currency_field': 'lead_currency_id'}</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='partner_id']" position="attributes">
+            <attribute name="required">True</attribute>
         </xpath>
 
         <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="lead_type_id"/>
+                <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
+        </xpath>
+        <xpath expr="//field[@name='tag_ids']" position="before">
+            <field name="client_category"/>
         </xpath>
 
-        <xpath expr="//page[@name='lead']" position="after">
-                    <page string="Holiday Details" invisible="lead_type_id != %(jt_travel.lead_type_holiday)d">
-                        <group>
-                            <group>
-                                <field name="holiday_source_loc"/>
-                                <field name="holiday_destination_loc"/>
-                                <field name="holiday_duration"/>
-                            </group>
-                            <group>
-                                <field name="holiday_pas_count"/>
-                                <field name="holiday_budget"/>
-                            </group>
-                        </group>
-                    </page>
 
-                    <page string="Flight Details" invisible="lead_type_id != %(jt_travel.lead_type_air)d">
-                        <group>
-                            <group>
-                                <field name="air_departure_city"/>
-                                <field name="air_arrival_city"/>
-                                <field name="air_travel_date"/>
-                            </group>
-                            <group>
-                                <field name="air_class"/>
-                                <field name="air_trip_type"/>
-                            </group>
-                        </group>
-                    </page>
+        <xpath expr="//group[@name='opportunity_partner']//div[field[@name='phone']]" position="after">
+            <field name="destination"/>
+            <label for="travel_date_from" string="Travel Dates"/>
+            <div class="o_row">
+                <field name="travel_date_from" nolabel="1" class="oe_inline" placeholder="From" widget="custom_datetime"/>
+                <i class="fa fa-long-arrow-right mx-2 mt-1 text-muted" title="Arrow" aria-hidden="true"/>
+                <field name="travel_date_to" nolabel="1" class="oe_inline" placeholder="To" widget="custom_datetime"/>
+            </div>
+            <field name="lead_currency_id"/>
+        </xpath>
 
-                    <page string="Visa Details" invisible="lead_type_id != %(jt_travel.lead_type_visa)d">
-                        <group>
-                            <group>
-                                <field name="visa_country_id"/>
-                                <field name="visa_type_id"/>
-                                <field name="visa_appointment_date"/>
-                                <field name="passport_no"/>
-                            </group>
-                            <group>
-                                <field name="visa_submission_date"/>
-                                <field name="visa_tracking_number"/>
-                                <field name="visa_validity_period"/>
-                            </group>
-                        </group>
-                    </page>
-
-                    <page string="Combo Package Details" invisible="lead_type_id != %(jt_travel.lead_type_combo)d">
-                        <group>
-                            <group>
-                                <field name="combo_services"/>
-                                <field name="combo_total_pax"/>
-                            </group>
-                            <group>
-                                <field name="combo_start_date"/>
-                                <field name="combo_end_date"/>
-                                <field name="combo_special_reqs"/>
-                            </group>
-                        </group>
-                    </page>
-
-                    <page string="Corporate Travel" invisible="lead_type_id != %(jt_travel.lead_type_corporate)d">
-                        <group>
-                            <group>
-                                <field name="corp_company_name"/>
-                                <field name="corp_employee_id"/>
-                                <field name="corp_department"/>
-                            </group>
-                            <group>
-                                <field name="corp_billing_entity"/>
-                                <field name="corp_travel_policy"/>
-                            </group>
-                        </group>
-                    </page>
-
-                    <page string="Cruise Details" invisible="lead_type_id != %(jt_travel.lead_type_cruise)d">
-                        <group>
-                            <group>
-                                <field name="cruise_line"/>
-                                <field name="cruise_sailing_date"/>
-                                <field name="cruise_departure_port"/>
-                            </group>
-                            <group>
-                                <field name="cruise_cabin_type"/>
-                                <field name="cruise_itinerary"/>
-                            </group>
-                        </group>
-                    </page>
-
-                    <page string="Forex and Insurance" invisible="lead_type_id != %(jt_travel.lead_type_forex)d">
-                        <group>
-                            <group string="Forex">
-                                <field name="forex_currency"/>
-                                <field name="forex_amount"/>
-                            </group>
-                            <group string="Insurance">
-                                <field name="ins_policy_type"/>
-                                <field name="ins_coverage_area"/>
-                                <field name="ins_start_date"/>
-                            </group>
-                        </group>
-                    </page>
+        <xpath expr="//div[field[@name='date_deadline']]/field[@name='priority']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
+
+        <xpath expr="//div[field[@name='date_deadline']]" position="after">
+            <field name="priority" widget="priority" string="Priority"/>
+        </xpath>
+        <xpath expr="//field[@name='user_id']" position="replace"/>
+
+        <xpath expr="//field[@name='lead_type_id']" position="after">
+            <field name="allowed_user_ids" invisible="1"/>
+            <field name="user_id" string="Assigned Owner" domain="[('share', '=', False), ('id', 'in', allowed_user_ids)]" options="{'no_create': True}"/>
+            <field name="number_of_passengers"/>
+        </xpath>
+        </field>
+</record>
+
+
+
+
+<record id="crm_lead_search_inherit_travel_filters" model="ir.ui.view">
+    <field name="name">crm.lead.search.inherit.travel.filters</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//search/field[1]" position="before">
+            <field name="destination" string="Destination" filter_domain="[('destination', 'ilike', self)]"/>
+            <field name="partner_id" string="Client Name"/>
+            <field name="user_id" string="Employee Owner"/>
+        </xpath>
+
+        <xpath expr="//group" position="before">
+            <separator/>
+            <filter string="This Month" name="travel_month_this"
+                domain="[
+                    ('travel_date_from', '&gt;=', (context_today()).strftime('%Y-%m-01')),
+                    ('travel_date_from', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01'))
+                ]"/>
+            <filter string="Next Month" name="travel_month_next"
+                domain="[
+                    ('travel_date_from', '&gt;=', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01')),
+                    ('travel_date_from', '&lt;', (context_today() + relativedelta(months=2)).strftime('%Y-%m-01'))
+                ]"/>
+            <filter string="Last Month" name="travel_month_last"
+                domain="[
+                    ('travel_date_from', '&gt;=', (context_today() + relativedelta(months=-1)).strftime('%Y-%m-01')),
+                    ('travel_date_from', '&lt;', (context_today()).strftime('%Y-%m-01'))
+                ]"/>
+            <separator/>
+        </xpath>
+
+        <xpath expr="//group" position="inside">
+            <filter string="Destination" name="group_by_destination" context="{'group_by': 'destination'}"/>
+            <filter string="Client Name" name="group_by_partner" context="{'group_by': 'partner_id'}"/>
+            <filter string="Employee Owner" name="group_by_user" context="{'group_by': 'user_id'}"/>
+        </xpath>
+
+        <!-- <xpath expr="//filter[@name='assigned_to_me']" position="after">
+            <filter string="Assigned Quotations" 
+                    name="assigned_to_my_quotations" 
+                    domain="[('quotation_ids.assign_to_id', '=', uid)]"/>
+        </xpath> -->
+         
     </field>
 </record>
+
+
+<record id="crm_lead_search_inherit_clean_filters" model="ir.ui.view">
+    <field name="name">crm.lead.search.inherit.clean.filters</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+    <field name="arch" type="xml">
+        <xpath expr="//filter[@name='unassigned']" position="replace"/>
+        <xpath expr="//filter[@name='open_opportunities']" position="replace"/>
+        <xpath expr="//filter[@name='message_needaction']" position="replace"/>
+        <xpath expr="//filter[@name='creation_date']" position="replace"/>
+        <xpath expr="//filter[@name='close_date']" position="replace"/>
+        <xpath expr="//filter[@name='filter_won_status_pending']" position="replace"/>
+        <xpath expr="//filter[@name='filter_rotting']" position="replace"/>
+        <xpath expr="//filter[@name='salesperson']" position="replace"/>
+        <xpath expr="//filter[@name='saleschannel']" position="replace"/>
+        <xpath expr="//filter[@name='city']" position="replace"/>
+        <xpath expr="//filter[@name='country']" position="replace"/>
+    </field>
+</record>
+
+
+
+<record id="view_crm_case_opportunities_filter_inherit" model="ir.ui.view">
+    <field name="name">crm.lead.search.opportunity.inherit</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+    <field name="arch" type="xml">
+        <xpath expr="//filter[@name='source']" position="replace"/>
+        <xpath expr="//filter[@name='company']" position="replace"/>
+        <xpath expr="//filter[@name='compaign']" position="replace"/>
+        <xpath expr="//filter[@name='medium']" position="replace"/>
+        <xpath expr="//filter[@name='lostreason']" position="replace"/>
+        <xpath expr="//filter[@name='date_closed']" position="replace"/>
+        <xpath expr="//filter[@name='group_by_lead_properties']" position="replace"/>
+        <xpath expr="//filter[@name='group_by_create_date_day']" position="replace"/>
+        <xpath expr=".//filter[@name='month']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <xpath expr=".//filter[@name='date_deadline']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+    </field>
+</record>
+
+
+<record id="crm_lead_view_tree_inherit_priority_colors" model="ir.ui.view">
+        <field name="name">crm.lead.tree.inherit.priority.colors</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-warning">priority == '1'</attribute>
+                <attribute name="decoration-success">priority == '2'</attribute>
+                <attribute name="decoration-danger">priority == '3'</attribute>
+            </xpath>
+
+        </field>
+</record>
+
+
+<record id="crm_iap_enrich.crm_lead_view_form" model="ir.ui.view">
+    <field name="active">False</field>
+</record>
+
+
+
+<record id="crm_case_kanban_view_leads_inherit_custom_avatar" model="ir.ui.view">
+    <field name="name">crm.lead.kanban.inherit.custom.avatar</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id'][@widget='many2one_avatar']" position="replace">
+            <img t-attf-src="/web/image/res.partner/{{record.partner_id.raw_value}}/avatar_128"
+                 class="oe_kanban_avatar rounded-circle"
+                 style="width: 24px; height: 24px; object-fit: cover;"
+                 onerror="this.src='/jt_travel/static/img/avatar_custom_grey.png'"
+                 alt="Contact Avatar"/>
+        </xpath>
+
+
+        <xpath expr="//kanban//footer//field[@name='user_id']" position="replace">
+            <div class="ms-auto d-flex align-items-center gap-1">
+             <span t-esc="record.user_id.value" class="small text-muted"/>
+                <field name="user_id" widget="many2one_avatar_user" domain="[('share', '=', False)]"/>
+            </div>
+        </xpath>
+    </field>
+</record>
+
+
+
+
+<record id="crm_lead_quick_add_form_view_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.quick.add.form.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
+        <field name="arch" type="xml">
+ 
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='commercial_partner_id']]" position="replace"/>
+ 
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='partner_id']]" position="before">
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-briefcase" title="Lead Name"/>
+                    <field name="name"
+                        string="Lead Name"
+                        placeholder="Lead Name"
+                        nolabel="1"
+                        class="o_field_highlight w-100 mb-0"/>
+                </div>
+            </xpath>
+ 
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='name']][last()]" position="replace"/>
+ 
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='expected_revenue']]" position="replace"/>
+ 
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='recurring_revenue']]" position="replace"/>
+ 
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='phone']]" position="after">
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-tag" title="Lead Type"/>
+                    <field name="lead_type_id"
+                        string="Lead Type"
+                        placeholder="Lead Type"
+                        nolabel="1"
+                        class="o_field_highlight w-100 mb-0"
+                        options="{'no_create': True, 'no_open': True}"/>
+                </div>
+            </xpath>
+ 
+            <xpath expr="//field[@name='user_id'][@invisible='1']" position="replace"/>
+ 
+
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='lead_type_id']]" position="after">
+                <field name="allowed_user_ids" invisible="1"/>
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-user-circle" title="Lead Owner"/>
+                    <field name="user_id"
+                        string="Lead Owner"
+                        placeholder="Lead Owner"
+                        nolabel="1"
+                        class="o_field_highlight w-100 mb-0"
+                        domain="[('share', '=', False), ('id', 'in', allowed_user_ids)]"/>
+                </div>
+            </xpath>
+
+            
+        </field>
+</record>
+
+<record id="crm_lead_hide_quotations_smart_button" model="ir.ui.view">
+        <field name="name">crm.lead.hide.quotations.smart.button</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_sale_quotation']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            
+        </field>
+</record>
+
+
+<menuitem id="crm.crm_team_config" active="False"/>
+
+<menuitem id="crm.crm_team_member_config" active="False"/>
+
+<menuitem id="sale.sale_menu_root" active="False"/>
+
+<menuitem id="account.menu_finance" active="False"/>
+
+<menuitem id="utm.menu_link_tracker_root" active="False"/>
+
+<menuitem id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" active="False"/>
+<!-- 
+<menuitem id="base.menu_management" active="False"/> -->
+
+<menuitem id="mail.menu_root_discuss" active="False"/>
+
+<menuitem id="crm.sales_team_menu_team_pipeline" active="False"/>
+
+<menuitem id="sale_crm.sale_order_menu_quotations_crm" active="False"/>
+
+
+
+<record id="view_attachment_form_preview" model="ir.ui.view">
+    <field name="name">ir.attachment.form.preview</field>
+    <field name="model">ir.attachment</field>
+    <field name="inherit_id" ref="base.view_attachment_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//form/sheet" position="inside">
+            <group string="Preview" invisible="type != 'binary' or not datas">
+                <div colspan="2" class="text-center">
+                    <field name="datas" widget="pdf_viewer"
+                           invisible="mimetype and 'pdf' not in mimetype"
+                           nolabel="1"/>
+                    <field name="datas" widget="image"
+                           invisible="not mimetype or 'image' not in mimetype"
+                           nolabel="1"
+                           style="max-width: 100%; max-height: 600px;"/>
+                </div>
+            </group>
+        </xpath>
+    </field>
+</record>
+
+
+    <record id="crm.crm_menu_sales" model="ir.ui.menu">
+        <field name="name">Leads</field>
+    </record>
+
+    <menuitem
+        id="crm_menu_tasks"
+        name="Tasks"
+        parent="crm.crm_menu_root"
+        sequence="2"/>
+
+    <menuitem
+        id="crm_menu_my_tasks"
+        name="My Tasks"
+        parent="jt_travel.crm_menu_tasks"
+        action="project.action_view_my_task"
+        sequence="1"/>
+
+    <menuitem
+        id="crm_menu_all_tasks"
+        name="All Tasks"
+        parent="jt_travel.crm_menu_tasks"
+        action="project.action_view_all_task"
+        sequence="2"/>
+
+
 </odoo>

@@ -1,0 +1,29 @@
+
+div.o_priority.jt_stars_green .o_priority_star.fa-star {
+    color: #28a745 !important;
+}
+
+div.o_priority.jt_stars_red .o_priority_star.fa-star {
+    color: #dc3545 !important;
+}
+
+.o_list_bordered thead tr th {
+    background-color: #dfdfdf !important;  
+    color: #000000 !important;
+}
+
+.o_list_bordered th,
+.o_list_bordered td {
+    border: 1px solid #424242 !important;
+}
+.o_list_bordered {
+    border-collapse: collapse !important;
+}
+
+
+.o-form-buttonbox .o_pie_value, .o-form-buttonbox .oe_stat_button .o_stat_info .o_stat_value, .o-form-buttonbox .oe_stat_button > span .o_stat_value, .o-form-buttonbox .oe_stat_button .o_field_statinfo .o_stat_value {
+    order: 2;
+    font-weight: 500;
+    color: #000000;
+    font-size: 0.75rem;
+}

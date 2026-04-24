@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_travel_visa_application_list" model="ir.ui.view">
+        <field name="name">travel.visa.application.list</field>
+        <field name="model">travel.visa.application</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" string="Reference"/>
+                <field name="application_number"/>
+                <field name="applicant_id"/>
+                <field name="application_date" widget="custom_datetime"/>
+                <field name="assignee_id"/>
+                <field name="state" widget="badge" decoration-info="state == 'in_process'" 
+                  decoration-success="state == 'approved'" 
+                  decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_travel_visa_application_form" model="ir.ui.view">
+        <field name="name">travel.visa.application.form</field>
+        <field name="model">travel.visa.application</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Reference"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="applicant_id"/>
+                            <field name="application_number"/>
+                            <field name="application_date" widget="custom_datetime"/>
+                            <field name="assignee_id"/>
+                        </group>
+                    </group>
+                    <group string="Remarks">
+                        <field name="remark" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_travel_visa_all" model="ir.actions.act_window">
+        <field name="name">All Visa Applications</field>
+        <field name="res_model">travel.visa.application</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_visa_application_config"
+              name="Visa Applications"
+              parent="crm.crm_menu_root"
+              sequence="3"
+              action="action_travel_visa_all"
+            groups="jt_travel.group_travenza_holidays_user,jt_travel.group_travenza_holidays_manager,jt_travel.group_travenza_holidays_admin"/>
+</odoo>

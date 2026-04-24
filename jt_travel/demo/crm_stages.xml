@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record model="crm.stage" id="crm.stage_lead1" forcecreate="False">
+        <field name="name">New Lead</field>
+        <field name="sequence">1</field>
+        <field name="color">11</field>
+        <field name="is_won">False</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record model="crm.stage" id="crm.stage_lead2" forcecreate="False">
+        <field name="name">Spoken To</field>
+        <field name="sequence">2</field>
+        <field name="color">4</field>
+        <field name="is_won">False</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record model="crm.stage" id="crm.stage_lead3" forcecreate="False">
+        <field name="name">Quote Sent</field>
+        <field name="sequence">3</field>
+        <field name="color">2</field>
+        <field name="is_won">False</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record model="crm.stage" id="crm.stage_lead4" forcecreate="False">
+        <field name="name">In Process</field>
+        <field name="sequence">4</field>
+        <field name="color">8</field>
+        <field name="is_won">False</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record model="crm.stage" id="crm_stage_deal_won">
+        <field name="name">Deal Won</field>
+        <field name="sequence">5</field>
+        <field name="color">10</field>
+        <field name="is_won">True</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record model="crm.stage" id="crm_stage_deal_lost">
+        <field name="name">Deal Lost</field>
+        <field name="sequence">6</field>
+        <field name="color">1</field>
+        <field name="is_won">False</field>
+        <field name="fold">True</field>
+    </record>
+
+</odoo>

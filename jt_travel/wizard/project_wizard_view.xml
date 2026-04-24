@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="view_project_form_simplified_inherit_travel_new" model="ir.ui.view">
+    <field name="name">project.project.form.simplified.inherit.travel</field>
+    <field name="model">project.project</field>
+    <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+    <field name="arch" type="xml">
+        <xpath expr="//div[@name='alias_def']" position="before">
+            <group string="Travel Details">
+                <group>
+                    <field name="package_name"/>
+                    <field name="number_of_passengers"/>
+                    <field name="destination"/>
+                    
+                </group>
+                <group>
+
+                    <label for="travel_date_from" string="Travel Date from"/>
+                    <div class="o_row">
+                        <field name="travel_date_from" nolabel="1" class="oe_inline" placeholder="From" widget="custom_datetime"/>
+                        <i class="fa fa-long-arrow-right mx-2 mt-1 text-muted" title="Arrow" aria-hidden="true"/> 
+                        <field name="travel_date_to" nolabel="1" class="oe_inline" placeholder="To" widget="custom_datetime"/>
+                    </div>
+
+
+                    <field name="lead_currency_id" invisible="1"/>
+                    <field name="client_price" widget="monetary" options="{'currency_field': 'lead_currency_id'}"/>
+                    <field name="advance_payment" widget="monetary" options="{'currency_field': 'lead_currency_id'}"/>
+                </group>
+            </group>
+        </xpath>
+
+        <xpath expr="//div[@name='alias_def']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+    </field>
+</record>
+</odoo>

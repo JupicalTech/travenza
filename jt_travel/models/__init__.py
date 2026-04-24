@@ -21,8 +21,12 @@
 #
 ##############################################################################
 from . import lead_type
-from . import country_spec_checklist
-from . import customer_visa_application
-from . import customer_booking
+from . import res_currency_inh
 from . import crm_lead_inh
-from . import visa_type
+from . import travel_teams
+from . import project_project
+from . import project_task
+from . import res_partner_inh
+from . import travel_quotation
+from . import travel_billing
+from . import visa_application

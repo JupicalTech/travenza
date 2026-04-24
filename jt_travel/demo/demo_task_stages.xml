@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="task_type_assigned" model="project.task.type">
+        <field name="name">Task Assigned</field>
+        <field name="sequence">1</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="task_type_in_progress" model="project.task.type">
+        <field name="name">In Progress</field>
+        <field name="sequence">2</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="task_type_processing" model="project.task.type">
+        <field name="name">Processing / Blocked</field>
+        <field name="sequence">3</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="task_type_confirmed" model="project.task.type">
+        <field name="name">Confirmed / Booked</field>
+        <field name="sequence">4</field>
+        <field name="fold">True</field>
+    </record>
+
+</odoo>
