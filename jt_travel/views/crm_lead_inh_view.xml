@@ -350,7 +350,20 @@
 
 <menuitem id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" active="False"/>
 
-<menuitem id="base.menu_management" active="False"/>
+<!-- <menuitem id="base.menu_management" active="True"/> -->
+
+<menuitem id="base.menu_management"
+    active="True"
+    name="Apps"
+    groups="jt_travel.group_show_travenza_app_menu"
+    sequence="100"/>
+
+
+<menuitem id="base.menu_administration" 
+    active="True"
+    name="Settings"
+    groups="jt_travel.group_show_travenza_app_menu"
+    sequence="200"/>
 
 <menuitem id="mail.menu_root_discuss" active="False"/>
 

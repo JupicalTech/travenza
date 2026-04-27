@@ -41,4 +41,10 @@
     </record>
 
 
+
+    <record id="group_show_travenza_app_menu" model="res.groups">
+        <field name="name">Show Apps and Settings Menu</field>
+    </record>
+
+
 </odoo>
