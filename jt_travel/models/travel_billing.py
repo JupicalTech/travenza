@@ -49,7 +49,7 @@ class TravelBilling(models.Model):
     # --- Common Fields ---
     passenger_name = fields.Char(string="Passenger Name", tracking=True)
     net_cost = fields.Float(string="Net Cost", tracking=True)
-    billing_amount = fields.Float(string="Billing Amount",tracking=True)
+    billing_amount = fields.Char(string="Billing Amount",tracking=True)
     vendor_id = fields.Many2one('res.partner', string="Vendor",tracking=True)
     billing_account = fields.Char(string="Billing Account",tracking=True)
     card_used = fields.Boolean(string="Card Used", tracking=True)
@@ -105,7 +105,6 @@ class TravelBilling(models.Model):
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
         res.pop('net_cost', None)
-        res.pop('billing_amount', None)
         return res
 
     @api.depends_context('uid')
@@ -134,8 +133,6 @@ class TravelBilling(models.Model):
             if vals.get('state', 'draft') != 'draft':
                 if not vals.get('net_cost') or vals.get('net_cost', 0) <= 0:
                     raise ValidationError("Net Cost must be greater than zero.")
-                if not vals.get('billing_amount') or vals.get('billing_amount', 0) <= 0:
-                    raise ValidationError("Billing Amount must be greater than zero.")   
         records = super(TravelBilling, self).create(vals_list)
         
         for rec in records:
@@ -160,18 +157,14 @@ class TravelBilling(models.Model):
 
         if incoming_state and incoming_state != 'draft':
             incoming_net_cost = vals.get('net_cost')
-            incoming_billing = vals.get('billing_amount')
 
             for rec in self:
                 effective_net_cost = incoming_net_cost if incoming_net_cost is not None else rec.net_cost
-                effective_billing = incoming_billing if incoming_billing is not None else rec.billing_amount
 
                 if not effective_net_cost or effective_net_cost <= 0:
                     raise ValidationError(
                         "Net Cost must be greater than zero.")
-                if not effective_billing or effective_billing <= 0:
-                    raise ValidationError(
-                        "Billing Amount must be greater than zero.")
+                
         res = super().write(vals)
         for rec in self:
             rec._post_attachment_to_chatter(vals)
