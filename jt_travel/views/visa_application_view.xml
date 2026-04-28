@@ -6,13 +6,14 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name" string="Reference"/>
-                <field name="application_number"/>
+                <!-- <field name="application_number"/> -->
                 <field name="applicant_id"/>
                 <field name="application_date" widget="custom_datetime"/>
+                <field name="visa_expected_date" widget="custom_datetime"/>
+                <field name="travel_date" widget="custom_datetime"/>
+                <field name="destination"/>
                 <field name="assignee_id"/>
-                <field name="state" widget="badge" decoration-info="state == 'in_process'" 
-                  decoration-success="state == 'approved'" 
-                  decoration-danger="state == 'rejected'"/>
+                
             </list>
         </field>
     </record>
@@ -22,9 +23,6 @@
         <field name="model">travel.visa.application</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
-                </header>
                 <sheet>
                     <div class="oe_title">
                         <label for="name" string="Reference"/>
@@ -33,14 +31,31 @@
                     <group>
                         <group>
                             <field name="applicant_id"/>
-                            <field name="application_number"/>
+                            <!-- <field name="application_number"/> -->
                             <field name="application_date" widget="custom_datetime"/>
+                            <field name="visa_expected_date" widget="custom_datetime"/>
+                            <field name="travel_date" widget="custom_datetime"/>
+                        </group>
+                        <group>
+                            <field name="destination"/>
+                            <field name="number_of_passengers"/>
                             <field name="assignee_id"/>
                         </group>
                     </group>
-                    <group string="Remarks">
-                        <field name="remark" nolabel="1" colspan="2"/>
-                    </group>
+                    <notebook>
+                        <page string="Contacts">
+                            <field name="contact_ids">
+                                <list editable="bottom">
+                                    <field name="partner_id" string="Contact"/>
+                                    <field name="application_number"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Remarks">
+                            <field name="remark" nolabel="1"/>
+                        </page>
+                    </notebook>
                 </sheet>
                 <chatter/>
             </form>

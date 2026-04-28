@@ -114,12 +114,6 @@ class TravelBilling(models.Model):
         for rec in self:
             rec.is_readonly_for_accountant = is_accountant
 
-    # @api.depends('state')
-    # @api.depends_context('uid')
-    # def _compute_is_readonly_for_accountant(self):
-    #     is_accountant = self.env.user.has_group('jt_travel.group_travenza_holidays_accountant')
-    #     for rec in self:
-    #         rec.is_readonly_for_accountant = is_accountant or rec.state in ('submitted', 'pending', 'completed')
 
     def action_submit_bill(self):
         self.write({'state': 'submitted'})
@@ -161,10 +155,6 @@ class TravelBilling(models.Model):
 
     def write(self, vals):
 
-        # if vals.get('state') == 'draft':
-        #     locked = self.filtered(lambda r: r.state in ('submitted', 'pending', 'completed'))
-        #     if locked:
-        #         raise ValidationError("A submitted bill cannot be moved back to Draft.")
 
         incoming_state = vals.get('state')
 

@@ -27,7 +27,7 @@ class Project(models.Model):
 
     proj_seq = fields.Char(string="Reference", copy=False, default='New')
     package_name = fields.Char("Package Name")
-    number_of_passengers = fields.Integer("Number of Passengers")
+    number_of_passengers = fields.Html("Number of Passengers")
     destination = fields.Char("Destination")
     travel_date_from = fields.Date("Travel Date From")
     travel_date_to = fields.Date("Travel Date To")

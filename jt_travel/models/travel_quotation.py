@@ -42,7 +42,7 @@ class TravelQuotation(models.Model):
     destination = fields.Char(related='lead_id.destination', store=True)
     travel_date_from = fields.Date(related='lead_id.travel_date_from', store=True)
     travel_date_to = fields.Date(related='lead_id.travel_date_to', store=True)
-    number_of_passengers = fields.Integer(related='lead_id.number_of_passengers', store=True)
+    number_of_passengers = fields.Html(related='lead_id.number_of_passengers', store=True)
     lead_type_id = fields.Many2one('lead.type', related='lead_id.lead_type_id', store=True)
     is_holiday_type = fields.Boolean(compute='_compute_is_holiday_type', store=True)
     is_project_type = fields.Boolean(compute='_compute_is_project_type', store=True)
@@ -276,6 +276,8 @@ class TravelQuotationLine(models.Model):
     _name = 'travel.quotation.line'
     _description = 'Travel Quotation Line'   
 
+
+    sequence = fields.Integer(string="Sequence", default=10)
     quotation_id = fields.Many2one('travel.quotation',string="Quotation",ondelete='cascade')
     lead_type_ids = fields.Many2many('lead.type',string="Lead Types")
     date = fields.Char(string="Date")

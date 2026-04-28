@@ -306,7 +306,11 @@
             </xpath>
  
             <xpath expr="//field[@name='user_id'][@invisible='1']" position="replace"/>
- 
+
+
+                <field name="partner_id" position="attributes">
+                    <attribute name="domain">[('user_ids', '=', False)]</attribute>
+                </field>
 
             <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='lead_type_id']]" position="after">
                 <field name="allowed_user_ids" invisible="1"/>
@@ -371,6 +375,7 @@
 
 <menuitem id="sale_crm.sale_order_menu_quotations_crm" active="False"/>
 
+<menuitem id="calendar.mail_menu_calendar" active="False"/>
 
 
 <record id="view_attachment_form_preview" model="ir.ui.view">
@@ -405,7 +410,7 @@
         parent="crm.crm_menu_root"
         sequence="2"/>
 
-    <menuitem
+    <!-- <menuitem
         id="crm_menu_my_tasks"
         name="My Tasks"
         parent="jt_travel.crm_menu_tasks"
@@ -417,7 +422,7 @@
         name="All Tasks"
         parent="jt_travel.crm_menu_tasks"
         action="project.action_view_all_task"
-        sequence="2"/>
+        sequence="2"/> -->
 
 
 </odoo>

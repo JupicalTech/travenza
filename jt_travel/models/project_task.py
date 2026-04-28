@@ -67,10 +67,13 @@ class ProjectTask(models.Model):
             'res_model': 'travel.visa.application',
             'view_mode': 'form',
             'context': {
-                'default_task_id': self.id,
-                'default_lead_id': lead.id if lead else False,
-                'default_assignee_id': self.user_ids[0].id if self.user_ids else False, 
-            },
+            'default_task_id': self.id,
+            'default_lead_id': lead.id if lead else False,
+            'default_assignee_id': self.user_ids[0].id if self.user_ids else False,
+            'default_applicant_id': lead.partner_id.id if lead and lead.partner_id else False,
+            'default_destination': lead.destination if lead else False,
+            'default_number_of_passengers': lead.number_of_passengers if lead else False,
+        },
             'target': 'current',
         }
     
@@ -137,26 +140,24 @@ class ProjectTask(models.Model):
             else:
                 rec.billing_count = 0
 
-
-
-    # @api.depends('stage_id', 'lead_id', 'project_id.lead_id')
-    # def _compute_can_create_billing(self):
-    #     holiday_type = self.env.ref('jt_travel.lead_type_holiday_package', raise_if_not_found=False)
-    #     corporate_type = self.env.ref('jt_travel.lead_type_corporate_group', raise_if_not_found=False)
-    #     processing_stage = self.env.ref('jt_travel.task_type_processing', raise_if_not_found=False)
-
-    #     processing_seq = processing_stage.sequence if processing_stage else 3
- 
-    #     for rec in self:
-    #         lead = rec.lead_id or (rec.project_id.lead_id if rec.project_id else False)
-    #         is_package = bool(
-    #             lead and lead.lead_type_id and
-    #             lead.lead_type_id in (holiday_type | corporate_type)
-    #         )
-    #         stage_ok = bool(rec.stage_id and rec.stage_id.sequence >= processing_seq)
-    #         rec.can_create_billing = is_package and stage_ok
-
-
+    @api.model
+    def _read_group_stage_ids(self, stages, domain):
+        if self.env.context.get('jt_travel_tasks'):
+            stage_xmlids = [
+                'jt_travel.task_type_assigned',
+                'jt_travel.task_type_in_progress',
+                'jt_travel.task_type_processing',
+                'jt_travel.task_type_confirmed',
+            ]
+            travenza_stages = self.env['project.task.type']
+            for xmlid in stage_xmlids:
+                stage = self.env.ref(xmlid, raise_if_not_found=False)
+                if stage:
+                    travenza_stages |= stage
+            return travenza_stages
+        return super()._read_group_stage_ids(stages, domain)
+    
+    
 
     @api.depends(
         'stage_id', 

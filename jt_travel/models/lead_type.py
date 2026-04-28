@@ -25,9 +25,11 @@ from odoo import models, fields
 class LeadType(models.Model):
     _name = 'lead.type'
     _description = 'Lead Type'
+    _order = 'sequence'
 
     name = fields.Char(string='Lead Type')
     # team_id = fields.Many2one('travel.team', string='Assigned Team')
+    sequence = fields.Integer(string="Sequence", default=10)
     team_ids = fields.Many2many(
         'travel.team',
         'lead_type_travel_team_rel',

@@ -36,8 +36,7 @@
                         <div class="o_row">
                             <label for="bill_ref_no" string="Bill Reference:" class="oe_edit_only"/>
                             <h3 class="mt-2">
-                                <field name="bill_ref_no" 
-                                    readonly="is_readonly_for_accountant"/>
+                                <field name="bill_ref_no"/>
                             </h3>
                         </div>
                     </h1>
@@ -62,7 +61,7 @@
                                     readonly="is_readonly_for_accountant"/> -->
                         </group>
                         <group>
-                            <field name="billing_account" invisible="billing_type_name == 'Air Tickets'" readonly="is_readonly_for_accountant" />
+                            <field name="billing_account" readonly="is_readonly_for_accountant" />
                             <field name="net_cost" readonly="is_readonly_for_accountant" required="1"/>
                             <field name="billing_amount" required="1" readonly="is_readonly_for_accountant"/>
                             <field name="accountant_remark" invisible="not is_readonly_for_accountant"/>
@@ -173,7 +172,7 @@
 </record>
 
 <record id="crm.crm_menu_root" model="ir.ui.menu">
-    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
+    <field name="group_ids" eval="[(6, 0, [ref('jt_travel.group_travenza_holidays_manager'), ref('jt_travel.group_travenza_holidays_user') , ref('jt_travel.group_travenza_holidays_accountant'),ref('jt_travel.group_travenza_holidays_admin')])]"/>
 </record>
 
 <record id="sale.sale_menu_root" model="ir.ui.menu">

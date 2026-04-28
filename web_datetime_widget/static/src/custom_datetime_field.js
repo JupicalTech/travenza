@@ -125,6 +125,23 @@ export class CustomDateTimeField extends DateTimeField {
         );
 
         onWillRender(() => this.triggerIsDirty());
+
+
+        useEffect(() => {
+    const inputs = document.querySelectorAll('.o_field_custom_datetime input, .o_field_datetime input');
+    inputs.forEach(input => {
+        if (!input.value) return;
+        const parts = input.value.split('/');
+        if (parts.length === 3 && parts[0].length <= 2 && parts[1].length <= 2) {
+            const [mm, dd, yyyy] = parts;
+            if (!isNaN(mm) && !isNaN(dd) && !isNaN(yyyy)) {
+                input.value = `${dd.padStart(2,'0')}/${mm.padStart(2,'0')}/${yyyy}`;
+            }
+        }
+    });
+});
+
+
     }
 
     //-------------------------------------------------------------------------
@@ -143,14 +160,32 @@ export class CustomDateTimeField extends DateTimeField {
     //         : "";
     // }
 
-    getFormattedValue(valueIndex) {
-    const value = this.values[valueIndex];
-    return value
-        ? this.props.showTime && this.field.type !== "date"
-            ? formatDateTime(value)
-            : formatDate(value, { numeric: true })
-        : "";
-}
+//     getFormattedValue(valueIndex) {
+//     const value = this.values[valueIndex];
+//     return value
+//         ? this.props.showTime && this.field.type !== "date"
+//             ? formatDateTime(value)
+//             : formatDate(value, { numeric: true })
+//         : "";
+// }
+
+        getFormattedValue(valueIndex) {
+            const value = this.values[valueIndex];
+            if (!value) return "";
+            if (this.props.showTime && this.field.type !== "date") {
+                return formatDateTime(value);
+            }
+            return value.toFormat("dd/MM/yyyy");
+        }
+
+        get formattedValue() {
+            const value = this.values[0];
+            if (!value) return "";
+            if (this.props.showTime && this.field.type !== "date") {
+                return formatDateTime(value);
+            }
+            return value.toFormat("dd/MM/yyyy");
+    }
 }
 
 export const customDateTimeField = {

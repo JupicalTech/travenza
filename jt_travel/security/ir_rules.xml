@@ -71,5 +71,21 @@
             <field name="groups" eval="[(4, ref('jt_travel.group_travenza_holidays_manager')), (4, ref('jt_travel.group_travenza_holidays_admin'))]"/>
             <field name="domain_force">[(1, '=', 1)]</field>
         </record>
+
+
+
+        <record id="rule_crm_lead_accountant_all" model="ir.rule">
+            <field name="name">CRM Lead: Accountant See All</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="groups" eval="[(4, ref('jt_travel.group_travenza_holidays_accountant'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+
+
     </data>
 </odoo>

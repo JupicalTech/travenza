@@ -5,6 +5,7 @@
         <field name="model">lead.type</field>
         <field name="arch" type="xml">
             <list editable="bottom" sample="1">
+                <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="team_ids" widget="many2many_tags"/>
                 <field name="is_project_type"/>

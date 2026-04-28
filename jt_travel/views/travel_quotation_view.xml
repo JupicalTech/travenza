@@ -58,6 +58,7 @@
 	                        <!-- <field name="line_ids" class="o_list_bordered"> -->
 							 <field name="line_ids">
 	                            <list editable="bottom">
+									<field name="sequence" widget="handle"/>
 									<field name="lead_type_ids" 
 									widget="many2many_tags" 
 									options="{'no_create': True, 'no_open': True}"
