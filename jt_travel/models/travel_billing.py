@@ -151,20 +151,14 @@ class TravelBilling(models.Model):
 
 
     def write(self, vals):
-
-
         incoming_state = vals.get('state')
-
         if incoming_state and incoming_state != 'draft':
             incoming_net_cost = vals.get('net_cost')
-
             for rec in self:
                 effective_net_cost = incoming_net_cost if incoming_net_cost is not None else rec.net_cost
-
                 if not effective_net_cost or effective_net_cost <= 0:
                     raise ValidationError(
                         "Net Cost must be greater than zero.")
-                
         res = super().write(vals)
         for rec in self:
             rec._post_attachment_to_chatter(vals)

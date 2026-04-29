@@ -53,6 +53,8 @@ class ProjectTask(models.Model):
     task_service_type = fields.Char(string="Service Type")
     visa_application_ids = fields.One2many('travel.visa.application', 'task_id', string="Visa Applications")
     visa_count = fields.Integer(compute='_compute_visa_count')
+    task_date = fields.Char(string="Date")
+    number_of_passengers = fields.Html(string="Number of Passengers", related='lead_id.number_of_passengers')
   
 
     def _compute_visa_count(self):

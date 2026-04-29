@@ -245,6 +245,7 @@ class TravelQuotation(models.Model):
                 'lead_type_id': line.lead_type_ids[0].id if line.lead_type_ids else False,
                 'task_service_type': ", ".join(line.lead_type_ids.mapped('name')),
                 'user_ids': [(6, 0, task_assignees.ids)],
+                'task_date': line.date,
             })
             
             line.task_id = task.id
