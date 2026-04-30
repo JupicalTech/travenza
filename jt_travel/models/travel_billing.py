@@ -45,6 +45,7 @@ class TravelBilling(models.Model):
 
     accountant_remark = fields.Text(string="Remarks", tracking=True)
     bill_ref_no = fields.Char(string="Bill Reference", tracking=True)
+    invoice_number = fields.Char(string="Invoice Number", tracking=True)
 
     # --- Common Fields ---
     passenger_name = fields.Char(string="Passenger Name", tracking=True)
@@ -56,6 +57,7 @@ class TravelBilling(models.Model):
     card_no = fields.Char(string="Card No.", tracking=True)
     # card_amount = fields.Float(string="Card Amount", tracking=True)
     reference_number = fields.Char(string="Reference Number",tracking=True)
+
     
     # --- Uploads ---
     voucher_upload = fields.Binary(string="Voucher Upload")
@@ -121,6 +123,9 @@ class TravelBilling(models.Model):
         self.write({'state': 'pending'})
 
     def action_mark_completed(self):
+        for rec in self:
+            if not rec.invoice_number:
+                raise ValidationError("Invoice Number is required before marking the bill as Completed.")
         self.write({'state': 'completed'})
 
 

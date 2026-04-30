@@ -64,6 +64,7 @@
                             <field name="billing_account" readonly="is_readonly_for_accountant" />
                             <field name="net_cost" readonly="is_readonly_for_accountant" required="1"/>
                             <field name="billing_amount" required="1" readonly="is_readonly_for_accountant"/>
+                            <field name="invoice_number" invisible="state == 'draft'"/>
                             <field name="accountant_remark" invisible="not is_readonly_for_accountant"/>
                         </group>
                     </group>
