@@ -155,7 +155,7 @@
               name="Bills"
               action="action_travel_billing_all"
               sequence="2"
-              groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_admin"/>
+              groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_manager,jt_travel.group_travenza_holidays_admin"/>
 
 <!-- Menu visibility -->
  
