@@ -17,14 +17,14 @@
                         type="object" 
                         class="btn-danger"
                         invisible="state != 'submitted'"
-                        groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_admin"/>
+                        groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_manager,jt_travel.group_travenza_holidays_admin"/>
                 
                 <button name="action_mark_completed" 
                         string="Mark Completed" 
                         type="object" 
                         class="btn-success"
                         invisible="state == 'completed'"
-                        groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_admin"/>
+                        groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_manager,jt_travel.group_travenza_holidays_admin"/>
 
                 <field name="state" widget="statusbar" statusbar_visible="draft,submitted,pending,completed" options="{'clickable': '1'}" groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_admin"/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,submitted,pending,completed" groups="jt_travel.group_travenza_holidays_manager,jt_travel.group_travenza_holidays_user"/>
@@ -65,6 +65,7 @@
                             <field name="net_cost" readonly="is_readonly_for_accountant" required="1"/>
                             <field name="billing_amount" required="1" readonly="is_readonly_for_accountant"/>
                             <field name="invoice_number" invisible="state == 'draft'"/>
+                            <field name="gst_details"/>
                             <field name="accountant_remark" invisible="not is_readonly_for_accountant"/>
                         </group>
                     </group>
@@ -131,8 +132,10 @@
         <field name="model">travel.billing</field>
         <field name="arch" type="xml">
             <list string="Bills">
+                <field name="date_submitted" widget="custom_datetime"/>
                 <field name="name" readonly="1"/>
                 <field name="passenger_name"/>
+                <field name="billing_account"/>
                 <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
                 <field name="net_cost" sum="Total Net Cost"/>
                 <field name="billing_amount" sum="Total Billing"/>

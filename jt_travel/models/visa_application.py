@@ -25,7 +25,7 @@ from odoo import models, fields, api
 
 class VisaApplicationContact(models.Model):
     _name = 'visa.application.contact'
-    _description = 'Visa Application Contact'
+    
 
     visa_application_id = fields.Many2one('travel.visa.application', string="Visa Application", ondelete='cascade')
     partner_id = fields.Many2one('res.partner', string="Contacts" , domain=[('user_ids', '=', False)])
@@ -42,6 +42,7 @@ class TravelVisaApplication(models.Model):
     _name = 'travel.visa.application'
     _description = 'Visa Application'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'create_date desc, id desc'
 
     name = fields.Char(string="Reference", copy=False,default=lambda self: 'New')
     # application_number = fields.Char(string="Application Number")
@@ -84,6 +85,22 @@ class TravelVisaApplication(models.Model):
                         defaults['assignee_id'] = task.user_ids[0].id
                 elif lead.user_id:
                     defaults['assignee_id'] = lead.user_id.id
+            
+            if lead_id:
+                billing = self.env['travel.billing'].search(
+                    [('lead_id', '=', lead_id)],
+                    order='id desc',
+                    limit=1
+                )
+                if billing:
+                    if 'application_date' in fields_list and not defaults.get('application_date'):
+                        defaults['application_date'] = billing.visa_applied_date or False
+                    if 'visa_expected_date' in fields_list and not defaults.get('visa_expected_date'):
+                        defaults['visa_expected_date'] = billing.visa_expected_date or False
+
+            if 'travel_date' in fields_list and not defaults.get('travel_date'):
+                defaults['travel_date'] = lead.travel_date_from or False
+
         return defaults
 
 

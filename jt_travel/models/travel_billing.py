@@ -29,12 +29,14 @@ class TravelBilling(models.Model):
     _description = 'Travel Billing Form'
     _rec_name = 'name'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'create_date desc, id desc'
 
 
     name = fields.Char(string="Sr. No", copy=False, default='New')
     lead_id = fields.Many2one('crm.lead', string="Lead", ondelete='cascade')
     lead_type_id = fields.Many2one('lead.type', related='lead_id.lead_type_id', store=True, string="Lead Type", tracking=True)
     lead_type_name = fields.Char(related='lead_type_id.name', string="Type Name", tracking=True)
+    date_submitted = fields.Datetime(string="Submitted On")
 
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -46,6 +48,7 @@ class TravelBilling(models.Model):
     accountant_remark = fields.Text(string="Remarks", tracking=True)
     bill_ref_no = fields.Char(string="Bill Reference", tracking=True)
     invoice_number = fields.Char(string="Invoice Number", tracking=True)
+    gst_details = fields.Char(string="GST Details", tracking=True)
 
     # --- Common Fields ---
     passenger_name = fields.Char(string="Passenger Name", tracking=True)
@@ -117,7 +120,7 @@ class TravelBilling(models.Model):
 
 
     def action_submit_bill(self):
-        self.write({'state': 'submitted'})
+        self.write({'state': 'submitted', 'date_submitted': fields.Datetime.now()})
 
     def action_mark_pending(self):
         self.write({'state': 'pending'})

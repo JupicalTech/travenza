@@ -54,6 +54,7 @@
         'views/travel_quotation_view.xml',
         'views/travel_billing_views.xml',
         'views/visa_application_view.xml',
+
     ],
     'assets': {
         'web.assets_backend': [
