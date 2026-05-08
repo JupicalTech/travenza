@@ -49,11 +49,13 @@
                             <field name="lead_type_name" invisible="1" readonly="is_readonly_for_accountant"/>
                             <field name="passenger_name" required="1" readonly="is_readonly_for_accountant"/>
                             <field name="vendor_id" readonly="is_readonly_for_accountant" required="1"/>
+                            <field name="reffered_by_name"/>
                             <field name="card_used" invisible="billing_type_name in ['Forex', 'Passport Renewal', 'Miscellaneous']" readonly="is_readonly_for_accountant"/>
                             <field name="card_no" 
                                     invisible="not card_used" 
                                     required="card_used"
                                     readonly="is_readonly_for_accountant"/>
+                                
                                     
                             <!-- <field name="card_amount" 
                                     invisible="not card_used" 

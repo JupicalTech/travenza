@@ -49,6 +49,7 @@ class TravelBilling(models.Model):
     bill_ref_no = fields.Char(string="Bill Reference", tracking=True)
     invoice_number = fields.Char(string="Invoice Number", tracking=True)
     gst_details = fields.Char(string="GST Details", tracking=True)
+    reffered_by_name = fields.Char(string="Referred By",tracking=True)
 
     # --- Common Fields ---
     passenger_name = fields.Char(string="Passenger Name", tracking=True)
