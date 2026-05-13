@@ -66,6 +66,55 @@ class CrmLead(models.Model):
     # for record rule 
     project_ids = fields.One2many('project.project', 'lead_id', string="Projects")
     lead_task_ids = fields.One2many('project.task', 'lead_id', string="Tasks")
+
+
+
+    # spreadsheet ------------------------------------------------- 
+    spreadsheet_ids = fields.One2many(
+    'spreadsheet.spreadsheet',
+    'lead_id',
+    string="Spreadsheets",
+)
+    spreadsheet_count = fields.Integer(
+        compute='_compute_spreadsheet_count',
+        string="Spreadsheets",
+    )
+
+    @api.depends('spreadsheet_ids')
+    def _compute_spreadsheet_count(self):
+        for rec in self:
+            rec.spreadsheet_count = len(rec.spreadsheet_ids)
+
+    def action_view_spreadsheets(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Quotations',
+            'res_model': 'spreadsheet.spreadsheet',
+            'view_mode': 'list,form',
+            'domain': [('lead_id', '=', self.id)],
+            'context': {
+                'default_lead_id': self.id,
+                'default_owner_id': self.env.user.id,
+            },
+        }
+    
+
+    def action_new_spreadsheet(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Quotations',
+            'res_model': 'spreadsheet.spreadsheet',
+            'view_mode': 'list,form',
+            'domain': [('lead_id', '=', self.id)],
+            'context': {
+                'default_lead_id': self.id,
+                'default_owner_id': self.env.user.id,
+            },
+        }
+
+#  spreadsheet over --------------------------------------------------------
     
     def _compute_visa_count(self):
         for rec in self:

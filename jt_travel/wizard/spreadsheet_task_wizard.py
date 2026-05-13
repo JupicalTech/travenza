@@ -1,0 +1,145 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Jupical Technologies Pvt. Ltd.
+#    Copyright (C) 2018-TODAY Jupical Technologies(<http://www.jupical.com>).
+#    Author: Jupical Technologies Pvt. Ltd.(<http://www.jupical.com>)
+#    you can modify it under the terms of the GNU LESSER
+#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
+#
+#    It is forbidden to publish, distribute, sublicense, or sell copies
+#    of the Software or modified copies of the Software.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
+#
+#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
+#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
+#    If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+from odoo import api, fields, models
+from odoo.exceptions import UserError
+
+
+class SpreadsheetTaskWizardLine(models.Model):
+    _name = 'spreadsheet.task.wizard.line'
+    _description = 'Spreadsheet Task Wizard Line'
+
+    wizard_id = fields.Many2one('spreadsheet.task.wizard', ondelete='cascade')
+
+    date = fields.Char(string='Date')
+    description = fields.Char(string='Description')
+    remarks     = fields.Char(string='Remarks')
+
+    lead_type_id = fields.Many2one('lead.type', string='Lead Type')
+
+    available_assignee_ids = fields.Many2many(
+        'res.users',
+        'wizard_line_avail_assignee_rel',
+        'line_id', 'user_id',
+        compute='_compute_available_assignee_ids',
+        string='Available Assignees',
+    )
+    assignee_ids = fields.Many2many(
+        'res.users',
+        'wizard_line_assignee_rel',
+        'line_id', 'user_id',
+        string='Assignees',
+    )
+
+    already_exists = fields.Boolean(default=False)
+
+    @api.depends('lead_type_id')
+    def _compute_available_assignee_ids(self):
+        for rec in self:
+            if rec.lead_type_id and rec.lead_type_id.team_ids:
+                teams = rec.lead_type_id.team_ids
+                rec.available_assignee_ids = (
+                    teams.mapped('member_ids') | teams.mapped('team_leader_id')
+                )
+            else:
+                rec.available_assignee_ids = self.env['res.users']
+
+    @api.onchange('lead_type_id')
+    def _onchange_lead_type_id(self):
+        self.assignee_ids = [(5, 0, 0)]
+
+
+class SpreadsheetTaskWizard(models.Model):
+    _name = 'spreadsheet.task.wizard'
+    _description = 'Create Tasks'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'id desc'
+    _rec_name = "project_id"
+ 
+    spreadsheet_id = fields.Many2one('spreadsheet.spreadsheet')
+    project_id     = fields.Many2one('project.project')
+ 
+    line_ids = fields.One2many('spreadsheet.task.wizard.line', 'wizard_id', string='Rows')
+ 
+    pending_line_ids = fields.One2many(
+        'spreadsheet.task.wizard.line',
+        'wizard_id',
+        string='Pending Rows',
+        domain=[('already_exists', '=', False)],
+    )
+ 
+    created_line_ids = fields.One2many(
+        'spreadsheet.task.wizard.line',
+        'wizard_id',
+        string='Tasks Already Created',
+        domain=[('already_exists', '=', True)],
+    )
+ 
+    def action_create_tasks(self):
+        self.ensure_one()
+        project = self.project_id
+        lead    = project.lead_id
+
+        lines_to_create = self.line_ids.filtered(
+            lambda l: l.lead_type_id and l.assignee_ids and not l.already_exists
+        )
+
+        if not lines_to_create:
+            raise UserError(
+                "No rows have both Lead Type and Assignees filled in. "
+                "Please fill those columns for the rows you want to create tasks for."
+            )
+
+        tasks_created = self.env['project.task']
+        for line in lines_to_create:
+            task_vals = {
+                'name':              line.description,
+                'project_id':        project.id,
+                'lead_id':           lead.id if lead else False,
+                'lead_type_id':      line.lead_type_id.id,
+                'task_service_type': line.lead_type_id.name,
+                'task_date':         line.date or '',
+                'user_ids':          [(6, 0, line.assignee_ids.ids)],
+            }
+            if lead and lead.partner_id:
+                task_vals['partner_id'] = lead.partner_id.id
+            tasks_created |= self.env['project.task'].sudo().create(task_vals)
+
+        lines_to_create.sudo().write({'already_exists': True})
+
+        all_project_task_ids = self.env['project.task'].sudo().search([
+            ('project_id', '=', project.id)
+        ]).ids
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Tasks',
+            'res_model': 'project.task',
+            'view_mode': 'list,form',
+            'domain': [('id', 'in', all_project_task_ids)],
+            'target': 'current',
+            'effect': {
+                'fadeout': 'slow',
+                'message': f"Success! {len(tasks_created)} task(s) created.",
+                'type': 'rainbow_man',
+            },
+        }

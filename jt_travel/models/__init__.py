@@ -30,3 +30,4 @@ from . import res_partner_inh
 from . import travel_quotation
 from . import travel_billing
 from . import visa_application
+from . import spreadsheet_inh

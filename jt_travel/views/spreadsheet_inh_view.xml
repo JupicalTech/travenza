@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="spreadsheet_travenzas_form_view_project_inherit2" model="ir.ui.view">
+        <field name="name">spreadsheet.spreadsheet.form.project.inherit</field>
+        <field name="model">spreadsheet.spreadsheet</field>
+        <field name="inherit_id" ref="spreadsheet_oca.spreadsheet_spreadsheet_form_view"/>
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//header" position="inside">
+            <button
+                name="action_create_tasks"
+                type="object"
+                string="Create Tasks"
+                class="btn btn-primary"
+                icon="fa-tasks"
+                invisible="not context.get('from_project')"
+            />
+        </xpath>
+
+    <xpath expr="//sheet/group" position="inside">
+    <group string="Task Settings" invisible="not context.get('from_project')">
+        <field name="project_id" invisible="1"/>
+        <field name="lead_id" invisible="1"/>
+        <field name="available_assignee_ids" invisible="1"/>
+
+        <field
+            name="lead_type_id"
+            options="{'no_create': True, 'no_open': True}"
+        />
+
+        <field
+            name="assignee_ids"
+            widget="many2many_tags"
+            domain="[('id', 'in', available_assignee_ids)]"
+            options="{'no_create': True}"
+            placeholder="Select assignees for tasks..."
+        />
+    </group>
+        </xpath>
+        </field>
+    </record>
+
+
+    <record id="spreadsheet_tree_view_done_inherit" model="ir.ui.view">
+    <field name="name">spreadsheet.spreadsheet.tree.done.inherit</field>
+    <field name="model">spreadsheet.spreadsheet</field>
+    <field name="inherit_id" ref="spreadsheet_oca.spreadsheet_spreadsheet_tree_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//list//button[@name='open_spreadsheet']" position="after">
+            <field name="is_done" widget="boolean_toggle"
+                   options="{'terminology': {'string_true': 'Done', 'string_false': 'Pending'}}"
+                   />
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>

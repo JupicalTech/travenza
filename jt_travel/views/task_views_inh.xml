@@ -18,7 +18,6 @@
                     class="btn-primary"
                     invisible="not is_visa_type or not can_create_billing"
                     context="{'default_applicant_id': partner_id}"/>
-
         </xpath>
 
 
@@ -50,24 +49,6 @@
             <attribute name="invisible">1</attribute>
         </xpath>
 
-<!-- <xpath expr="//div[hasclass('d-flex','justify-content-end','align-items-center','px-1')]" position="replace">
-    <div class="d-flex align-items-center w-100 px-1" invisible="not active or is_template or has_project_template">
-        <field name="is_visa_type" invisible="1"/>
-        <field
-            name="visa_status"
-            widget="statusbar"
-            statusbar_visible="in_process,under_processing,approved,rejected"
-            invisible="not is_visa_type"
-            options="{'clickable': '1'}"
-            class="w-100"/>
-    </div>
-</xpath> -->
-
-
-<!-- <xpath expr="//div[@id='date_deadline_and_recurring_task']" position="after">
-    <field name="priority" widget="priority_switch" class="h3"/>
-</xpath> -->
-
 
         <xpath expr="//sheet" position="after">
         <footer invisible="not lead_id">
@@ -92,16 +73,27 @@
         </xpath>
 
         <xpath expr="//field[@name='user_ids']" position="after">
-            <field name="lead_type_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
-            <field name="number_of_passengers" readonly="1"/>
+            <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
+            <field name="number_of_passengers"/>
         </xpath>
 
         <xpath expr="//field[@name='tag_ids']" position="before">
-            <field name="task_date" readonly="1"/>
+            <field name="task_date"/>
         </xpath>
     </field>
 </record>
 
+<record id="view_task_quick_create_lead_type" model="ir.ui.view">
+    <field name="name">project.task.quick.create.lead.type</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.quick_create_task_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='user_ids']" position="after">
+            <field name="lead_type_id"
+                   options="{'no_create': True, 'no_open': True}"/>
+        </xpath>
+    </field>
+</record>
 
 
 
@@ -114,6 +106,12 @@
             <attribute name="invisible">1</attribute>
         </xpath>
         <xpath expr="//progressbar[@field='state']" position="replace"/>
+        <xpath expr="//field[@name='partner_id']" position="after">
+            <field name="lead_type_id"
+                   class="text-primary fw-bold"
+                   options="{'no_open': True}"
+                   invisible="not lead_type_id"/>
+        </xpath>
     </field>
 </record>
 
@@ -126,19 +124,6 @@
         <xpath expr="//field[@name='state'][@widget='project_task_state_selection']" position="attributes">
             <attribute name="column_invisible">1</attribute>
         </xpath>
-
-        <!-- <xpath expr="//field[@name='stage_id']" position="after">
-            <field name="is_visa_type" column_invisible="True"/>
-            <field name="visa_status" 
-                   widget="badge" 
-                   decoration-info="visa_status == 'in_process'" 
-                   decoration-warning="visa_status == 'under_processing'" 
-                   decoration-success="visa_status == 'approved'" 
-                   decoration-danger="visa_status == 'rejected'"
-                   invisible="not is_visa_type"
-                   optional="show"/>
-        </xpath> -->
-
 
         <xpath expr="//field[@name='priority']" position="attributes">
             <attribute name="column_invisible">1</attribute>
@@ -156,15 +141,6 @@
     <field name="model">project.task</field>
     <field name="inherit_id" ref="project.view_task_search_form"/>
     <field name="arch" type="xml">
-
-    <!-- <xpath expr="//search" position="inside">
-            <field name="visa_status" string="Visa Status" filter_domain="[('visa_status', 'ilike', self)]"/>
-    <group>
-        <filter string="Visa Status" name="group_visa_status"
-                domain="[('is_visa_type', '=', True)]"
-                context="{'group_by': 'visa_status'}"/>
-    </group>
-    </xpath> -->
         
         <xpath expr="//filter[@name='private_tasks']" position="attributes">
             <attribute name="invisible">1</attribute>
@@ -225,9 +201,6 @@
 
     </field>
 </record>
-
-
-
 
 
 

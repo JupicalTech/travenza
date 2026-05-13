@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_spreadsheet_task_wizard_form" model="ir.ui.view">
+        <field name="name">spreadsheet.task.wizard.form</field>
+        <field name="model">spreadsheet.task.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Tasks from Spreadsheet">
+
+                <header>
+                    <button
+                        name="action_create_tasks"
+                        type="object"
+                        string="Create Tasks"
+                        class="btn btn-primary"
+                        icon="fa-tasks"
+                    />
+                </header>
+
+                <div class="px-3">
+                    <field name="pending_line_ids" widget="one2many" nolabel="1">
+                        <list editable="bottom">
+                            <field name="available_assignee_ids" column_invisible="1"/>
+                            <field name="date" string="Date"/>
+                            <field name="description" string="Description"/>
+                            <field name="remarks" string="Remarks"/>
+                            <field
+                                name="lead_type_id"
+                                string="Lead Type"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field
+                                name="assignee_ids"
+                                string="Assignees"
+                                widget="many2many_tags"
+                                domain="[('id', 'in', available_assignee_ids)]"
+                                options="{'no_create': True}"
+                            />
+                        </list>
+                    </field>
+
+                </div>
+
+                <chatter/>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>

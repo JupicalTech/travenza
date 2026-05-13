@@ -36,4 +36,19 @@
 
     </field>
 </record>
+
+
+<record id="view_project_form_simplified_footer_inherit_travel" model="ir.ui.view">
+    <field name="name">project.project.form.simplified.footer.inherit.travel</field>
+    <field name="model">project.project</field>
+    <field name="inherit_id" ref="project.project_project_view_form_simplified_footer"/>
+    <field name="arch" type="xml">
+        <xpath expr="//footer/button[@name='action_view_tasks']" position="attributes">
+            <attribute name="name">action_create_and_view_project</attribute>
+        </xpath>
+    </field>
+</record>
+
+
+
 </odoo>

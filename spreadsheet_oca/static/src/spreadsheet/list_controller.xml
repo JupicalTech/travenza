@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t
+        t-name="spreadsheet_oca.ListView.Buttons"
+        t-inherit="web.ListView.Buttons"
+        t-inherit-mode="primary"
+    >
+        <xpath expr="." position="inside">
+            <!-- <t t-if="!env.isSmall">
+                <button
+                    type="button"
+                    class="btn btn-secondary o_list_export_spreadsheet"
+                    data-tooltip="Add to spreadsheet"
+                    aria-label="Add to spreadsheet"
+                    t-on-click="(ev) => this.onSpreadsheetButtonClicked(ev)"
+                    data-hotkey="t"
+                >
+                    <i class="fa fa-table" />
+                </button>
+            </t> -->
+            <!-- <SpreadsheetFileUploader>
+                <t t-set-slot="toggler">
+                    <button
+                        type="button"
+                        class="btn btn-secondary o_button_upload_spreadsheet"
+                    >
+                        Upload
+                    </button>
+                </t>
+            </SpreadsheetFileUploader> -->
+        </xpath>
+    </t>
+</templates>

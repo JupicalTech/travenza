@@ -53,7 +53,18 @@ class TravelBilling(models.Model):
 
     # --- Common Fields ---
     passenger_name = fields.Char(string="Passenger Name", tracking=True)
-    net_cost = fields.Float(string="Net Cost", tracking=True)
+    currency_id = fields.Many2one(
+        'res.currency', 
+        string="Currency", 
+        default=lambda self: self.env.company.currency_id,
+        tracking=True
+    )
+
+    net_cost = fields.Monetary(
+        string="Net Cost", 
+        currency_field='currency_id', 
+        tracking=True
+    )
     billing_amount = fields.Char(string="Billing Amount",tracking=True)
     vendor_id = fields.Many2one('res.partner', string="Vendor",tracking=True)
     billing_account = fields.Char(string="Billing Account",tracking=True)

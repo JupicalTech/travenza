@@ -43,7 +43,63 @@ class Project(models.Model):
         string="Lead Type", 
         store=True
     )
+ 
+    spreadsheet_ids = fields.One2many(
+        'spreadsheet.spreadsheet',
+        'project_id',
+        string="Spreadsheets",
+    )
+    spreadsheet_count = fields.Integer(
+        compute='_compute_spreadsheet_count',
+        string="Spreadsheets",
+    )
+ 
+    @api.depends('lead_id', 'spreadsheet_ids')
+    def _compute_spreadsheet_count(self):
+        for rec in self:
+            if rec.lead_id:
+                rec.spreadsheet_count = self.env['spreadsheet.spreadsheet'].search_count([
+                    ('lead_id', '=', rec.lead_id.id)
+                ])
+            else:
+                rec.spreadsheet_count = len(rec.spreadsheet_ids)
+ 
+   
 
+    def action_view_spreadsheets(self):
+        self.ensure_one()
+        if self.lead_id:
+            domain = [('lead_id', '=', self.lead_id.id)]
+        else:
+            domain = [('project_id', '=', self.id)]
+
+        spreadsheets = self.env['spreadsheet.spreadsheet'].search(domain)
+        
+        ctx = {
+            'default_project_id': self.id,
+            'default_lead_id': self.lead_id.id if self.lead_id else False,
+            'create': False,
+            'from_project': True,
+        }
+
+        if len(spreadsheets) == 1:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Spreadsheets',
+                'res_model': 'spreadsheet.spreadsheet',
+                'view_mode': 'form',
+                'res_id': spreadsheets.id,
+                'context': ctx,
+            }
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Spreadsheets',
+            'res_model': 'spreadsheet.spreadsheet',
+            'view_mode': 'list,form',
+            'domain': domain,
+            'context': ctx,
+        }
 
     @api.model
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, **read_kwargs):

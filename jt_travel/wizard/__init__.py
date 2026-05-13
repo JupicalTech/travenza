@@ -21,3 +21,4 @@
 #
 ##############################################################################
 from . import project_wizard
+from . import spreadsheet_task_wizard

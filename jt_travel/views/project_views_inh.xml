@@ -41,6 +41,9 @@
             <field name="client_price" widget="monetary" options="{'currency_field': 'lead_currency_id'}"/>
             <field name="advance_payment" widget="monetary" options="{'currency_field': 'lead_currency_id'}"/>
         </xpath>
+
+
+
         <xpath expr="//div[@name='button_box']" position="inside">
             <button name="action_view_project_documents"
                     type="object"
@@ -48,8 +51,16 @@
                     icon="fa-paperclip">
                 <field name="document_count" widget="statinfo" string="Documents"/>
             </button>
+            <button name="action_view_spreadsheets"
+                type="object"
+                    class="oe_stat_button"
+                    icon="fa-table"
+                    invisible="spreadsheet_count == 0">
+                <field name="spreadsheet_count" widget="statinfo" string="Spreadsheets"/>
+            </button>
         </xpath>
 
+        
         <xpath expr="//group[@name='group_tasks_managment']" position="replace"/>
         <xpath expr="//field[@name='alias_id']" position="replace"/>
         <xpath expr="//field[@name='date_start']" position="replace"/>
@@ -120,6 +131,10 @@
         <xpath expr="//field[@name='name']" position="before">
             <field name="proj_seq" string="Reference" class="fw-bold"/>
         </xpath>
+
+        <xpath expr="//field[@name='partner_id']" position="attributes">
+            <attribute name="column_invisible">1</attribute>
+        </xpath>
     </field>
 </record>
 
@@ -144,21 +159,33 @@
 </record>
 
 
-<record id="action_view_project_calendar_link" model="ir.actions.act_window.view">
-    <field name="sequence" eval="4"/>
+<delete model="ir.actions.act_window.view" 
+        search="[('act_window_id', '=', ref('project.open_view_project_all'))]"/>
+
+<record id="action_project_all_list_view" model="ir.actions.act_window.view">
+    <field name="sequence" eval="1"/>
+    <field name="view_mode">list</field>
+    <field name="view_id" ref="project.view_project"/>
+    <field name="act_window_id" ref="project.open_view_project_all"/>
+</record>
+
+<record id="action_project_all_kanban_view" model="ir.actions.act_window.view">
+    <field name="sequence" eval="2"/>
+    <field name="view_mode">kanban</field>
+    <field name="view_id" ref="project.view_project_kanban"/>
+    <field name="act_window_id" ref="project.open_view_project_all"/>
+</record>
+
+<record id="action_project_all_calendar_view" model="ir.actions.act_window.view">
+    <field name="sequence" eval="3"/>
     <field name="view_mode">calendar</field>
     <field name="view_id" ref="view_project_project_calendar_travel"/>
     <field name="act_window_id" ref="project.open_view_project_all"/>
 </record>
 
 <record id="project.open_view_project_all" model="ir.actions.act_window">
-    <field name="name">Projects</field>
-    <field name="res_model">project.project</field>
-    <field name="view_mode">kanban,list,form,calendar</field>
-   <field name="context" eval="{'travel_calendar': True}"/>
+    <field name="view_mode">list,kanban,calendar,form</field>
 </record>
-
-
 
 
 </odoo>

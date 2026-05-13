@@ -33,7 +33,7 @@ class ProjectTask(models.Model):
     _inherit = 'project.task'
 
     lead_id = fields.Many2one('crm.lead',string="Lead",ondelete='set null')
-    lead_type_id = fields.Many2one('lead.type',related='lead_id.lead_type_id',string='Lead Type',store=True)
+    lead_type_id = fields.Many2one('lead.type',string='Lead Type',store=True)
     document_count = fields.Integer(compute="_compute_document_count")
 
     lead_customer_name = fields.Char(compute='_compute_lead_info', string='Customer Name')
@@ -54,7 +54,24 @@ class ProjectTask(models.Model):
     visa_application_ids = fields.One2many('travel.visa.application', 'task_id', string="Visa Applications")
     visa_count = fields.Integer(compute='_compute_visa_count')
     task_date = fields.Char(string="Date")
-    number_of_passengers = fields.Html(string="Number of Passengers", related='lead_id.number_of_passengers')
+    number_of_passengers = fields.Html(
+        string="Number of Passengers",
+        compute="_compute_number_of_passengers",
+        inverse="_inverse_number_of_passengers",
+        readonly=False,
+        store=True
+    )
+
+    @api.depends('project_id.number_of_passengers', 'lead_id.number_of_passengers')
+    def _compute_number_of_passengers(self):
+        for rec in self:
+            if rec.project_id.number_of_passengers:
+                rec.number_of_passengers = rec.project_id.number_of_passengers
+            elif rec.lead_id.number_of_passengers:
+                rec.number_of_passengers = rec.lead_id.number_of_passengers
+
+    def _inverse_number_of_passengers(self):
+        pass
   
 
     def _compute_visa_count(self):
@@ -225,7 +242,11 @@ class ProjectTask(models.Model):
         self.ensure_one()
         lead = self.lead_id or (self.project_id.lead_id if self.project_id else False)
         domain = [('lead_id', '=', lead.id)] if lead else [('id', '=', False)]
-        ctx = {'default_lead_id': lead.id} if lead else {}
+        ctx = {}
+        if lead:
+            ctx['default_lead_id'] = lead.id
+            ctx['default_billing_type_name'] = self.task_service_type or (lead.lead_type_id.name if lead.lead_type_id else False)
+            ctx['default_passenger_name'] = lead.contact_name or (lead.partner_id.name if lead.partner_id else False)
         return {
             'type': 'ir.actions.act_window',
             'name': 'Billing Forms',
@@ -234,8 +255,6 @@ class ProjectTask(models.Model):
             'domain': domain,
             'context': ctx,
         }
-    
-
     
     def action_save_and_view_lead_tasks(self):
         self.ensure_one()

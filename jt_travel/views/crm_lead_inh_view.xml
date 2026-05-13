@@ -32,7 +32,28 @@
                     type="object" 
                     class="oe_highlight" 
                     invisible="won_status != 'won' or lead_type_id != %(jt_travel.lead_type_visa_assistance)d" context="{'default_applicant_id': partner_id}"/>
+            <button name="action_new_spreadsheet"
+                    type="object"
+                    string="New Quotation"
+                    class="btn btn-primary"
+                    icon="fa-table"
+                    groups="spreadsheet_oca.group_user"
+                    invisible="won_status == 'won'"/>
+            <!-- <button name="action_upload_spreadsheet"
+                    type="object"
+                    string="Upload Spreadsheet"
+                    class="btn btn-secondary"
+                    icon="fa-upload"
+                    groups="spreadsheet_oca.group_user"/> -->
+
         </xpath>
+
+
+
+        <xpath expr="//button[@name='action_sale_quotations_new']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
 
 
         <xpath expr="//div[@name='button_box']" position="inside">
@@ -61,12 +82,12 @@
                     icon="fa-paperclip">
                 <field name="document_count" widget="statinfo" string="Documents"/>
             </button>
-            <button name="action_open_travel_quotations"
+            <!-- <button name="action_open_travel_quotations"
                     type="object"
                     class="oe_stat_button"
                     icon="fa-file-text-o">
                 <field name="quotation_count" widget="statinfo" string="Quotations"/>
-            </button>
+            </button> -->
             <button name="action_view_visa_applications" 
                     type="object" 
                     class="oe_stat_button" 
@@ -74,6 +95,16 @@
                     invisible="visa_count == 0">
                 <field name="visa_count" widget="statinfo" string="Visa Applications"/>
             </button>
+
+            <button name="action_view_spreadsheets"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-table"
+                    groups="spreadsheet_oca.group_user">
+                <field name="spreadsheet_count" widget="statinfo" string="Quotations"/>
+            </button>
+
+
         </xpath>
 
         <xpath expr="//field[@name='company_currency']" position="replace">
@@ -141,6 +172,9 @@
 
         <xpath expr="//group" position="before">
             <separator/>
+            <filter string="Today" name="today" 
+                    domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')), 
+                             ('create_date', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
             <filter string="This Month" name="travel_month_this"
                 domain="[
                     ('travel_date_from', '&gt;=', (context_today()).strftime('%Y-%m-01')),
@@ -232,6 +266,9 @@
                 <attribute name="decoration-danger">priority == '3'</attribute>
             </xpath>
 
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="create_date" string="Created On" widget="custom_datetime"/>
+            </xpath>
         </field>
 </record>
 
@@ -376,6 +413,8 @@
 <menuitem id="sale_crm.sale_order_menu_quotations_crm" active="False"/>
 
 <menuitem id="calendar.mail_menu_calendar" active="False"/>
+
+<menuitem id="spreadsheet_oca.spreadsheet_spreadsheet_menu" active="False"/>
 
 
 <record id="view_attachment_form_preview" model="ir.ui.view">

@@ -64,7 +64,19 @@
                         </group>
                         <group>
                             <field name="billing_account" readonly="is_readonly_for_accountant" />
-                            <field name="net_cost" readonly="is_readonly_for_accountant" required="1"/>
+                            <label for="net_cost"/>
+                            <div class="o_row">
+                               <field name="currency_id" 
+                                    nolabel="1" 
+                                    options="{'no_create': True, 'no_open': True}" 
+                                    style="flex: 0 0 70px; max-width: 70px;"
+                                    class="oe_inline"
+                                    readonly="is_readonly_for_accountant"/>
+                                <field name="net_cost" 
+                                    widget="monetary" 
+                                    options="{'currency_field': 'currency_id'}" 
+                                    readonly="is_readonly_for_accountant"/>
+                            </div>
                             <field name="billing_amount" required="1" readonly="is_readonly_for_accountant"/>
                             <field name="invoice_number" invisible="state == 'draft'"/>
                             <field name="gst_details"/>
@@ -139,7 +151,7 @@
                 <field name="passenger_name"/>
                 <field name="billing_account"/>
                 <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
-                <field name="net_cost" sum="Total Net Cost"/>
+                <field name="currency_id" column_invisible="True"/> <field name="net_cost" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Net Cost"/>
                 <field name="billing_amount" sum="Total Billing"/>
                 <field name="state" 
                         widget="badge" 
@@ -151,10 +163,30 @@
     </record>
 
 
+    <record id="view_travel_billing_search" model="ir.ui.view">
+    <field name="name">travel.billing.search</field>
+    <field name="model">travel.billing</field>
+    <field name="arch" type="xml">
+        <search string="Bills">
+            <field name="passenger_name"/>
+            <field name="lead_type_id"/>
+            <group>
+                <filter name="group_by_lead_type"
+                        string="Lead Type"
+                        context="{'group_by': 'lead_type_id'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+
+
     <record id="action_travel_billing_all" model="ir.actions.act_window">
         <field name="name">Bills</field>
         <field name="res_model">travel.billing</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_travel_billing_search"/>
+        <field name="context">{'search_default_group_by_lead_type': 1}</field>
     </record>
  
     <menuitem id="menu_travenza_accountant_billing"
