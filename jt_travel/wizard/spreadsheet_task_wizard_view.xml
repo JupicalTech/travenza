@@ -9,6 +9,13 @@
 
                 <header>
                     <button
+                        name="action_open_bulk_assign"
+                        type="object"
+                        string="Bulk Assign"
+                        class="btn btn-secondary"
+                        icon="fa-users"
+                    />
+                    <button
                         name="action_create_tasks"
                         type="object"
                         string="Create Tasks"
@@ -19,10 +26,12 @@
 
                 <div class="px-3">
                     <field name="pending_line_ids" widget="one2many" nolabel="1">
-                        <list editable="bottom">
+                        <list editable="bottom" class="o_list_bordered">
                             <field name="available_assignee_ids" column_invisible="1"/>
+                            <field name="selected" string="✓" widget="boolean_toggle"/>
                             <field name="date" string="Date"/>
                             <field name="description" string="Description"/>
+                            <field name="price" string="Price"/>
                             <field name="remarks" string="Remarks"/>
                             <field
                                 name="lead_type_id"
@@ -38,13 +47,38 @@
                             />
                         </list>
                     </field>
-
                 </div>
-
                 <chatter/>
-
             </form>
         </field>
     </record>
+
+
+    <record id="view_spreadsheet_bulk_assign_wizard_form" model="ir.ui.view">
+    <field name="name">spreadsheet.bulk.assign.wizard.form</field>
+    <field name="model">spreadsheet.bulk.assign.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Bulk Assign">
+            <sheet>
+                <div class="alert alert-info" role="alert">
+                    Applying to <field name="selected_count" readonly="1" class="oe_inline"/> selected task(s).
+                </div>
+                <group>
+                    <field name="available_assignee_ids" invisible="1"/>
+                    <field name="lead_type_id"
+                           options="{'no_create': True, 'no_open': True}"/>
+                    <field name="assignee_ids" widget="many2many_tags"
+                           domain="[('id', 'in', available_assignee_ids)]"
+                           options="{'no_create': True}"/>
+                </group>
+            </sheet>
+            <footer>
+                <button name="action_apply" type="object"
+                        string="Apply" class="btn btn-primary"/>
+                <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
 
 </odoo>

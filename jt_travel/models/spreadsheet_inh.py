@@ -170,7 +170,7 @@ class SpreadsheetSpreadsheet(models.Model):
             raise UserError("The spreadsheet appears to be empty.")
 
         header_row = None
-        date_col = desc_col = remarks_col = None
+        date_col = desc_col = remarks_col = price_col = None
         for row_num in sorted(cell_map.keys()):
             row_cells = cell_map[row_num]
             found_desc = False
@@ -183,12 +183,22 @@ class SpreadsheetSpreadsheet(models.Model):
                     date_col = col
                 elif lower in ('remarks', 'remark'):
                     remarks_col = col
+                elif lower in ('price', 'amount', 'cost'):
+                    price_col = col
             if found_desc:
                 header_row = row_num
                 break
 
         if not desc_col:
             raise UserError("No 'Description' column header found in the spreadsheet.")
+
+        def _to_float(v):
+            if v is None or v == '':
+                return 0.0
+            try:
+                return float(str(v).replace(',', '').strip())
+            except (ValueError, TypeError):
+                return 0.0
 
         rows_raw = {}
         for row_num in sorted(cell_map.keys()):
@@ -199,6 +209,7 @@ class SpreadsheetSpreadsheet(models.Model):
                 'date': self._serial_to_date_str(row_cells.get(date_col, '')) if date_col else '',
                 'description': row_cells.get(desc_col, ''),
                 'remarks': row_cells.get(remarks_col, '') if remarks_col else '',
+                'price': _to_float(row_cells.get(price_col, '')) if price_col else 0.0,
             }
 
         last_date = ''
@@ -251,6 +262,7 @@ class SpreadsheetSpreadsheet(models.Model):
                 'date': row['date'],
                 'description': row['description'],
                 'remarks': row['remarks'],
+                'price': row['price'],
                 'already_exists': False,
                 'lead_type_id': default_lead_type.id if default_lead_type else False,
                 'assignee_ids': [(6, 0, default_assignees.ids)] if default_assignees else [(5, 0, 0)],
@@ -274,3 +286,4 @@ class SpreadsheetSpreadsheet(models.Model):
             'view_mode': 'form',
             'target': 'current',
         }
+    

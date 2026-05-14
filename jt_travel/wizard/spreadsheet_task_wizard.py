@@ -35,6 +35,7 @@ class SpreadsheetTaskWizardLine(models.Model):
     remarks     = fields.Char(string='Remarks')
 
     lead_type_id = fields.Many2one('lead.type', string='Lead Type')
+    price = fields.Float(string='Price', digits=(12, 2))
 
     available_assignee_ids = fields.Many2many(
         'res.users',
@@ -51,6 +52,7 @@ class SpreadsheetTaskWizardLine(models.Model):
     )
 
     already_exists = fields.Boolean(default=False)
+    selected = fields.Boolean(string='Select', default=False)
 
     @api.depends('lead_type_id')
     def _compute_available_assignee_ids(self):
@@ -162,4 +164,102 @@ class SpreadsheetTaskWizard(models.Model):
                 'message': f"Success! {len(tasks_created)} task(s) created.",
                 'type': 'rainbow_man',
             },
+        }
+    
+
+    def action_open_bulk_assign(self):
+        self.ensure_one()
+        selected = self.line_ids.filtered(
+            lambda l: l.selected and not l.already_exists
+        )
+        if not selected:
+            raise UserError(
+                "Please tick the 'Select' checkbox on at least one row first."
+            )
+        bulk = self.env['spreadsheet.bulk.assign.wizard'].create({
+            'parent_wizard_id': self.id,
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Bulk Assign',
+            'res_model': 'spreadsheet.bulk.assign.wizard',
+            'res_id': bulk.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
+    
+
+class SpreadsheetBulkAssignWizard(models.TransientModel):
+    _name = 'spreadsheet.bulk.assign.wizard'
+    _description = 'Bulk Assign Lead Type and Assignees'
+
+    parent_wizard_id = fields.Many2one(
+        'spreadsheet.task.wizard',
+        required=True,
+        ondelete='cascade',
+    )
+    lead_type_id = fields.Many2one(
+        'lead.type', string='Lead Type'
+    )
+    available_assignee_ids = fields.Many2many(
+        'res.users',
+        'bulk_assign_avail_assignee_rel',
+        'wizard_id', 'user_id',
+        compute='_compute_available_assignee_ids',
+        string='Available Assignees',
+    )
+    assignee_ids = fields.Many2many(
+        'res.users',
+        'bulk_assign_assignee_rel',
+        'wizard_id', 'user_id',
+        string='Assignees',
+    )
+    selected_count = fields.Integer(
+        compute='_compute_selected_count', string='Selected Lines',
+    )
+
+    @api.depends('parent_wizard_id.line_ids.selected',
+                 'parent_wizard_id.line_ids.already_exists')
+    def _compute_selected_count(self):
+        for rec in self:
+            rec.selected_count = len(rec.parent_wizard_id.line_ids.filtered(
+                lambda l: l.selected and not l.already_exists
+            ))
+
+    @api.depends('lead_type_id')
+    def _compute_available_assignee_ids(self):
+        for rec in self:
+            if rec.lead_type_id and rec.lead_type_id.team_ids:
+                teams = rec.lead_type_id.team_ids
+                rec.available_assignee_ids = (
+                    teams.mapped('member_ids') | teams.mapped('team_leader_id')
+                )
+            else:
+                rec.available_assignee_ids = self.env['res.users']
+
+    @api.onchange('lead_type_id')
+    def _onchange_lead_type_id(self):
+        self.assignee_ids = [(5, 0, 0)]
+
+    def action_apply(self):
+        self.ensure_one()
+        if not self.lead_type_id:
+            raise UserError("Please select a Lead Type before applying.")
+        lines = self.parent_wizard_id.line_ids.filtered(
+            lambda l: l.selected and not l.already_exists
+        )
+        if not lines:
+            raise UserError("No lines are selected.")
+        lines.write({
+            'lead_type_id': self.lead_type_id.id,
+            'assignee_ids': [(6, 0, self.assignee_ids.ids)],
+            'selected': False,
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Create Tasks',
+            'res_model': 'spreadsheet.task.wizard',
+            'res_id': self.parent_wizard_id.id,
+            'view_mode': 'form',
+            'target': 'current',
         }
