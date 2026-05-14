@@ -66,6 +66,26 @@ class SpreadsheetTaskWizardLine(models.Model):
     @api.onchange('lead_type_id')
     def _onchange_lead_type_id(self):
         self.assignee_ids = [(5, 0, 0)]
+        if not self.lead_type_id or not self.wizard_id:
+            return
+
+        current_id = self._origin.id 
+        first_matching_line = None
+        for line in self.wizard_id.line_ids:
+            if line._origin.id and line._origin.id == current_id:
+                continue
+            line_lead_type = line._origin.lead_type_id or line.lead_type_id
+            line_assignees = line._origin.assignee_ids or line.assignee_ids
+            if line_lead_type == self.lead_type_id and line_assignees:
+                first_matching_line = line
+                break
+
+        if first_matching_line:
+            assignee_ids = (
+                first_matching_line._origin.assignee_ids.ids
+                or first_matching_line.assignee_ids.ids
+            )
+            self.assignee_ids = [(6, 0, assignee_ids)]
 
 
 class SpreadsheetTaskWizard(models.Model):
