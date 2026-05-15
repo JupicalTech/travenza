@@ -44,16 +44,11 @@ class ProjectTask(models.Model):
     billing_count = fields.Integer(compute='_compute_billing_count', string="Billings")
     can_create_billing = fields.Boolean(compute='_compute_can_create_billing')
     is_visa_type = fields.Boolean(string="Is Visa Task", default=False)
-    # visa_status = fields.Selection([
-    #     ('in_process', 'In Process'),
-    #     ('under_processing', 'Under Processing'),
-    #     ('approved', 'Approved'),
-    #     ('rejected', 'Rejected'),
-    # ], string="Visa Status", tracking=True, default='in_process')
     task_service_type = fields.Char(string="Service Type")
     visa_application_ids = fields.One2many('travel.visa.application', 'task_id', string="Visa Applications")
     visa_count = fields.Integer(compute='_compute_visa_count')
     task_date = fields.Char(string="Date")
+    task_price = fields.Float(string="Price", digits=(12, 2)) 
     number_of_passengers = fields.Html(
         string="Number of Passengers",
         compute="_compute_number_of_passengers",
@@ -61,6 +56,7 @@ class ProjectTask(models.Model):
         readonly=False,
         store=True
     )
+
 
     @api.depends('project_id.number_of_passengers', 'lead_id.number_of_passengers')
     def _compute_number_of_passengers(self):

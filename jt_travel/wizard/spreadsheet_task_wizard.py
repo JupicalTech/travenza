@@ -140,6 +140,7 @@ class SpreadsheetTaskWizard(models.Model):
                 'lead_type_id':      line.lead_type_id.id,
                 'task_service_type': line.lead_type_id.name,
                 'task_date':         line.date or '',
+                'task_price':        line.price,
                 'user_ids':          [(6, 0, line.assignee_ids.ids)],
             }
             if lead and lead.partner_id:

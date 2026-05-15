@@ -79,6 +79,7 @@
 
         <xpath expr="//field[@name='tag_ids']" position="before">
             <field name="task_date"/>
+            <field name="task_price" />
         </xpath>
     </field>
 </record>

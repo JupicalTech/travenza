@@ -98,7 +98,7 @@ class CrmLead(models.Model):
                 'default_owner_id': self.env.user.id,
             },
         }
-    
+
 
     def action_new_spreadsheet(self):
         self.ensure_one()
@@ -113,6 +113,8 @@ class CrmLead(models.Model):
                 'default_owner_id': self.env.user.id,
             },
         }
+
+
 
 #  spreadsheet over --------------------------------------------------------
     

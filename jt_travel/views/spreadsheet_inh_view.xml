@@ -14,12 +14,12 @@
                 string="Create Tasks"
                 class="btn btn-primary"
                 icon="fa-tasks"
-                invisible="not context.get('from_project')"
+                invisible="not project_id"
             />
         </xpath>
 
     <xpath expr="//sheet/group" position="inside">
-    <group string="Task Settings" invisible="not context.get('from_project')">
+    <group string="Task Settings" invisible="not project_id">
         <field name="project_id" invisible="1"/>
         <field name="lead_id" invisible="1"/>
         <field name="available_assignee_ids" invisible="1"/>
