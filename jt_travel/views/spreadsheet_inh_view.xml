@@ -49,8 +49,7 @@
     <field name="arch" type="xml">
         <xpath expr="//list//button[@name='open_spreadsheet']" position="after">
             <field name="is_done" widget="boolean_toggle"
-                   options="{'terminology': {'string_true': 'Done', 'string_false': 'Pending'}}"
-                   />
+                   options="{'terminology': {'string_true': 'Done', 'string_false': 'Pending'}}"/>
         </xpath>
     </field>
 </record>
