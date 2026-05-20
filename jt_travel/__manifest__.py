@@ -42,7 +42,6 @@
         'demo/demo_task_stages.xml',
         'demo/crm_stages.xml',
         'demo/crm_tags.xml',
-        'demo/travel_product_data.xml',
 
         'wizard/project_wizard_view.xml',
         'wizard/spreadsheet_task_wizard_view.xml',
