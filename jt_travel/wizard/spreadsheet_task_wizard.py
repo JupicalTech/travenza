@@ -199,9 +199,7 @@ class SpreadsheetBulkAssignWizard(models.TransientModel):
         required=True,
         ondelete='cascade',
     )
-    lead_type_id = fields.Many2one(
-        'lead.type', string='Lead Type'
-    )
+    lead_type_id = fields.Many2one('lead.type', string='Lead Type')
     available_assignee_ids = fields.Many2many(
         'res.users',
         'bulk_assign_avail_assignee_rel',
@@ -215,9 +213,7 @@ class SpreadsheetBulkAssignWizard(models.TransientModel):
         'wizard_id', 'user_id',
         string='Assignees',
     )
-    selected_count = fields.Integer(
-        compute='_compute_selected_count', string='Selected Lines',
-    )
+    selected_count = fields.Integer(compute='_compute_selected_count', string='Selected Lines')
 
     @api.depends('parent_wizard_id.line_ids.selected',
                  'parent_wizard_id.line_ids.already_exists')

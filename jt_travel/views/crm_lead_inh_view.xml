@@ -26,7 +26,7 @@
                         string="Create Bill" 
                         type="object" 
                         class="oe_highlight" 
-                        invisible="is_project_type or not is_in_process"/>
+                        invisible="not is_in_process"/>
             <button name="action_create_visa_application" 
                     string="Create Visa Application" 
                     type="object" 
@@ -57,12 +57,12 @@
 
 
         <xpath expr="//div[@name='button_box']" position="inside">
-            <button name="action_view_tasks"
+            <!-- <button name="action_view_tasks"
                     type="object"
                     class="oe_stat_button"
                     icon="fa-tasks">
                 <field name="task_count" widget="statinfo" string="Tasks"/>
-            </button>
+            </button> -->
             <button name="action_view_projects"
                     type="object"
                     class="oe_stat_button"
@@ -150,6 +150,7 @@
         <xpath expr="//field[@name='lead_type_id']" position="after">
             <field name="allowed_user_ids" invisible="1"/>
             <field name="user_id" string="Assigned Owner" domain="[('share', '=', False), ('id', 'in', allowed_user_ids)]" options="{'no_create': True}"/>
+            <field name="sub_assignee_ids" widget="many2many_tags" domain="[('share', '=', False)]" options="{'no_create': True}"/>
             <field name="number_of_passengers"/>
         </xpath>
         </field>
@@ -172,6 +173,9 @@
 
         <xpath expr="//group" position="before">
             <separator/>
+            <!-- <filter string="My Pipeline" name="my_pipeline_with_sub"
+                    domain="['|', ('user_id', '=', uid), ('sub_assignee_ids', 'in', [uid])]"/>
+            <separator/> -->
             <filter string="Today" name="today" 
                     domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')), 
                              ('create_date', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
@@ -215,6 +219,10 @@
     <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
     <field name="arch" type="xml">
         <xpath expr="//filter[@name='unassigned']" position="replace"/>
+        <xpath expr="//filter[@name='assigned_to_me']" position="replace">
+            <filter string="My Pipeline" name="assigned_to_me"
+                    domain="['|', ('user_id', '=', uid), ('sub_assignee_ids', 'in', [uid])]"/>
+        </xpath>
         <xpath expr="//filter[@name='open_opportunities']" position="replace"/>
         <xpath expr="//filter[@name='message_needaction']" position="replace"/>
         <xpath expr="//filter[@name='creation_date']" position="replace"/>
@@ -385,7 +393,7 @@
 
 <menuitem id="sale.sale_menu_root" active="False"/>
 
-<menuitem id="account.menu_finance" active="False"/>
+<menuitem id="account.menu_finance" active="True"/>
 
 <menuitem id="utm.menu_link_tracker_root" active="False"/>
 
@@ -416,6 +424,8 @@
 
 <menuitem id="spreadsheet_oca.spreadsheet_spreadsheet_menu" active="False"/>
 
+<menuitem id="project_todo.menu_todo_todos" active="False"/>
+
 
 <record id="view_attachment_form_preview" model="ir.ui.view">
     <field name="name">ir.attachment.form.preview</field>
@@ -443,25 +453,6 @@
         <field name="name">Leads</field>
     </record>
 
-    <menuitem
-        id="crm_menu_tasks"
-        name="Tasks"
-        parent="crm.crm_menu_root"
-        sequence="2"/>
-
-    <!-- <menuitem
-        id="crm_menu_my_tasks"
-        name="My Tasks"
-        parent="jt_travel.crm_menu_tasks"
-        action="project.action_view_my_task"
-        sequence="1"/>
-
-    <menuitem
-        id="crm_menu_all_tasks"
-        name="All Tasks"
-        parent="jt_travel.crm_menu_tasks"
-        action="project.action_view_all_task"
-        sequence="2"/> -->
 
 
 </odoo>

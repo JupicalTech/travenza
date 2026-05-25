@@ -45,6 +45,7 @@
 
         'wizard/project_wizard_view.xml',
         'wizard/spreadsheet_task_wizard_view.xml',
+        'wizard/project_quotation_bulk_wizard_view.xml',
 
         'views/lead_type_views.xml',
         'views/crm_lead_inh_view.xml',

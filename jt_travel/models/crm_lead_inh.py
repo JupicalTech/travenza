@@ -66,6 +66,12 @@ class CrmLead(models.Model):
     # for record rule 
     project_ids = fields.One2many('project.project', 'lead_id', string="Projects")
     lead_task_ids = fields.One2many('project.task', 'lead_id', string="Tasks")
+    sub_assignee_ids = fields.Many2many(
+        'res.users',
+        'crm_lead_sub_assignee_rel',
+        'lead_id', 'user_id',
+        string="Sub Assignees",
+    )
 
 
 

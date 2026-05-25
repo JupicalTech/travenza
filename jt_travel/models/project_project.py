@@ -21,6 +21,7 @@
 #
 #############################################################################
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 
 class Project(models.Model):
     _inherit = 'project.project'
@@ -49,10 +50,9 @@ class Project(models.Model):
         'project_id',
         string="Spreadsheets",
     )
-    spreadsheet_count = fields.Integer(
-        compute='_compute_spreadsheet_count',
-        string="Spreadsheets",
-    )
+    spreadsheet_count = fields.Integer(compute='_compute_spreadsheet_count',string="Spreadsheets")
+
+   
  
     @api.depends('lead_id', 'spreadsheet_ids')
     def _compute_spreadsheet_count(self):
@@ -154,11 +154,124 @@ class Project(models.Model):
         }
 
 
-    
 
+    quotation_line_ids = fields.One2many(
+        'project.quotation.line',
+        'project_id',
+        string="Quotation Lines",
+    )
+
+    def action_load_confirmed_quotation_lines(self):
+        self.ensure_one()
+        if not self.lead_id:
+            return
+        confirmed = self.env['spreadsheet.spreadsheet'].search([
+            ('lead_id', '=', self.lead_id.id),
+            ('is_done', '=', True),
+        ], limit=1)
+        if not confirmed:
+            return
+        rows = confirmed._parse_spreadsheet_rows()
+        self.quotation_line_ids.unlink()
+        for i, row in enumerate(rows):
+            self.env['project.quotation.line'].create({
+                'project_id': self.id,
+                'sequence': (i + 1) * 10,
+                'date': row.get('date', ''),
+                'description': row.get('description', ''),
+                'price': row.get('price', 0.0),
+                'remark': row.get('remarks', ''),
+                'vendor_reference': row.get('vendor_reference', ''),
+                'mode_of_payment': row.get('mode_of_payment', ''),
+            })
+
+    def _sync_confirmed_quotation_lines(self):
+        for rec in self:
+            if not rec.lead_id:
+                continue
+            confirmed = self.env['spreadsheet.spreadsheet'].search([
+                ('lead_id', '=', rec.lead_id.id),
+                ('is_done', '=', True),
+            ], limit=1)
+            if not confirmed:
+                continue
+            existing_descs = rec.quotation_line_ids.mapped('description')
+            max_seq = max(rec.quotation_line_ids.mapped('sequence') or [0])
+            try:
+                rows = confirmed._parse_spreadsheet_rows()
+            except Exception:
+                continue
+            counter = max_seq + 10
+            for i, row in enumerate(rows):
+                if row.get('description') and row['description'] not in existing_descs:
+                    self.env['project.quotation.line'].create({
+                        'project_id': rec.id,
+                        'sequence': (i + 1) * 10,
+                        'date': row.get('date', ''),
+                        'description': row.get('description', ''),
+                        'price': row.get('price', 0.0),
+                        'remark': row.get('remarks', ''),
+                        'vendor_reference': row.get('vendor_reference', ''),
+                        'mode_of_payment': row.get('mode_of_payment', ''),
+                    })
+
+    def action_bulk_assign_quotation_lines(self):
+        self.ensure_one()
+        selected = self.quotation_line_ids.filtered(lambda l: l.selected)
+        if not selected:
+            raise UserError("Please select at least one line first.")
+        bulk = self.env['project.quotation.bulk.wizard'].create({
+            'project_id': self.id,
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Bulk Assign',
+            'res_model': 'project.quotation.bulk.wizard',
+            'res_id': bulk.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
+
+
+    # @api.model_create_multi
+    # def create(self, vals_list):
+
+    #     for vals in vals_list:
+    #         if vals.get('name', 'New') == 'New' or not vals.get('proj_seq'):
+    #             vals['proj_seq'] = self.env['ir.sequence'].sudo().next_by_code('project.project.travel.seq') or 'New'
+
+    #     projects = super(Project, self).create(vals_list)
+
+    #     for project in projects:
+    #         if project.lead_id and project.lead_id.user_id:
+    #             project.user_id = project.lead_id.user_id
+    #         if not project.lead_id:
+    #             continue
+
+    #         stage_xmlids = [
+    #             'jt_travel.task_type_assigned',
+    #             'jt_travel.task_type_in_progress',
+    #             'jt_travel.task_type_processing',
+    #             'jt_travel.task_type_blocked',
+    #             'jt_travel.task_type_completed',
+    #             'jt_travel.task_type_booked',
+    #             'jt_travel.task_type_confirmed',
+    #         ]
+
+    #         stages = self.env['project.task.type']
+    #         for xmlid in stage_xmlids:
+    #             stage = self.env.ref(xmlid, raise_if_not_found=False)
+    #             if stage:
+    #                 stages |= stage
+
+    #         if stages:
+    #             stages.sudo().write({'project_ids': [(4, project.id)]})
+                
+    #     return projects
+    
     @api.model_create_multi
     def create(self, vals_list):
-
         for vals in vals_list:
             if vals.get('name', 'New') == 'New' or not vals.get('proj_seq'):
                 vals['proj_seq'] = self.env['ir.sequence'].sudo().next_by_code('project.project.travel.seq') or 'New'
@@ -168,8 +281,12 @@ class Project(models.Model):
         for project in projects:
             if project.lead_id and project.lead_id.user_id:
                 project.user_id = project.lead_id.user_id
+            
             if not project.lead_id:
                 continue
+
+            if project.lead_id:
+                project.action_load_confirmed_quotation_lines()
 
             stage_xmlids = [
                 'jt_travel.task_type_assigned',
@@ -191,8 +308,6 @@ class Project(models.Model):
                 stages.sudo().write({'project_ids': [(4, project.id)]})
                 
         return projects
-    
-
     
     
 

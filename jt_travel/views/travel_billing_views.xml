@@ -45,7 +45,7 @@
                         <group>
                             <field name="billing_type_name" invisible="1" readonly="is_readonly_for_accountant"/>
                             <field name="lead_id" invisible="1" required="1" readonly="is_readonly_for_accountant"/>
-                            <field name="lead_type_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="lead_type_id"  options="{'no_create': True, 'no_open': True}"/>
                             <field name="lead_type_name" invisible="1" readonly="is_readonly_for_accountant"/>
                             <field name="passenger_name" required="1" readonly="is_readonly_for_accountant"/>
                             <field name="vendor_id" readonly="is_readonly_for_accountant" required="1"/>

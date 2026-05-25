@@ -50,18 +50,14 @@
         #     "spreadsheet_oca/static/src/pivot/pivot_table.esm.js",
         # ],
         "spreadsheet.o_spreadsheet": [
-    "spreadsheet_oca/static/src/spreadsheet/bundle/spreadsheet.xml",
-    "spreadsheet_oca/static/src/spreadsheet/bundle/image_file_store.esm.js",
-    # removed: filter.esm.js
-    # removed: odoo_panels.esm.js
-    "spreadsheet_oca/static/src/spreadsheet/bundle/filter_panel_datasources.esm.js",
-    "spreadsheet_oca/static/src/spreadsheet/bundle/spreadsheet_renderer.esm.js",
-    "spreadsheet_oca/static/src/spreadsheet/bundle/spreadsheet_controlpanel.esm.js",
-    "spreadsheet_oca/static/src/spreadsheet/bundle/spreadsheet_action.esm.js",
-    # removed: chart_panels.esm.js
-    # removed: chart_panel.esm.js
-    "spreadsheet_oca/static/src/spreadsheet/utils/dynamic_generators.esm.js",
-    "spreadsheet_oca/static/src/pivot/pivot_table.esm.js",
-],
+            "spreadsheet_oca/static/src/spreadsheet/bundle/spreadsheet.xml",
+            "spreadsheet_oca/static/src/spreadsheet/bundle/image_file_store.esm.js",
+            "spreadsheet_oca/static/src/spreadsheet/bundle/filter_panel_datasources.esm.js",
+            "spreadsheet_oca/static/src/spreadsheet/bundle/spreadsheet_renderer.esm.js",
+            "spreadsheet_oca/static/src/spreadsheet/bundle/spreadsheet_controlpanel.esm.js",
+            "spreadsheet_oca/static/src/spreadsheet/bundle/spreadsheet_action.esm.js",
+            "spreadsheet_oca/static/src/spreadsheet/utils/dynamic_generators.esm.js",
+            "spreadsheet_oca/static/src/pivot/pivot_table.esm.js",
+        ],
     },
 }

@@ -16,15 +16,6 @@
 	            <sheet>
 				<field name="is_only_assignee" invisible="1"/>
 
-				<!-- <div class="oe_button_box" name="button_box">
-					<button name="action_view_tasks"
-							type="object"
-							class="oe_stat_button"
-							icon="fa-tasks"
-							invisible="not has_project">
-						<field name="task_count" widget="statinfo" string="Tasks"/>
-					</button>
-				</div> -->
 				<div class="oe_title">
 					<h1>
 						<field name="name" readonly="1"/>

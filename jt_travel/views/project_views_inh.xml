@@ -21,14 +21,11 @@
     <field name="arch" type="xml">
         <xpath expr="//group//group//field[@name='company_id']" position="after">
             <field name="package_name"/>
+            <field name="destination"/>
             <field name="number_of_passengers"/>
-            
-            
         </xpath>
 
         <xpath expr="//field[@name='date']" position="after">
-            <field name="destination"/>
-            
             <label for="travel_date_from" string="Travel Date from"/>
             <div class="o_row">
                 <field name="travel_date_from" nolabel="1" class="oe_inline" placeholder="From" widget="custom_datetime"/>
@@ -39,7 +36,7 @@
             
             <field name="lead_currency_id" invisible="1"/>
             <field name="client_price" widget="monetary" options="{'currency_field': 'lead_currency_id'}"/>
-            <field name="advance_payment" widget="monetary" options="{'currency_field': 'lead_currency_id'}"/>
+            <field name="advance_payment" widget="monetary" options="{'currency_field': 'lead_currency_id'}"/>            
         </xpath>
 
 
@@ -60,21 +57,65 @@
             </button>
         </xpath>
 
+
+        <xpath expr="//header" position="inside">
+            <button name="action_bulk_assign_quotation_lines"
+                    type="object"
+                    string="Bulk Assign"
+                    class="btn btn-secondary"
+                    icon="fa-users"/>
+        </xpath>
+
+
+       <xpath expr="//sheet" position="inside">
+            <notebook>
+                <page string="Quotation Lines" name="quotation_lines_page">
+                    <field name="quotation_line_ids" nolabel="1">
+                        <list editable="bottom" class="o_list_bordered">
+                            <field name="available_assignee_ids" column_invisible="1"/>
+                            <field name="selected" string="✓" widget="boolean_toggle"/>
+                            <field name="date"/>
+                            <field name="description"/>
+                            <field name="price"/>
+                            <field name="vendor_reference"/>
+                            <field name="mode_of_payment"/>
+                            <field name="remark"/>
+                            <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="assignee_ids" widget="many2many_tags"
+                                   domain="[('id', 'in', available_assignee_ids)]"
+                                   options="{'no_create': True}"/>
+                            <field name="stage_id" options="{'no_create': True, 'no_open': True}"/>
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </xpath>
         
         <xpath expr="//group[@name='group_tasks_managment']" position="replace"/>
+        <xpath expr="//button[contains(@name,'action_view_tasks')]" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
         <xpath expr="//field[@name='alias_id']" position="replace"/>
         <xpath expr="//field[@name='date_start']" position="replace"/>
         <xpath expr="//label[@for='alias_name']" position="replace"/>
         <xpath expr="//field[@name='alias_email']" position="replace"/>
         <xpath expr="//div[hasclass('d-inline-flex')]" position="replace"/>
         <xpath expr="//field[@name='alias_contact']" position="replace"/>
+        <xpath expr="//page[@name='description']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//page[@name='settings']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
         </field>
 </record>
 
 <record id="project.project_kanban_view_group_stage" model="ir.ui.view">
     <field name="active" eval="False"/>
 </record>
-
+<record id="project.menu_project_management" model="ir.ui.menu">
+    <field name="active" eval="False"/>
+</record>
 
 <record id="project_kanban_hide_status_dot" model="ir.ui.view">
     <field name="name">project.project.kanban.hide.status</field>
@@ -186,6 +227,5 @@
 <record id="project.open_view_project_all" model="ir.actions.act_window">
     <field name="view_mode">list,kanban,calendar,form</field>
 </record>
-
 
 </odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_quotation_bulk_wizard_form" model="ir.ui.view">
+        <field name="name">project.quotation.bulk.wizard.form</field>
+        <field name="model">project.quotation.bulk.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Assign">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Applying to <field name="selected_count" readonly="1" class="oe_inline"/> selected line(s).
+                    </div>
+                    <group>
+                        <field name="available_assignee_ids" invisible="1"/>
+                        <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="assignee_ids" widget="many2many_tags"
+                               domain="[('id', 'in', available_assignee_ids)]"
+                               options="{'no_create': True}"/>
+                        <field name="stage_id" options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_apply" type="object" string="Apply" class="btn btn-primary"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

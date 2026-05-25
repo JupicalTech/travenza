@@ -19,7 +19,10 @@ export class CustomDateTimeField extends DateTimeField {
 
     setup() {
         const getPickerProps = () => {
-            const value = this.getRecordValue();
+            const rawValue = this.getRecordValue();
+            const value = Array.isArray(rawValue)
+                ? rawValue.map(v => v ?? false)
+                : (rawValue ?? false);
             const pickerProps = {
                 value,
                 type: this.props.showTime ? "datetime" : "date",
@@ -102,12 +105,13 @@ export class CustomDateTimeField extends DateTimeField {
                 } else {
                     return;
                 }
-                const lux = this.values?.[valueIndex];
+                if (!this.values) return;
+                const lux = this.values[valueIndex];
                 if (!lux) return;
                 const correct = this.props.showTime && this.field.type !== "date"
                     ? formatDateTime(lux)
                     : lux.toFormat("dd/MM/yyyy");
-                if (correct && inputEl.value && inputEl.value !== correct) {
+                if (correct && inputEl && inputEl.value && inputEl.value !== correct) {
                     inputEl.value = correct;
                 }
             };
@@ -117,7 +121,7 @@ export class CustomDateTimeField extends DateTimeField {
     }
 
     getFormattedValue(valueIndex) {
-        const value = this.values[valueIndex];
+        const value = this.values?.[valueIndex];
         if (!value) return "";
         if (this.props.showTime && this.field.type !== "date") {
             return formatDateTime(value);
@@ -126,7 +130,7 @@ export class CustomDateTimeField extends DateTimeField {
     }
 
     get formattedValue() {
-        const value = this.values[0];
+        const value = this.values?.[0];
         if (!value) return "";
         if (this.props.showTime && this.field.type !== "date") {
             return formatDateTime(value);

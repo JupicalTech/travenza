@@ -34,10 +34,9 @@ class TravelBilling(models.Model):
 
     name = fields.Char(string="Sr. No", copy=False, default='New')
     lead_id = fields.Many2one('crm.lead', string="Lead", ondelete='cascade')
-    lead_type_id = fields.Many2one('lead.type', related='lead_id.lead_type_id', store=True, string="Lead Type", tracking=True)
-    lead_type_name = fields.Char(related='lead_type_id.name', string="Type Name", tracking=True)
+    lead_type_id = fields.Many2one('lead.type', string="Lead Type", store=True, tracking=True)
+    lead_type_name = fields.Char(related='lead_type_id.name', string="Type Name", tracking=True, store=True)
     date_submitted = fields.Datetime(string="Submitted On")
-
     state = fields.Selection([
         ('draft', 'Draft'),
         ('submitted', 'Submitted'),
@@ -117,6 +116,11 @@ class TravelBilling(models.Model):
         string="Readonly for Accountant"
     )
 
+
+    @api.onchange('lead_type_id')
+    def _onchange_billing_lead_type_id(self):
+        if self.lead_type_id:
+            self.billing_type_name = self.lead_type_id.name
             
     @api.model
     def default_get(self, fields_list):
@@ -149,6 +153,11 @@ class TravelBilling(models.Model):
         for vals in vals_list:
             if vals.get('name', 'New') == 'New':
                 vals['name'] = self.env['ir.sequence'].sudo().next_by_code('travel.billing.seq') or 'New'
+            if not vals.get('lead_type_id') and vals.get('lead_id'):
+                lead = self.env['crm.lead'].browse(vals['lead_id'])
+                if lead.lead_type_id:
+                    vals['lead_type_id'] = lead.lead_type_id.id
+                    vals.setdefault('billing_type_name', lead.lead_type_id.name)
 
             if vals.get('state', 'draft') != 'draft':
                 if not vals.get('net_cost') or vals.get('net_cost', 0) <= 0:

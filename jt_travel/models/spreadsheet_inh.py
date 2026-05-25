@@ -23,7 +23,7 @@
 import base64
 import json
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 try:
     import openpyxl
@@ -80,6 +80,31 @@ class SpreadsheetSpreadsheet(models.Model):
     @api.onchange('lead_type_id')
     def _onchange_lead_type_id(self):
         self.assignee_ids = [(5, 0, 0)]
+
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'is_done' in vals and vals['is_done']:
+            for rec in self:
+                if rec.lead_id:
+                    project = self.env['project.project'].search([
+                        ('lead_id', '=', rec.lead_id.id)
+                    ], limit=1)
+                    if project:
+                        project._sync_confirmed_quotation_lines()
+        return res
+
+    @api.constrains('is_done', 'lead_id')
+    def _check_single_confirmed_per_lead(self):
+        for rec in self:
+            if rec.is_done and rec.lead_id:
+                others = self.search([
+                    ('lead_id', '=', rec.lead_id.id),
+                    ('is_done', '=', True),
+                    ('id', '!=', rec.id),
+                ])
+                if others:
+                    raise ValidationError("Only one confirmed quotation is allowed per lead.")
 
     def open_spreadsheet(self):
         action = super().open_spreadsheet()
@@ -170,7 +195,7 @@ class SpreadsheetSpreadsheet(models.Model):
             raise UserError("The spreadsheet appears to be empty.")
 
         header_row = None
-        date_col = desc_col = remarks_col = price_col = None
+        date_col = desc_col = remarks_col = price_col = vendor_ref_col = mode_of_payment_col = None
         for row_num in sorted(cell_map.keys()):
             row_cells = cell_map[row_num]
             found_desc = False
@@ -185,6 +210,10 @@ class SpreadsheetSpreadsheet(models.Model):
                     remarks_col = col
                 elif lower in ('price', 'amount', 'cost'):
                     price_col = col
+                elif lower in ('vendor reference', 'vendor ref', 'vendor_reference', 'vendor_ref'):
+                    vendor_ref_col = col
+                elif lower in ('mode of payment', 'payment mode', 'mode_of_payment', 'payment_mode'):
+                    mode_of_payment_col = col
             if found_desc:
                 header_row = row_num
                 break
@@ -210,6 +239,8 @@ class SpreadsheetSpreadsheet(models.Model):
                 'description': row_cells.get(desc_col, ''),
                 'remarks': row_cells.get(remarks_col, '') if remarks_col else '',
                 'price': _to_float(row_cells.get(price_col, '')) if price_col else 0.0,
+                'vendor_reference': row_cells.get(vendor_ref_col, '') if vendor_ref_col else '',
+                'mode_of_payment': row_cells.get(mode_of_payment_col, '') if mode_of_payment_col else '',
             }
 
         last_date = ''

@@ -239,7 +239,7 @@
 
 
 
-    <menuitem
+    <!-- <menuitem
     id="crm_menu_my_tasks"
     name="My Tasks"
     parent="jt_travel.crm_menu_tasks"
@@ -251,7 +251,7 @@
     name="All Tasks"
     parent="jt_travel.crm_menu_tasks"
     action="jt_travel.jt_action_view_all_task"
-    sequence="2"/>
+    sequence="2"/> -->
 
 
 </odoo>

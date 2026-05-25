@@ -22,3 +22,4 @@
 ##############################################################################
 from . import project_wizard
 from . import spreadsheet_task_wizard
+from . import project_quotation_bulk_wizard
