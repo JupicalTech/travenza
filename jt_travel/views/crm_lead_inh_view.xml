@@ -393,7 +393,7 @@
 
 <menuitem id="sale.sale_menu_root" active="False"/>
 
-<menuitem id="account.menu_finance" active="True"/>
+<menuitem id="account.menu_finance" active="False"/>
 
 <menuitem id="utm.menu_link_tracker_root" active="False"/>
 
