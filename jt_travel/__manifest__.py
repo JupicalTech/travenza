@@ -29,7 +29,7 @@
     'maintainer': 'Jupical Technologies Pvt. Ltd.',
     'website': 'https://www.jupical.io',
     'license': 'LGPL-3',
-    'depends': ['base', 'crm', 'mail', 'project', 'sale_project', 'web_datetime_widget', 'sale', 'sale_crm','crm_iap_enrich', 'sales_team', 'spreadsheet_oca'],
+    'depends': ['base', 'crm', 'mail', 'project', 'sale_project', 'web_datetime_widget', 'sale', 'sale_crm','crm_iap_enrich', 'sales_team', 'spreadsheet_oca', 'spreadsheet'],
     'data': [
         'security/security_groups.xml',
         'security/ir_rules.xml',
@@ -59,11 +59,11 @@
 
     ],
     'assets': {
-        'web.assets_backend': [
-            'jt_travel/static/src/xml/template_inheritance.xml',
-            'jt_travel/static/src/css/priority_colors.css',
-        ],
-    },
+    'web.assets_backend': [
+        'jt_travel/static/src/xml/template_inheritance.xml',
+        'jt_travel/static/src/css/priority_colors.css',
+    ],
+},
     'application': True,
     'installable': True,
     'auto_install': False,

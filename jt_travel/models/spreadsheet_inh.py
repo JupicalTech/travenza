@@ -195,7 +195,7 @@ class SpreadsheetSpreadsheet(models.Model):
             raise UserError("The spreadsheet appears to be empty.")
 
         header_row = None
-        date_col = desc_col = remarks_col = price_col = vendor_ref_col = mode_of_payment_col = None
+        date_col = desc_col = remarks_col = price_col = booked_price_col = vendor_ref_col = mode_of_payment_col = None
         for row_num in sorted(cell_map.keys()):
             row_cells = cell_map[row_num]
             found_desc = False
@@ -210,6 +210,8 @@ class SpreadsheetSpreadsheet(models.Model):
                     remarks_col = col
                 elif lower in ('price', 'amount', 'cost'):
                     price_col = col
+                elif lower in ('booked price', 'booked_price', 'booked'):
+                    booked_price_col = col
                 elif lower in ('vendor reference', 'vendor ref', 'vendor_reference', 'vendor_ref'):
                     vendor_ref_col = col
                 elif lower in ('mode of payment', 'payment mode', 'mode_of_payment', 'payment_mode'):
@@ -239,6 +241,7 @@ class SpreadsheetSpreadsheet(models.Model):
                 'description': row_cells.get(desc_col, ''),
                 'remarks': row_cells.get(remarks_col, '') if remarks_col else '',
                 'price': _to_float(row_cells.get(price_col, '')) if price_col else 0.0,
+                'booked_price': _to_float(row_cells.get(booked_price_col, '')) if booked_price_col else 0.0,
                 'vendor_reference': row_cells.get(vendor_ref_col, '') if vendor_ref_col else '',
                 'mode_of_payment': row_cells.get(mode_of_payment_col, '') if mode_of_payment_col else '',
             }

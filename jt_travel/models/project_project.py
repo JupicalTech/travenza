@@ -179,7 +179,8 @@ class Project(models.Model):
                 'sequence': (i + 1) * 10,
                 'date': row.get('date', ''),
                 'description': row.get('description', ''),
-                'price': row.get('price', 0.0),
+                'price': row.get('price', 0.0), 
+                'booked_price': row.get('booked_price', 0.0),
                 'remark': row.get('remarks', ''),
                 'vendor_reference': row.get('vendor_reference', ''),
                 'mode_of_payment': row.get('mode_of_payment', ''),
@@ -210,6 +211,7 @@ class Project(models.Model):
                         'date': row.get('date', ''),
                         'description': row.get('description', ''),
                         'price': row.get('price', 0.0),
+                        'booked_price': row.get('booked_price', 0.0),
                         'remark': row.get('remarks', ''),
                         'vendor_reference': row.get('vendor_reference', ''),
                         'mode_of_payment': row.get('mode_of_payment', ''),
@@ -233,42 +235,6 @@ class Project(models.Model):
         }
 
 
-
-    # @api.model_create_multi
-    # def create(self, vals_list):
-
-    #     for vals in vals_list:
-    #         if vals.get('name', 'New') == 'New' or not vals.get('proj_seq'):
-    #             vals['proj_seq'] = self.env['ir.sequence'].sudo().next_by_code('project.project.travel.seq') or 'New'
-
-    #     projects = super(Project, self).create(vals_list)
-
-    #     for project in projects:
-    #         if project.lead_id and project.lead_id.user_id:
-    #             project.user_id = project.lead_id.user_id
-    #         if not project.lead_id:
-    #             continue
-
-    #         stage_xmlids = [
-    #             'jt_travel.task_type_assigned',
-    #             'jt_travel.task_type_in_progress',
-    #             'jt_travel.task_type_processing',
-    #             'jt_travel.task_type_blocked',
-    #             'jt_travel.task_type_completed',
-    #             'jt_travel.task_type_booked',
-    #             'jt_travel.task_type_confirmed',
-    #         ]
-
-    #         stages = self.env['project.task.type']
-    #         for xmlid in stage_xmlids:
-    #             stage = self.env.ref(xmlid, raise_if_not_found=False)
-    #             if stage:
-    #                 stages |= stage
-
-    #         if stages:
-    #             stages.sudo().write({'project_ids': [(4, project.id)]})
-                
-    #     return projects
     
     @api.model_create_multi
     def create(self, vals_list):

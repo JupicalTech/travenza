@@ -76,14 +76,15 @@
                             <field name="selected" string="✓" widget="boolean_toggle"/>
                             <field name="date"/>
                             <field name="description"/>
-                            <field name="price"/>
-                            <field name="vendor_reference"/>
-                            <field name="mode_of_payment"/>
-                            <field name="remark"/>
+                            <field name="price" string="Est. Price"/>
+                            <field name="booked_price"/>
                             <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="assignee_ids" widget="many2many_tags"
                                    domain="[('id', 'in', available_assignee_ids)]"
                                    options="{'no_create': True}"/>
+                            <field name="vendor_reference"/>
+                            <field name="mode_of_payment"/>
+                            <field name="remark"/>
                             <field name="stage_id" options="{'no_create': True, 'no_open': True}"/>
                         </list>
                     </field>
