@@ -148,7 +148,7 @@ export const customDateTimeField = {
         ...dateTimeField.extractProps({ attrs, options }, dynamicInfo),
         showTime: exprToBoolean(options.showTime ?? false),
     }),
-    supportedTypes: ["datetime"],
+    supportedTypes: ["datetime", "date"],
 };
 
 registry.category("fields").add("custom_datetime", customDateTimeField);

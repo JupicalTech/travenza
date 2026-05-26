@@ -30,7 +30,7 @@ class ProjectQuotationLine(models.Model):
     project_id = fields.Many2one('project.project', string="Project", ondelete='cascade')
     selected = fields.Boolean(string="Select", default=False)
     sequence = fields.Integer(default=10)
-    date = fields.Char(string="Date")
+    date = fields.Char(string="Date", tracking=True)
     description = fields.Char(string="Description")
     price = fields.Float(string="Est. Price", digits=(12, 2))
     booked_price = fields.Float(string="Booked Price", digits=(12, 2))

@@ -19,6 +19,15 @@
     <field name="model">project.project</field>
     <field name="inherit_id" ref="project.edit_project"/>
     <field name="arch" type="xml">
+
+    <xpath expr="//group//group//field[@name='label_tasks']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='user_id']" position="attributes">
+            <attribute name="tracking">1</attribute>
+        </xpath>
+
         <xpath expr="//group//group//field[@name='company_id']" position="after">
             <field name="package_name"/>
             <field name="destination"/>

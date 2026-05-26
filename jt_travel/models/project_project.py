@@ -27,28 +27,30 @@ class Project(models.Model):
     _inherit = 'project.project'
 
     proj_seq = fields.Char(string="Reference", copy=False, default='New')
-    package_name = fields.Char("Package Name")
+    package_name = fields.Char("Package Name", tracking=True)
     number_of_passengers = fields.Html("Number of Passengers")
-    destination = fields.Char("Destination")
-    travel_date_from = fields.Date("Travel Date From")
-    travel_date_to = fields.Date("Travel Date To")
-    client_price = fields.Monetary("Client Selling Price", currency_field='lead_currency_id')
-    advance_payment = fields.Monetary("Advance / Payment Received", currency_field='lead_currency_id')
+    destination = fields.Char("Destination",tracking=True)
+    travel_date_from = fields.Date("Travel Date From",tracking=True)
+    travel_date_to = fields.Date("Travel Date To",tracking=True)
+    client_price = fields.Monetary("Client Selling Price", currency_field='lead_currency_id',tracking=True)
+    advance_payment = fields.Monetary("Advance / Payment Received", currency_field='lead_currency_id',tracking=True)
 
-    lead_id = fields.Many2one('crm.lead', string="Lead")
-    task_ids = fields.Many2many('project.task','project_task_rel',  'project_id','task_id',string="Tasks")
-    document_count = fields.Integer(compute="_compute_document_count")
-    lead_currency_id = fields.Many2one('res.currency', string="Currency", default=lambda self: self.env.company.currency_id,)
+    lead_id = fields.Many2one('crm.lead', string="Lead",tracking=True)
+    task_ids = fields.Many2many('project.task','project_task_rel',  'project_id','task_id',string="Tasks",tracking=True)
+    document_count = fields.Integer(compute="_compute_document_count",tracking=True)
+    lead_currency_id = fields.Many2one('res.currency', string="Currency", default=lambda self: self.env.company.currency_id,tracking=True)
     lead_type_name = fields.Char(
         related='lead_id.lead_type_id.name', 
         string="Lead Type", 
-        store=True
+        store=True,
+        tracking=True
     )
  
     spreadsheet_ids = fields.One2many(
         'spreadsheet.spreadsheet',
         'project_id',
         string="Spreadsheets",
+        tracking=True
     )
     spreadsheet_count = fields.Integer(compute='_compute_spreadsheet_count',string="Spreadsheets")
 
