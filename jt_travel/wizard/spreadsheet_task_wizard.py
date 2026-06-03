@@ -148,7 +148,7 @@ class SpreadsheetTaskWizard(models.Model):
             tasks_created |= self.env['project.task'].sudo().create(task_vals)
 
         lines_to_create.sudo().write({'already_exists': True})
-
+        
         all_project_task_ids = self.env['project.task'].sudo().search([
             ('project_id', '=', project.id)
         ]).ids

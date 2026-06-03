@@ -380,17 +380,18 @@ class CrmLead(models.Model):
                 check_won = self.env['crm.stage'].browse(vals['stage_id']).is_won
             else:
                 check_won = True
- 
+
             if check_won:
                 for rec in self:
                     if rec.is_project_type:
                         continue
                     if self.env['travel.billing'].search_count([('lead_id', '=', rec.id)]) == 0:
                         raise UserError("There's no billing form created for this lead. Please create one before marking as Won.")
- 
-        
+
         old_teams = {rec.id: rec.lead_type_id.team_ids for rec in self} if 'lead_type_id' in vals else {}
+        old_sub_assignees = {rec.id: set(rec.sub_assignee_ids.ids) for rec in self} if 'sub_assignee_ids' in vals else {}
         result = super().write(vals)
+
         if 'lead_type_id' in vals:
             for rec in self:
                 old_team_set = old_teams.get(rec.id, self.env['travel.team'])
@@ -410,23 +411,42 @@ class CrmLead(models.Model):
                         if team.team_leader_id:
                             partners_to_add.add(team.team_leader_id.partner_id.id)
 
-
                     rec_s = rec.sudo()
                     protected = {rec_s.create_uid.partner_id.id, rec_s.user_id.partner_id.id, self.env.user.partner_id.id}
                     protected.discard(False)
- 
+
                     to_remove = list((partners_to_remove - partners_to_add) - protected)
                     to_add = list(partners_to_add)
- 
+
                     if to_remove:
                         rec.message_unsubscribe(partner_ids=to_remove)
                     if to_add:
                         rec.message_subscribe(partner_ids=to_add)
- 
+
+        if 'sub_assignee_ids' in vals:
+            for rec in self:
+                old_ids = old_sub_assignees.get(rec.id, set())
+                newly_added = set(rec.sub_assignee_ids.ids) - old_ids
+                if newly_added:
+                    new_users = self.env['res.users'].browse(list(newly_added))
+                    partner_ids = new_users.mapped('partner_id').ids
+                    if partner_ids:
+                        self.env['mail.message'].sudo().create({
+                            'message_type': 'user_notification',
+                            'subtype_id': self.env.ref('mail.mt_note').id,
+                            'subject': f"You have been assigned to a Lead: {rec.name or 'N/A'}",
+                            'body': f"You have been added as a sub-assignee in lead: {rec.name or 'N/A'}",
+                            'partner_ids': [(6, 0, partner_ids)],
+                            'res_id': rec.id,
+                            'model': rec._name,
+                            'author_id': self.env.user.partner_id.id,
+                            'notification_ids': [(0, 0, {
+                                'res_partner_id': pid,
+                                'notification_type': 'inbox',
+                            }) for pid in partner_ids],
+                        })
+
         return result
-
-
-
         
 
     def _compute_document_count(self):

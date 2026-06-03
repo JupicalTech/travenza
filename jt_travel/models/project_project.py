@@ -119,7 +119,40 @@ class Project(models.Model):
             else:
                 rec.display_name = name
 
-    
+    def write(self, vals):
+        old_assignees = {}
+        if 'quotation_line_ids' in vals:
+            for rec in self:
+                old_assignees[rec.id] = {
+                    line.id: line.assignee_ids.ids
+                    for line in rec.quotation_line_ids
+                }
+        res = super().write(vals)
+        if 'quotation_line_ids' in vals:
+            for rec in self:
+                for line in rec.quotation_line_ids:
+                    old_ids = old_assignees.get(rec.id, {}).get(line.id, [])
+                    new_ids = line.assignee_ids.ids
+                    newly_added = set(new_ids) - set(old_ids)
+                    if newly_added:
+                        new_users = self.env['res.users'].browse(list(newly_added))
+                        partner_ids = new_users.mapped('partner_id').ids
+                        if partner_ids:
+                            self.env['mail.message'].sudo().create({
+                                'message_type': 'user_notification',
+                                'subtype_id': self.env.ref('mail.mt_note').id,
+                                'subject': f"Task Assigned: {line.description or 'N/A'}",
+                                'body': f"You have been assigned a task in {rec.name or 'N/A'} for {line.lead_type_id.name if line.lead_type_id else 'N/A'}",
+                                'partner_ids': [(6, 0, partner_ids)],
+                                'res_id': rec.id,
+                                'model': rec._name,
+                                'author_id': self.env.user.partner_id.id,
+                                'notification_ids': [(0, 0, {
+                                    'res_partner_id': pid,
+                                    'notification_type': 'inbox',
+                                }) for pid in partner_ids],
+                            })
+        return res
 
     @api.depends('task_ids')
     def _compute_document_count(self):

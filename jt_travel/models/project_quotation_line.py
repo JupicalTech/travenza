@@ -64,6 +64,9 @@ class ProjectQuotationLine(models.Model):
         ])]
     )
 
+
+    
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -73,7 +76,7 @@ class ProjectQuotationLine(models.Model):
                 )
                 vals['sequence'] = max_seq + 10
         return super().create(vals_list)
-    
+  
 
     @api.depends('lead_type_id')
     def _compute_available_assignee_ids(self):
