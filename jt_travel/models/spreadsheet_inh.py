@@ -176,12 +176,22 @@ class SpreadsheetSpreadsheet(models.Model):
             raise UserError("No sheets found. Please open the spreadsheet via Edit, make any change, then try again.")
 
         cells = sheets[0].get('cells', {})
+        # print("SAMPLE CELLS:", dict(list(cells.items())[:5]))
+        # def get_cell_content(cell):
+        #     if isinstance(cell, dict):
+        #         return str(cell.get('content', '') or '').strip()
+        #     elif isinstance(cell, str):
+        #         return cell.strip()
+        #     return ''
 
         def get_cell_content(cell):
             if isinstance(cell, dict):
-                return str(cell.get('content', '') or '').strip()
+                value = cell.get('content', '') or cell.get('value', '') or ''
+                return str(value).strip()
             elif isinstance(cell, str):
                 return cell.strip()
+            elif isinstance(cell, (int, float)):
+                return str(cell)
             return ''
 
         cell_map = {}

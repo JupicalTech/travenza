@@ -166,8 +166,8 @@
     <field name="arch" type="xml">
 
         <xpath expr="//search/field[1]" position="before">
-            <field name="destination" string="Destination" filter_domain="[('destination', 'ilike', self)]"/>
             <field name="partner_id" string="Client Name"/>
+            <field name="destination" string="Destination" filter_domain="[('destination', 'ilike', self)]"/>
             <field name="user_id" string="Employee Owner"/>
         </xpath>
 
