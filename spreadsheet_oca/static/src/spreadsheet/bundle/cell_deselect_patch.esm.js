@@ -197,10 +197,6 @@ patch(Grid.prototype, {
 });
 
 
-console.log("cellMenuRegistry:", cellMenuRegistry);
-console.log("cellMenuRegistry keys:", Object.getOwnPropertyNames(cellMenuRegistry));
-
-
 cellMenuRegistry.content["convert_to_number"] = {
     name: "Convert to Number",
     sequence: 200,
@@ -213,10 +209,10 @@ cellMenuRegistry.content["convert_to_number"] = {
                 for (let col = zone.left; col <= zone.right; col++) {
                     const cell = env.model.getters.getCell({sheetId, col, row});
                     const cellContent = env.model.getters.getCellText ? env.model.getters.getCellText({sheetId, col, row}) : null;
-                    console.log("CELL:", col, row, cell, "TEXT:", cellContent);
+                   
                     if (cell || cellContent) {
                         const v = (cellContent || cell?.content || "").trim().replace(/,/g, "");
-                        console.log("CONTENT:", v, "isNum:", !isNaN(Number(v)));
+                       
                         if (v !== "" && !isNaN(Number(v))) {
                             env.model.dispatch("UPDATE_CELL", {
                                 sheetId,

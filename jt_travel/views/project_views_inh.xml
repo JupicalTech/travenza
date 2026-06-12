@@ -82,11 +82,13 @@
                     <field name="quotation_line_ids" nolabel="1">
                         <list editable="bottom" class="o_list_bordered">
                             <field name="available_assignee_ids" column_invisible="1"/>
+                             <field name="sequence" widget="handle"/>
                             <field name="selected" string="✓" widget="boolean_toggle"/>
+                           
                             <field name="date"/>
                             <field name="description"/>
-                            <field name="price" string="Est. Price"/>
-                            <field name="booked_price"/>
+                            <field name="price" string="Est. Price" widget="integer" sum="Total"/>
+                            <field name="booked_price" widget="integer" sum="Total"/>
                             <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="assignee_ids" widget="many2many_tags"
                                    domain="[('id', 'in', available_assignee_ids)]"
