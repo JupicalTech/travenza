@@ -27,3 +27,16 @@ div.o_priority.jt_stars_red .o_priority_star.fa-star {
     color: #000000;
     font-size: 0.75rem;
 }
+
+
+.o_data_row td.jt-wrap-description,
+.o_data_row td.jt-wrap-description .o_field_widget,
+.o_data_row td.jt-wrap-description span,
+.o_data_row td.jt-wrap-description input {
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    min-width: 220px;
+    max-width: 350px;
+}

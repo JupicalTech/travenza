@@ -86,7 +86,7 @@
                             <field name="selected" string="✓" widget="boolean_toggle"/>
                            
                             <field name="date"/>
-                            <field name="description"/>
+                            <field name="description" class="jt-wrap-description"/>
                             <field name="price" string="Est. Price" widget="integer" sum="Total"/>
                             <field name="booked_price" widget="integer" sum="Total"/>
                             <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
