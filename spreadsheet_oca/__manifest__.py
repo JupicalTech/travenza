@@ -51,7 +51,7 @@
         # ],
         "spreadsheet.o_spreadsheet": [
             "spreadsheet_oca/static/src/spreadsheet/bundle/cell_deselect_patch.esm.js",
-            "spreadsheet_oca/static/src/spreadsheet/bundle/default_font_patch.esm.js",
+            # "spreadsheet_oca/static/src/spreadsheet/bundle/default_font_patch.esm.js",
             "spreadsheet_oca/static/src/spreadsheet/bundle/spreadsheet.xml",
             "spreadsheet_oca/static/src/spreadsheet/bundle/image_file_store.esm.js",
             "spreadsheet_oca/static/src/spreadsheet/bundle/filter_panel_datasources.esm.js",

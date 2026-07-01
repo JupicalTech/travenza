@@ -67,31 +67,19 @@
         </xpath>
 
 
-        <xpath expr="//header" position="inside">
-            <button name="action_bulk_assign_quotation_lines"
-                    type="object"
-                    string="Bulk Assign"
-                    class="btn btn-secondary"
-                    icon="fa-users"/>
-        </xpath>
-
-
        <xpath expr="//sheet" position="inside">
             <notebook>
                 <page string="Quotation Lines" name="quotation_lines_page">
                     <field name="quotation_line_ids" nolabel="1">
-                        <list editable="bottom" class="o_list_bordered">
+                        <list editable="bottom" class="o_list_bordered" create="0">
                             <field name="available_assignee_ids" column_invisible="1"/>
                              <field name="sequence" widget="handle"/>
-                            <field name="selected" string="✓" widget="boolean_toggle"/>
-                           
                             <field name="date"/>
                             <field name="description" class="jt-wrap-description"/>
                             <field name="price" string="Est. Price" widget="integer" sum="Total"/>
-                            <field name="booked_price" widget="integer" sum="Total"/>
-                            <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="booked_price" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
+                            <field name="currency_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="assignee_ids" widget="many2many_tags"
-                                   domain="[('id', 'in', available_assignee_ids)]"
                                    options="{'no_create': True}"/>
                             <field name="vendor_reference"/>
                             <field name="mode_of_payment"/>

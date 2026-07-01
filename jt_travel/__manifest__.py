@@ -1,30 +1,30 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Jupical Technologies Pvt. Ltd.
-#    Copyright (C) 2018-TODAY Jupical Technologies(<http://www.jupical.com>).
-#    Author: Jupical Technologies Pvt. Ltd.(<http://www.jupical.com>)
-#    you can modify it under the terms of the GNU LESSER
-#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
+#    Jupical Technologies Pvt. Ltd.
+#    Copyright (C) 2018-TODAY Jupical Technologies Pvt. Ltd.(<https://www.jupical.io>).
+#    Author: Jupical Technologies Pvt. Ltd.(<https://www.jupical.io>)
+#    you can modify it under the terms of the GNU LESSER
+#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
 #
-#    It is forbidden to publish, distribute, sublicense, or sell copies
-#    of the Software or modified copies of the Software.
+#    It is forbidden to publish, distribute, sublicense, or sell copies
+#    of the Software or modified copies of the Software.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
 #
-#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
-#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
-#    If not, see <http://www.gnu.org/licenses/>.
+#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
+#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
+#    If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 {
     'name': 'JT Travel',
     'summary': 'Comprehensive Travel CRM and Operations Management for Travenza Holidays',
     'description': 'A comprehensive ERP solution for managing travel inquiries, specialized holiday quotations, automated project creation for bookings, and document-linked billing processes.',
-    'version': '19.0.1.0.1',
+    'version': '19.0.1.0.2',
     'author': 'Jupical Technologies Pvt. Ltd.',
     'maintainer': 'Jupical Technologies Pvt. Ltd.',
     'website': 'https://www.jupical.io',

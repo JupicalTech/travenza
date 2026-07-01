@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Jupical Technologies Pvt. Ltd.
-#    Copyright (C) 2018-TODAY Jupical Technologies(<http://www.jupical.com>).
-#    Author: Jupical Technologies Pvt. Ltd.(<http://www.jupical.com>)
-#    you can modify it under the terms of the GNU LESSER
-#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
+#    Jupical Technologies Pvt. Ltd.
+#    Copyright (C) 2018-TODAY Jupical Technologies Pvt. Ltd.(<https://www.jupical.io>).
+#    Author: Jupical Technologies Pvt. Ltd.(<https://www.jupical.io>)
+#    you can modify it under the terms of the GNU LESSER
+#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
 #
-#    It is forbidden to publish, distribute, sublicense, or sell copies
-#    of the Software or modified copies of the Software.
+#    It is forbidden to publish, distribute, sublicense, or sell copies
+#    of the Software or modified copies of the Software.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
 #
-#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
-#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
-#    If not, see <http://www.gnu.org/licenses/>.
+#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
+#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
+#    If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 import base64
@@ -84,9 +84,9 @@ class SpreadsheetSpreadsheet(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        if 'is_done' in vals and vals['is_done']:
+        if ('is_done' in vals and vals['is_done']) or 'spreadsheet_binary_data' in vals:
             for rec in self:
-                if rec.lead_id:
+                if rec.is_done and rec.lead_id:
                     project = self.env['project.project'].search([
                         ('lead_id', '=', rec.lead_id.id)
                     ], limit=1)

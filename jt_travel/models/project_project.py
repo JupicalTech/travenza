@@ -1,25 +1,25 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Jupical Technologies Pvt. Ltd.
-#    Copyright (C) 2018-TODAY Jupical Technologies(<http://www.jupical.com>).
-#    Author: Jupical Technologies Pvt. Ltd.(<http://www.jupical.com>)
-#    you can modify it under the terms of the GNU LESSER
-#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
+#    Jupical Technologies Pvt. Ltd.
+#    Copyright (C) 2018-TODAY Jupical Technologies Pvt. Ltd.(<https://www.jupical.io>).
+#    Author: Jupical Technologies Pvt. Ltd.(<https://www.jupical.io>)
+#    you can modify it under the terms of the GNU LESSER
+#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
 #
-#    It is forbidden to publish, distribute, sublicense, or sell copies
-#    of the Software or modified copies of the Software.
+#    It is forbidden to publish, distribute, sublicense, or sell copies
+#    of the Software or modified copies of the Software.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
 #
-#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
-#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
-#    If not, see <http://www.gnu.org/licenses/>.
+#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
+#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
+#    If not, see <http://www.gnu.org/licenses/>.
 #
-#############################################################################
+##############################################################################
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 
@@ -231,45 +231,34 @@ class Project(models.Model):
             ], limit=1)
             if not confirmed:
                 continue
-            existing_descs = rec.quotation_line_ids.mapped('description')
-            max_seq = max(rec.quotation_line_ids.mapped('sequence') or [0])
             try:
                 rows = confirmed._parse_spreadsheet_rows()
             except Exception:
                 continue
-            counter = max_seq + 10
+            existing_lines = rec.quotation_line_ids.sorted('sequence')
             for i, row in enumerate(rows):
-                if row.get('description') and row['description'] not in existing_descs:
-                    self.env['project.quotation.line'].create({
+                desc = row.get('description')
+                if not desc:
+                    continue
+                vals = {
+                    'date': row.get('date', ''),
+                    'description': desc,
+                    'price': row.get('price', 0.0),
+                    'booked_price': row.get('booked_price', 0.0),
+                    'remark': row.get('remarks', ''),
+                    'vendor_reference': row.get('vendor_reference', ''),
+                    'mode_of_payment': row.get('mode_of_payment', ''),
+                }
+                if i < len(existing_lines):
+                    existing_lines[i].write(vals)
+                else:
+                    vals.update({
                         'project_id': rec.id,
                         'sequence': (i + 1) * 10,
-                        'date': row.get('date', ''),
-                        'description': row.get('description', ''),
-                        'price': row.get('price', 0.0),
-                        'booked_price': row.get('booked_price', 0.0),
-                        'remark': row.get('remarks', ''),
-                        'vendor_reference': row.get('vendor_reference', ''),
-                        'mode_of_payment': row.get('mode_of_payment', ''),
                     })
+                    self.env['project.quotation.line'].create(vals)
 
-    def action_bulk_assign_quotation_lines(self):
-        self.ensure_one()
-        selected = self.quotation_line_ids.filtered(lambda l: l.selected)
-        if not selected:
-            raise UserError("Please select at least one line first.")
-        bulk = self.env['project.quotation.bulk.wizard'].create({
-            'project_id': self.id,
-        })
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Bulk Assign',
-            'res_model': 'project.quotation.bulk.wizard',
-            'res_id': bulk.id,
-            'view_mode': 'form',
-            'target': 'new',
-        }
-
-
+    
     
     @api.model_create_multi
     def create(self, vals_list):
