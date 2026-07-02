@@ -24,7 +24,7 @@
     'name': 'JT Travel',
     'summary': 'Comprehensive Travel CRM and Operations Management for Travenza Holidays',
     'description': 'A comprehensive ERP solution for managing travel inquiries, specialized holiday quotations, automated project creation for bookings, and document-linked billing processes.',
-    'version': '19.0.1.0.2',
+    'version': '19.0.1.0.3',
     'author': 'Jupical Technologies Pvt. Ltd.',
     'maintainer': 'Jupical Technologies Pvt. Ltd.',
     'website': 'https://www.jupical.io',
@@ -61,6 +61,7 @@
     'assets': {
     'web.assets_backend': [
         'jt_travel/static/src/xml/template_inheritance.xml',
+        'jt_travel/static/src/js/activity_patch.js',
         'jt_travel/static/src/css/priority_colors.css',
     ],
 },

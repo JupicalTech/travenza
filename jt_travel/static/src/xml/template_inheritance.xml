@@ -27,4 +27,16 @@
         </attribute>
     </xpath>
     </t>
+
+
+
+    <t t-inherit="mail.Activity" t-inherit-mode="extension">
+    <xpath expr="//button[hasclass('o-mail-Activity-markDone')]" position="before">
+        <button class="btn btn-link text-action p-0 me-3" t-if="props.activity.is_visa_lead" t-on-click="onClickInProgress">
+            <i class="fa fa-hourglass-half"/> In Progress
+        </button>
+    </xpath>
+</t>
+
+
 </templates>

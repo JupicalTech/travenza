@@ -41,11 +41,25 @@ div.o_priority.jt_stars_red .o_priority_star.fa-star {
     max-width: 350px;
 }
 
-.o_list_bordered th[data-name="date"] .o_list_sortable_icon{
+/* .o_list_bordered th[data-name="date"] .o_list_sortable_icon{
     display: none !important;
 }
 
 .o_list_bordered th[data-name="date"]{
     pointer-events: none !important;
     cursor: default !important;
+} */
+
+.o_list_bordered th .o_list_sortable_icon{
+    display: none !important;
+}
+
+.o_list_bordered th{
+    pointer-events: none !important;
+    cursor: default !important;
+}
+
+.o_list_bordered th .o_resize{
+    pointer-events: auto !important;
+    cursor: col-resize !important;
 }

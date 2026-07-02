@@ -233,14 +233,6 @@ class CrmLead(models.Model):
         }
 
 
-    # @api.constrains('travel_date_from', 'travel_date_to')
-    # def _check_travel_dates(self):
-    #     for record in self:
-    #         if record.travel_date_to and not record.travel_date_from:
-    #             raise ValidationError("Please fill Travel Date From.")
-            
-    #         elif record.travel_date_from and not record.travel_date_to:
-    #             raise ValidationError("Please fill Travel Date To.")
 
     @api.depends('quotation_ids')
     def _compute_quotation_count(self):
@@ -273,12 +265,6 @@ class CrmLead(models.Model):
                     allowed_ids.update(team.member_ids.ids)
                     if team.team_leader_id:
                         allowed_ids.add(team.team_leader_id.id)
-            # if lead_type and lead_type.team_id:
-            #     team = lead_type.team_id.sudo()
-            #     if team.member_ids:
-            #         allowed_ids.update(team.member_ids.ids)
-            #     if team.team_leader_id:
-            #         allowed_ids.add(team.team_leader_id.id)
             
             rec.allowed_user_ids = [(6, 0, list(allowed_ids))]
 
@@ -635,3 +621,23 @@ class CrmLead(models.Model):
                     raise ValidationError(
                         "You cannot change the Lead Type because visa applications exist on this lead."
                     )
+                
+
+
+class MailActivity(models.Model):
+    _inherit = 'mail.activity'
+
+    is_visa_lead = fields.Boolean(compute='_compute_is_visa_lead')
+
+    @api.depends('res_model', 'res_id')
+    def _compute_is_visa_lead(self):
+        visa_type = self.env.ref('jt_travel.lead_type_visa_assistance', raise_if_not_found=False)
+        for rec in self:
+            rec.is_visa_lead = False
+            if visa_type and rec.res_model == 'crm.lead' and rec.res_id:
+                lead = self.env['crm.lead'].browse(rec.res_id).exists()
+                if lead and lead.lead_type_id.id == visa_type.id:
+                    rec.is_visa_lead = True
+
+    def _to_store_defaults(self, target):
+        return super()._to_store_defaults(target) + ['is_visa_lead']
