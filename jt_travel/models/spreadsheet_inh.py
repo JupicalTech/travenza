@@ -218,9 +218,9 @@ class SpreadsheetSpreadsheet(models.Model):
                     date_col = col
                 elif lower in ('remarks', 'remark'):
                     remarks_col = col
-                elif lower in ('price', 'amount', 'cost'):
+                elif lower in ('price', 'amount', 'cost', 'est price', 'est. price'):
                     price_col = col
-                elif lower in ('booked price', 'booked_price', 'booked'):
+                elif lower in ('booked price', 'booked_price', 'booked', 'booking price'):
                     booked_price_col = col
                 elif lower in ('vendor reference', 'vendor ref', 'vendor_reference', 'vendor_ref'):
                     vendor_ref_col = col
