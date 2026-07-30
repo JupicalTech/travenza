@@ -14,7 +14,7 @@
         </xpath>
 
 
-        <xpath expr="//header" position="inside">
+        <!-- <xpath expr="//header" position="inside">
            <field name="is_project_created" invisible="1"/>
             <button name="action_open_project_wizard"
                 type="object"
@@ -39,13 +39,21 @@
                     icon="fa-table"
                     groups="spreadsheet_oca.group_user"
                     invisible="won_status == 'won'"/>
-            <!-- <button name="action_upload_spreadsheet"
-                    type="object"
-                    string="Upload Spreadsheet"
-                    class="btn btn-secondary"
-                    icon="fa-upload"
-                    groups="spreadsheet_oca.group_user"/> -->
+        
+        </xpath> -->
 
+
+        <xpath expr="//header" position="inside">
+            <button name="action_create_billing" 
+                        string="Create Bill" 
+                        type="object" 
+                        class="oe_highlight" 
+                        invisible="not is_in_process"/>
+            <button name="action_create_visa_application" 
+                    string="Create Visa Application" 
+                    type="object" 
+                    class="oe_highlight" 
+                    invisible="won_status != 'won' or lead_type_id != %(jt_travel.lead_type_visa_assistance)d" context="{'default_applicant_id': partner_id}"/>
         </xpath>
 
 
@@ -56,13 +64,8 @@
 
 
 
-        <xpath expr="//div[@name='button_box']" position="inside">
-            <!-- <button name="action_view_tasks"
-                    type="object"
-                    class="oe_stat_button"
-                    icon="fa-tasks">
-                <field name="task_count" widget="statinfo" string="Tasks"/>
-            </button> -->
+        <!-- <xpath expr="//div[@name='button_box']" position="inside">
+           
             <button name="action_view_projects"
                     type="object"
                     class="oe_stat_button"
@@ -82,12 +85,7 @@
                     icon="fa-paperclip">
                 <field name="document_count" widget="statinfo" string="Documents"/>
             </button>
-            <!-- <button name="action_open_travel_quotations"
-                    type="object"
-                    class="oe_stat_button"
-                    icon="fa-file-text-o">
-                <field name="quotation_count" widget="statinfo" string="Quotations"/>
-            </button> -->
+          
             <button name="action_view_visa_applications" 
                     type="object" 
                     class="oe_stat_button" 
@@ -105,7 +103,39 @@
             </button>
 
 
+        </xpath> -->
+
+
+        <xpath expr="//div[@name='button_box']" position="inside">
+                 <button name="action_view_billings" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-money">
+                    <field name="billing_count" widget="statinfo" string="Bills"/>
+                </button>
+            <button name="action_view_lead_documents"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-paperclip">
+                <field name="document_count" widget="statinfo" string="Documents"/>
+            </button>
+            <button name="action_view_visa_applications" 
+                    type="object" 
+                    class="oe_stat_button" 
+                    icon="fa-globe"
+                    invisible="visa_count == 0">
+                <field name="visa_count" widget="statinfo" string="Visa Applications"/>
+            </button>
+            <button name="action_view_external_links"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-link"
+                    invisible="not is_project_type">
+                <field name="external_link_count" widget="statinfo" string="External Links"/>
+            </button>
         </xpath>
+
+
 
         <xpath expr="//field[@name='company_currency']" position="replace">
             <field name="lead_currency_id" invisible="1"/>
@@ -138,12 +168,20 @@
             <field name="lead_currency_id"/>
         </xpath>
 
-        <xpath expr="//div[field[@name='date_deadline']]/field[@name='priority']" position="attributes">
+        <!-- <xpath expr="//div[field[@name='date_deadline']]/field[@name='priority']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
 
         <xpath expr="//div[field[@name='date_deadline']]" position="after">
             <field name="priority" widget="priority" string="Priority"/>
+        </xpath> -->
+
+        <xpath expr="//div[field[@name='date_deadline']]/field[@name='priority']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        <xpath expr="//div[field[@name='date_deadline']]" position="after">
+            <field name="proj_ref" string="Reference Number" readonly="1" invisible="not is_project_type"/>
         </xpath>
         <xpath expr="//field[@name='user_id']" position="replace"/>
 
@@ -173,9 +211,6 @@
 
         <xpath expr="//group" position="before">
             <separator/>
-            <!-- <filter string="My Pipeline" name="my_pipeline_with_sub"
-                    domain="['|', ('user_id', '=', uid), ('sub_assignee_ids', 'in', [uid])]"/>
-            <separator/> -->
             <filter string="Today" name="today" 
                     domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d')), 
                             ('create_date', '&lt;', (context_today() + relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
@@ -203,12 +238,6 @@
             <filter string="Employee Owner" name="group_by_user" context="{'group_by': 'user_id'}"/>
         </xpath>
 
-        <!-- <xpath expr="//filter[@name='assigned_to_me']" position="after">
-            <filter string="Assigned Quotations" 
-                    name="assigned_to_my_quotations" 
-                    domain="[('quotation_ids.assign_to_id', '=', uid)]"/>
-        </xpath> -->
-         
     </field>
 </record>
 
@@ -269,9 +298,10 @@
         <field name="arch" type="xml">
             
             <xpath expr="//list" position="attributes">
-                <attribute name="decoration-warning">priority == '1'</attribute>
+                <!-- <attribute name="decoration-warning">priority == '1'</attribute>
                 <attribute name="decoration-success">priority == '2'</attribute>
-                <attribute name="decoration-danger">priority == '3'</attribute>
+                <attribute name="decoration-danger">priority == '3'</attribute> -->
+                <attribute name="default_order">create_date desc</attribute>
             </xpath>
 
             <xpath expr="//field[@name='name']" position="before">
@@ -300,6 +330,10 @@
                  alt="Contact Avatar"/>
         </xpath>
 
+         <xpath expr="//field[@name='priority'][@widget='priority']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
 
         <xpath expr="//kanban//footer//field[@name='user_id']" position="replace">
             <div class="ms-auto d-flex align-items-center gap-1">
@@ -321,6 +355,14 @@
  
             <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='commercial_partner_id']]" position="replace"/>
  
+
+
+                <!-- <field name="partner_id" position="attributes">
+                    <attribute name="string">Contact Name</attribute>
+                    <attribute name="placeholder">Contact Name</attribute>
+                    <attribute name="domain">[('user_ids', '=', False)]</attribute>
+                </field>
+
             <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='partner_id']]" position="before">
                 <div class="d-flex align-items-center" colspan="2">
                     <i class="fa fa-briefcase" title="Lead Name"/>
@@ -348,16 +390,52 @@
                         class="o_field_highlight w-100 mb-0"
                         options="{'no_create': True, 'no_open': True}"/>
                 </div>
+            </xpath> -->
+
+
+            <field name="partner_id" position="attributes">
+                    <attribute name="string">Contact Name</attribute>
+                    <attribute name="placeholder">Contact Name</attribute>
+                    <attribute name="domain">[('user_ids', '=', False)]</attribute>
+            </field>
+
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='partner_id']]" position="before">
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-briefcase" title="Lead Name"/>
+                    <field name="name"
+                        string="File Name"
+                        placeholder="File Name"
+                        nolabel="1"
+                        class="o_field_highlight w-100 mb-0"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='name']][last()]" position="replace"/>
+
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='expected_revenue']]" position="replace"/>
+
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='recurring_revenue']]" position="replace"/>
+
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='partner_id']]" position="after">
+                <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='name']]" position="move"/>
+                <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='phone']]" position="move"/>
+                <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='email_from']]" position="move"/>
+            </xpath>
+
+            <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='email_from']]" position="after">
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-tag" title="Lead Type"/>
+                    <field name="lead_type_id"
+                        string="Lead Type"
+                        placeholder="Lead Type"
+                        nolabel="1"
+                        class="o_field_highlight w-100 mb-0"
+                        options="{'no_create': True, 'no_open': True}"/>
+                </div>
             </xpath>
  
             <xpath expr="//field[@name='user_id'][@invisible='1']" position="replace"/>
 
-
-                <field name="partner_id" position="attributes">
-                    <attribute name="string">Contact Name</attribute>
-                    <attribute name="placeholder">Contact Name</attribute>
-                    <attribute name="domain">[('user_ids', '=', False)]</attribute>
-                </field>
 
             <xpath expr="//div[contains(@class,'d-flex')][.//field[@name='lead_type_id']]" position="after">
                 <field name="allowed_user_ids" invisible="1"/>
@@ -393,7 +471,7 @@
 
 <menuitem id="sale.sale_menu_root" active="False"/>
 
-<menuitem id="account.menu_finance" active="False"/>
+<menuitem id="account.menu_finance" active="True"/>
 
 <menuitem id="utm.menu_link_tracker_root" active="False"/>
 

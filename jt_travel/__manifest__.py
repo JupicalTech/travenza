@@ -21,10 +21,10 @@
 #
 ##############################################################################
 {
-    'name': 'JT Travel',
+    'name': 'Travenza Holidays',
     'summary': 'Comprehensive Travel CRM and Operations Management for Travenza Holidays',
     'description': 'A comprehensive ERP solution for managing travel inquiries, specialized holiday quotations, automated project creation for bookings, and document-linked billing processes.',
-    'version': '19.0.1.0.4',
+    'version': '19.0.1.0.5',
     'author': 'Jupical Technologies Pvt. Ltd.',
     'maintainer': 'Jupical Technologies Pvt. Ltd.',
     'website': 'https://www.jupical.io',
@@ -38,24 +38,26 @@
         'data/ir_sequence_data.xml',
 
         'demo/lead_type_data.xml',
-        'demo/demo_tasks.xml',
-        'demo/demo_task_stages.xml',
+        # 'demo/demo_tasks.xml',
+        # 'demo/demo_task_stages.xml',
         'demo/crm_stages.xml',
         'demo/crm_tags.xml',
 
-        'wizard/project_wizard_view.xml',
-        'wizard/spreadsheet_task_wizard_view.xml',
-        'wizard/project_quotation_bulk_wizard_view.xml',
+        # 'wizard/project_wizard_view.xml',
+        # 'wizard/spreadsheet_task_wizard_view.xml',
+        # 'wizard/project_quotation_bulk_wizard_view.xml',
 
+        'wizard/billing_refund_wizard_view.xml',
         'views/lead_type_views.xml',
         'views/crm_lead_inh_view.xml',
         'views/travel_team_views.xml',
-        'views/project_views_inh.xml',
-        'views/task_views_inh.xml',
-        'views/travel_quotation_view.xml',
+        # 'views/project_views_inh.xml',
+        # 'views/task_views_inh.xml',
+        # 'views/travel_quotation_view.xml',
         'views/travel_billing_views.xml',
         'views/visa_application_view.xml',
-        'views/spreadsheet_inh_view.xml',
+        # 'views/spreadsheet_inh_view.xml',
+        'views/google_sheet_link_views.xml',
 
     ],
     'assets': {

@@ -45,7 +45,6 @@ class TravelVisaApplication(models.Model):
     _order = 'create_date desc, id desc'
 
     name = fields.Char(string="Reference", copy=False,default=lambda self: 'New')
-    # application_number = fields.Char(string="Application Number")
     application_date = fields.Date(string="Application Date")
     visa_expected_date = fields.Date(string="Visa Expected Date")
     travel_date = fields.Date(string="Travel Date")
@@ -53,23 +52,38 @@ class TravelVisaApplication(models.Model):
     destination = fields.Char(string="Destination")
     remark = fields.Text(string="Remark")
     lead_id = fields.Many2one('crm.lead', string="CRM Lead")
-    task_id = fields.Many2one('project.task', string="Project Task")
+    # task_id = fields.Many2one('project.task', string="Project Task")
     applicant_id = fields.Many2one('res.partner', string="Applicant")
-    # state = fields.Selection([
-    #     ('in_process', 'In Process'),
-    #     ('under_processing', 'Under Processing'),
-    #     ('approved', 'Approved'),
-    #     ('rejected', 'Rejected'),
-    # ], string="Status", default='in_process', tracking=True)
+   
     assignee_id = fields.Many2one('res.users', string="Assignee")
     contact_ids = fields.One2many('visa.application.contact', 'visa_application_id', string="Contacts")
     
+
+    # @api.model
+    # def default_get(self, fields_list):
+    #     defaults = super().default_get(fields_list)
+    #     lead_id = defaults.get('lead_id') or self.env.context.get('default_lead_id')
+    #     task_id = defaults.get('task_id') or self.env.context.get('default_task_id')
+    #     if lead_id:
+    #         lead = self.env['crm.lead'].browse(lead_id)
+    #         if 'applicant_id' in fields_list and not defaults.get('applicant_id'):
+    #             defaults['applicant_id'] = lead.partner_id.id if lead.partner_id else False
+    #         if 'destination' in fields_list and not defaults.get('destination'):
+    #             defaults['destination'] = lead.destination
+    #         if 'number_of_passengers' in fields_list and not defaults.get('number_of_passengers'):
+    #             defaults['number_of_passengers'] = lead.number_of_passengers
+    #         if 'assignee_id' in fields_list and not defaults.get('assignee_id'):
+    #             if task_id:
+    #                 task = self.env['project.task'].browse(task_id)
+    #                 if task.user_ids:
+    #                     defaults['assignee_id'] = task.user_ids[0].id
+    #             elif lead.user_id:
+    #                 defaults['assignee_id'] = lead.user_id.id
 
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
         lead_id = defaults.get('lead_id') or self.env.context.get('default_lead_id')
-        task_id = defaults.get('task_id') or self.env.context.get('default_task_id')
         if lead_id:
             lead = self.env['crm.lead'].browse(lead_id)
             if 'applicant_id' in fields_list and not defaults.get('applicant_id'):
@@ -79,11 +93,7 @@ class TravelVisaApplication(models.Model):
             if 'number_of_passengers' in fields_list and not defaults.get('number_of_passengers'):
                 defaults['number_of_passengers'] = lead.number_of_passengers
             if 'assignee_id' in fields_list and not defaults.get('assignee_id'):
-                if task_id:
-                    task = self.env['project.task'].browse(task_id)
-                    if task.user_ids:
-                        defaults['assignee_id'] = task.user_ids[0].id
-                elif lead.user_id:
+                if lead.user_id:
                     defaults['assignee_id'] = lead.user_id.id
             
             if lead_id:

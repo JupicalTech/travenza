@@ -13,14 +13,14 @@
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_travel_quotation_assignee" model="ir.rule">
+        <!-- <record id="rule_travel_quotation_assignee" model="ir.rule">
             <field name="name">Travel Quotation: Assigned User Access</field>
             <field name="model_id" ref="model_travel_quotation"/>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="domain_force">['|', '|', '|', ('assign_to_id', '=', user.id), ('lead_id.user_id', '=', user.id), ('create_uid', '=', user.id), ('lead_id.sub_assignee_ids', 'in', [user.id])]</field>
-        </record>
+        </record> -->
 
-        <record id="rule_crm_lead_via_quotation_assignee" model="ir.rule">
+        <!-- <record id="rule_crm_lead_via_quotation_assignee" model="ir.rule">
             <field name="name">CRM Lead: Access via Owner or Quotation</field>
             <field name="model_id" ref="crm.model_crm_lead"/>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
@@ -29,14 +29,14 @@
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
-        </record>
+        </record> -->
 
-        <record id="rule_travel_quotation_manager_all" model="ir.rule">
+        <!-- <record id="rule_travel_quotation_manager_all" model="ir.rule">
             <field name="name">Travel Quotation: Manager/Admin See All</field>
             <field name="model_id" ref="model_travel_quotation"/>
             <field name="groups" eval="[(4, ref('jt_travel.group_travenza_holidays_manager')), (4, ref('jt_travel.group_travenza_holidays_admin'))]"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-        </record>
+        </record> -->
 
         <record id="rule_crm_lead_sub_assignee" model="ir.rule">
             <field name="name">CRM Lead: Sub Assignee Access</field>
@@ -49,7 +49,7 @@
             <field name="perm_unlink" eval="False"/>
         </record>
         
-        <record id="rule_project_sub_assignee_full" model="ir.rule">
+        <!-- <record id="rule_project_sub_assignee_full" model="ir.rule">
             <field name="name">Project: Sub Assignee Full Access</field>
             <field name="model_id" ref="project.model_project_project"/>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
@@ -58,10 +58,10 @@
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="False"/>
-        </record>
+        </record> -->
 
         
-        <record id="rule_crm_lead_via_task_assignee" model="ir.rule">
+        <!-- <record id="rule_crm_lead_via_task_assignee" model="ir.rule">
             <field name="name">CRM Lead: Access via Task Assignee</field>
             <field name="model_id" ref="crm.model_crm_lead"/>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
@@ -70,7 +70,7 @@
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="False"/>
-        </record>
+        </record> -->
 
         <record id="rule_visa_application_assignee" model="ir.rule">
             <field name="name">Visa Application: Assignee Access</field>

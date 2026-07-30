@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_lead_external_link_list" model="ir.ui.view">
+        <field name="name">crm.lead.external.link.list</field>
+        <field name="model">crm.lead.external.link</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="date" widget="custom_datetime"/>
+                <field name="name"/>
+                <field name="url"/>
+                <button name="action_open_link" type="object" string="Open Link" class="btn btn-primary" icon="fa-external-link"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

@@ -40,96 +40,137 @@ class CrmLead(models.Model):
     client_price = fields.Float("Client Selling Price")
     advance_payment = fields.Float("Advance / Payment Received")
     priority = fields.Selection(default='1')
+    proj_ref = fields.Char(string="Reference Number", copy=False, readonly=True)
     lead_currency_id = fields.Many2one(
         'res.currency',
         string="Currency",
         default=lambda self: self.env['res.currency'].search([('name', '=', 'INR')], limit=1))
-    task_count = fields.Integer(compute="_compute_counts")
-    project_count = fields.Integer(compute="_compute_counts")
+    # task_count = fields.Integer(compute="_compute_counts")
+    # project_count = fields.Integer(compute="_compute_counts")
     number_of_passengers = fields.Html('Number of Passengers')
     client_category = fields.Selection([
     ('silver', 'Silver'),
     ('gold', 'Gold'),
     ('platinum', 'Platinum'),
     ], string='Client Category', default='silver')
+#     document_count = fields.Integer(compute="_compute_document_count")
+#     allowed_user_ids = fields.Many2many('res.users', compute='_compute_allowed_user_ids', compute_sudo=True)
+#     quotation_ids = fields.One2many('travel.quotation', 'lead_id', string="Travel Quotations")
+#     quotation_count = fields.Integer(string="Quotations", compute='_compute_quotation_count')
+#     billing_ids = fields.One2many('travel.billing', 'lead_id', string="Billing Forms")
+#     billing_count = fields.Integer(compute="_compute_billing_count", string="Billings")
+#     is_in_process = fields.Boolean(compute="_compute_is_in_process", string="Is In Process")
+#     is_project_created = fields.Boolean(compute="_compute_counts", string="Project Created")
+#     visa_application_ids = fields.One2many('travel.visa.application', 'lead_id', string="Visa Applications")
+#     visa_count = fields.Integer(compute='_compute_visa_count')
+
+#     # for record rule 
+#     project_ids = fields.One2many('project.project', 'lead_id', string="Projects")
+#     lead_task_ids = fields.One2many('project.task', 'lead_id', string="Tasks")
+#     sub_assignee_ids = fields.Many2many(
+#         'res.users',
+#         'crm_lead_sub_assignee_rel',
+#         'lead_id', 'user_id',
+#         string="Sub Assignees",
+#     )
+
+
+
+#     # spreadsheet ------------------------------------------------- 
+#     spreadsheet_ids = fields.One2many(
+#     'spreadsheet.spreadsheet',
+#     'lead_id',
+#     string="Spreadsheets",
+# )
+#     spreadsheet_count = fields.Integer(
+#         compute='_compute_spreadsheet_count',
+#         string="Spreadsheets",
+#     )
+
+#     @api.depends('spreadsheet_ids')
+#     def _compute_spreadsheet_count(self):
+#         for rec in self:
+#             rec.spreadsheet_count = len(rec.spreadsheet_ids)
+
+#     def action_view_spreadsheets(self):
+#         self.ensure_one()
+#         return {
+#             'type': 'ir.actions.act_window',
+#             'name': 'Quotations',
+#             'res_model': 'spreadsheet.spreadsheet',
+#             'view_mode': 'list,form',
+#             'domain': [('lead_id', '=', self.id)],
+#             'context': {
+#                 'default_lead_id': self.id,
+#                 'default_owner_id': self.env.user.id,
+#             },
+#         }
+
+
+#     def action_new_spreadsheet(self):
+#         self.ensure_one()
+#         return {
+#             'type': 'ir.actions.act_window',
+#             'name': 'Quotations',
+#             'res_model': 'spreadsheet.spreadsheet',
+#             'view_mode': 'list,form',
+#             'domain': [('lead_id', '=', self.id)],
+#             'context': {
+#                 'default_lead_id': self.id,
+#                 'default_owner_id': self.env.user.id,
+#             },
+#         }
+
+
+
+# #  spreadsheet over --------------------------------------------------------
+
+
     document_count = fields.Integer(compute="_compute_document_count")
     allowed_user_ids = fields.Many2many('res.users', compute='_compute_allowed_user_ids', compute_sudo=True)
-    quotation_ids = fields.One2many('travel.quotation', 'lead_id', string="Travel Quotations")
-    quotation_count = fields.Integer(string="Quotations", compute='_compute_quotation_count')
     billing_ids = fields.One2many('travel.billing', 'lead_id', string="Billing Forms")
     billing_count = fields.Integer(compute="_compute_billing_count", string="Billings")
     is_in_process = fields.Boolean(compute="_compute_is_in_process", string="Is In Process")
-    is_project_created = fields.Boolean(compute="_compute_counts", string="Project Created")
     visa_application_ids = fields.One2many('travel.visa.application', 'lead_id', string="Visa Applications")
     visa_count = fields.Integer(compute='_compute_visa_count')
-
-    # for record rule 
-    project_ids = fields.One2many('project.project', 'lead_id', string="Projects")
-    lead_task_ids = fields.One2many('project.task', 'lead_id', string="Tasks")
     sub_assignee_ids = fields.Many2many(
         'res.users',
         'crm_lead_sub_assignee_rel',
         'lead_id', 'user_id',
         string="Sub Assignees",
     )
+    external_link_ids = fields.One2many('crm.lead.external.link', 'lead_id', string="External Links")
+    external_link_count = fields.Integer(compute='_compute_external_link_count', string="External Links")
 
-
-
-    # spreadsheet ------------------------------------------------- 
-    spreadsheet_ids = fields.One2many(
-    'spreadsheet.spreadsheet',
-    'lead_id',
-    string="Spreadsheets",
-)
-    spreadsheet_count = fields.Integer(
-        compute='_compute_spreadsheet_count',
-        string="Spreadsheets",
-    )
-
-    @api.depends('spreadsheet_ids')
-    def _compute_spreadsheet_count(self):
+    @api.depends('external_link_ids')
+    def _compute_external_link_count(self):
         for rec in self:
-            rec.spreadsheet_count = len(rec.spreadsheet_ids)
+            rec.external_link_count = len(rec.external_link_ids)
 
-    def action_view_spreadsheets(self):
+    def action_view_external_links(self):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Quotations',
-            'res_model': 'spreadsheet.spreadsheet',
-            'view_mode': 'list,form',
+            'name': 'External Links',
+            'res_model': 'crm.lead.external.link',
+            'view_mode': 'list',
             'domain': [('lead_id', '=', self.id)],
-            'context': {
-                'default_lead_id': self.id,
-                'default_owner_id': self.env.user.id,
-            },
+            'context': {'default_lead_id': self.id},
         }
-
-
-    def action_new_spreadsheet(self):
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Quotations',
-            'res_model': 'spreadsheet.spreadsheet',
-            'view_mode': 'list,form',
-            'domain': [('lead_id', '=', self.id)],
-            'context': {
-                'default_lead_id': self.id,
-                'default_owner_id': self.env.user.id,
-            },
-        }
-
-
-
-#  spreadsheet over --------------------------------------------------------
     
+    # def _compute_visa_count(self):
+    #     for rec in self:
+    #         count = self.env['travel.visa.application'].search_count([
+    #             '|', 
+    #             ('lead_id', '=', rec.id), 
+    #             ('task_id.lead_id', '=', rec.id)
+    #         ])
+    #         rec.visa_count = count
+
     def _compute_visa_count(self):
         for rec in self:
             count = self.env['travel.visa.application'].search_count([
-                '|', 
-                ('lead_id', '=', rec.id), 
-                ('task_id.lead_id', '=', rec.id)
+                ('lead_id', '=', rec.id)
             ])
             rec.visa_count = count
 
@@ -167,15 +208,15 @@ class CrmLead(models.Model):
             else:
                 rec.is_in_process = rec.stage_id.name == 'In Process'
 
-    def _check_quotation_requirement(self):
-        for rec in self:
-            if rec.is_project_type:
-                if rec.quotation_count == 0:
-                    raise UserError("There's no travel quotation created for this project lead. Please create at least one quotation before marking as Won.")
-            else:
-                actual_billing_count = self.env['travel.billing'].search_count([('lead_id', '=', rec.id)])
-                if actual_billing_count == 0:
-                    raise UserError("There's no billing form created for this lead. Please create one before marking as Won.")
+    # def _check_quotation_requirement(self):
+    #     for rec in self:
+    #         if rec.is_project_type:
+    #             if rec.quotation_count == 0:
+    #                 raise UserError("There's no travel quotation created for this project lead. Please create at least one quotation before marking as Won.")
+    #         else:
+    #             actual_billing_count = self.env['travel.billing'].search_count([('lead_id', '=', rec.id)])
+    #             if actual_billing_count == 0:
+    #                 raise UserError("There's no billing form created for this lead. Please create one before marking as Won.")
 
 
     def action_create_billing(self):
@@ -221,6 +262,17 @@ class CrmLead(models.Model):
             'target': 'current',
         }
 
+    # def action_view_visa_applications(self):
+    #     self.ensure_one()
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': 'Visa Applications',
+    #         'res_model': 'travel.visa.application',
+    #         'view_mode': 'list,form',
+    #         'domain': ['|', ('lead_id', '=', self.id), ('task_id.lead_id', '=', self.id)],
+    #         'context': {'default_lead_id': self.id},
+    #     }
+
     def action_view_visa_applications(self):
         self.ensure_one()
         return {
@@ -228,27 +280,27 @@ class CrmLead(models.Model):
             'name': 'Visa Applications',
             'res_model': 'travel.visa.application',
             'view_mode': 'list,form',
-            'domain': ['|', ('lead_id', '=', self.id), ('task_id.lead_id', '=', self.id)],
-            'context': {'default_lead_id': self.id},
-        }
-
-
-
-    @api.depends('quotation_ids')
-    def _compute_quotation_count(self):
-        for rec in self:
-            rec.quotation_count = len(rec.quotation_ids)
-
-    def action_open_travel_quotations(self):
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Travel Quotations',
-            'res_model': 'travel.quotation',
-            'view_mode': 'list,form',
             'domain': [('lead_id', '=', self.id)],
             'context': {'default_lead_id': self.id},
         }
+
+
+
+    # @api.depends('quotation_ids')
+    # def _compute_quotation_count(self):
+    #     for rec in self:
+    #         rec.quotation_count = len(rec.quotation_ids)
+
+    # def action_open_travel_quotations(self):
+    #     self.ensure_one()
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': 'Travel Quotations',
+    #         'res_model': 'travel.quotation',
+    #         'view_mode': 'list,form',
+    #         'domain': [('lead_id', '=', self.id)],
+    #         'context': {'default_lead_id': self.id},
+    #     }
     
 
 
@@ -278,26 +330,53 @@ class CrmLead(models.Model):
                 raise UserError("Please choose a Lead Type first before assigning an Assigned Owner.")
         
     
-# team many2many 
-    def action_assign_teams_to_tasks(self):
-        for rec in self:
-            all_tasks = rec.quotation_ids.mapped('task_ids') | rec.billing_ids.mapped('task_ids') | rec.task_ids
+    # def action_assign_teams_to_tasks(self):
+    #     for rec in self:
+    #         all_tasks = rec.quotation_ids.mapped('task_ids') | rec.billing_ids.mapped('task_ids') | rec.task_ids
             
-            for task in all_tasks:
-                teams = task.lead_type_id.team_ids
-                if teams:
-                    team_users = self.env['res.users']
-                    for team in teams.sudo():
-                        team_users |= team.team_leader_id | team.member_ids
-                    if team_users:
-                        task.user_ids = [(6, 0, team_users.ids)]
+    #         for task in all_tasks:
+    #             teams = task.lead_type_id.team_ids
+    #             if teams:
+    #                 team_users = self.env['res.users']
+    #                 for team in teams.sudo():
+    #                     team_users |= team.team_leader_id | team.member_ids
+    #                 if team_users:
+    #                     task.user_ids = [(6, 0, team_users.ids)]
   
-   
+
+    # @api.model
+    # def _read_group(self, domain, groupby=(), aggregates=(), having=(), offset=0, limit=None, order=None):
+    #     if not groupby or order:
+    #         return super()._read_group(domain, groupby, aggregates, having=having, offset=offset, limit=limit, order=order)
+
+    #     aggregates = tuple(aggregates)
+    #     added = 'create_date:max' not in aggregates
+    #     if added:
+    #         aggregates = aggregates + ('create_date:max',)
+
+    #     result = super()._read_group(domain, groupby, aggregates, having=having, offset=offset, limit=limit, order='create_date:max desc')
+
+    #     if added:
+    #         result = [row[:-1] for row in result]
+
+    #     return result
+
+    # @api.model
+    # def web_read_group(self, domain, groupby, aggregates, *args, **kwargs):
+    #     if groupby:
+    #         aggregates = list(aggregates)
+    #         if 'create_date:max' not in aggregates:
+    #             aggregates.append('create_date:max')
+    #         kwargs['order'] = 'create_date:max desc'
+    #     return super().web_read_group(domain, groupby, aggregates, *args, **kwargs)
 
     @api.model_create_multi
     def create(self, vals_list):
         records = super().create(vals_list)
         for rec in records:
+            if rec.is_project_type and not rec.proj_ref:
+                rec.proj_ref = self.env['ir.sequence'].sudo().next_by_code('crm.lead.proj.ref.seq') or False
+
             if rec.lead_type_id and not rec.tag_ids:
                 tag_ids = rec._get_tags_for_lead_type(rec.lead_type_id)
                 if tag_ids:
@@ -360,6 +439,12 @@ class CrmLead(models.Model):
 
     
     def write(self, vals):
+        if 'lead_type_id' in vals:
+            for rec in self:
+                new_lead_type = self.env['lead.type'].browse(vals['lead_type_id'])
+                if new_lead_type.is_project_type and not rec.proj_ref:
+                    rec.proj_ref = self.env['ir.sequence'].sudo().next_by_code('crm.lead.proj.ref.seq') or False
+
         if 'stage_id' in vals or vals.get('probability') == 100:
             check_won = False
             if 'stage_id' in vals:
@@ -435,36 +520,72 @@ class CrmLead(models.Model):
         return result
         
 
+    # def _compute_document_count(self):
+    #     for rec in self:
+    #         project_ids = self.env['project.project'].search([('lead_id', '=', rec.id)]).ids
+    #         task_ids = self.env['project.task'].search([('project_id', 'in', project_ids)]).ids
+    #         billing_ids = self.env['travel.billing'].search([('lead_id', '=', rec.id)]).ids
+    #         quotation_ids = self.env['travel.quotation'].search([('lead_id', '=', rec.id)]).ids
+
+    #         task_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'project.task'),('res_id', 'in', task_ids),])
+    #         project_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'project.project'),('res_id', 'in', project_ids),])
+    #         lead_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'crm.lead'),('res_id', '=', rec.id),])
+    #         billing_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'travel.billing'), ('res_id', 'in', billing_ids),])
+    #         quotation_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'travel.quotation'), ('res_id', 'in', quotation_ids),])
+    #         rec.document_count = task_docs + project_docs + lead_docs + billing_docs + quotation_docs
+
+
+
+    # def action_view_lead_documents(self):
+    #     self.ensure_one()
+    #     project_ids = self.env['project.project'].search([('lead_id', '=', self.id)]).ids
+    #     task_ids = self.env['project.task'].search([('project_id', 'in', project_ids)]).ids
+    #     billing_ids = self.env['travel.billing'].search([('lead_id', '=', self.id)]).ids
+    #     quotation_ids = self.env['travel.quotation'].search([('lead_id', '=', self.id)]).ids
+
+    #     domain = [
+    #         '|', '|', '|', '|',
+    #         '&', ('res_model', '=', 'project.task'), ('res_id', 'in', task_ids),
+    #         '&', ('res_model', '=', 'project.project'), ('res_id', 'in', project_ids),
+    #         '&', ('res_model', '=', 'crm.lead'), ('res_id', '=', self.id),
+    #         '&', ('res_model', '=', 'travel.billing'), ('res_id', 'in', billing_ids),
+    #         '&', ('res_model', '=', 'travel.quotation'), ('res_id', 'in', quotation_ids),
+    #     ]
+
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': 'Documents',
+    #         'res_model': 'ir.attachment',
+    #         'view_mode': 'kanban,list,form',
+    #         'domain': domain,
+    #         'context': {
+    #             'default_res_id': self.id,
+    #             'default_res_model': self._name,
+    #             'search_default_my_documents_filter': 0, 
+    #         },
+    #         'help': """<p class="o_view_nocontent_smiling_face">No documents found</p>""",
+    #     }
+
+
+
     def _compute_document_count(self):
         for rec in self:
-            project_ids = self.env['project.project'].search([('lead_id', '=', rec.id)]).ids
-            task_ids = self.env['project.task'].search([('project_id', 'in', project_ids)]).ids
             billing_ids = self.env['travel.billing'].search([('lead_id', '=', rec.id)]).ids
-            quotation_ids = self.env['travel.quotation'].search([('lead_id', '=', rec.id)]).ids
 
-            task_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'project.task'),('res_id', 'in', task_ids),])
-            project_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'project.project'),('res_id', 'in', project_ids),])
             lead_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'crm.lead'),('res_id', '=', rec.id),])
             billing_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'travel.billing'), ('res_id', 'in', billing_ids),])
-            quotation_docs = self.env['ir.attachment'].search_count([('res_model', '=', 'travel.quotation'), ('res_id', 'in', quotation_ids),])
-            rec.document_count = task_docs + project_docs + lead_docs + billing_docs + quotation_docs
+            rec.document_count = lead_docs + billing_docs
 
 
 
     def action_view_lead_documents(self):
         self.ensure_one()
-        project_ids = self.env['project.project'].search([('lead_id', '=', self.id)]).ids
-        task_ids = self.env['project.task'].search([('project_id', 'in', project_ids)]).ids
         billing_ids = self.env['travel.billing'].search([('lead_id', '=', self.id)]).ids
-        quotation_ids = self.env['travel.quotation'].search([('lead_id', '=', self.id)]).ids
 
         domain = [
-            '|', '|', '|', '|',
-            '&', ('res_model', '=', 'project.task'), ('res_id', 'in', task_ids),
-            '&', ('res_model', '=', 'project.project'), ('res_id', 'in', project_ids),
+            '|',
             '&', ('res_model', '=', 'crm.lead'), ('res_id', '=', self.id),
             '&', ('res_model', '=', 'travel.billing'), ('res_id', 'in', billing_ids),
-            '&', ('res_model', '=', 'travel.quotation'), ('res_id', 'in', quotation_ids),
         ]
 
         return {
@@ -481,57 +602,60 @@ class CrmLead(models.Model):
             'help': """<p class="o_view_nocontent_smiling_face">No documents found</p>""",
         }
 
-    def _compute_counts(self):
-        for rec in self:
-            direct_task_ids = self.env['project.task'].search([
-                ('lead_id', '=', rec.id)
-            ]).ids
+
+    
+
+    # def _compute_counts(self):
+    #     for rec in self:
+    #         direct_task_ids = self.env['project.task'].search([
+    #             ('lead_id', '=', rec.id)
+    #         ]).ids
  
-            project_task_ids = self.env['project.task'].search([
-                ('project_id.lead_id', '=', rec.id)
-            ]).ids
+    #         project_task_ids = self.env['project.task'].search([
+    #             ('project_id.lead_id', '=', rec.id)
+    #         ]).ids
  
-            all_task_ids = set(direct_task_ids) | set(project_task_ids)
-            rec.task_count = len(all_task_ids)
+    #         all_task_ids = set(direct_task_ids) | set(project_task_ids)
+    #         rec.task_count = len(all_task_ids)
  
-            rec.project_count = self.env['project.project'].search_count([
-                ('lead_id', '=', rec.id)
-            ])
-            rec.is_project_created = rec.project_count > 0
+    #         rec.project_count = self.env['project.project'].search_count([
+    #             ('lead_id', '=', rec.id)
+    #         ])
+    #         rec.is_project_created = rec.project_count > 0
 
 
-    def action_view_tasks(self):
-        self.ensure_one()
+    # def action_view_tasks(self):
+    #     self.ensure_one()
 
-        direct_task_ids = self.env['project.task'].search([
-            ('lead_id', '=', self.id)
-        ]).ids
-        project_task_ids = self.env['project.task'].search([
-            ('project_id.lead_id', '=', self.id)
-        ]).ids
+    #     direct_task_ids = self.env['project.task'].search([
+    #         ('lead_id', '=', self.id)
+    #     ]).ids
+    #     project_task_ids = self.env['project.task'].search([
+    #         ('project_id.lead_id', '=', self.id)
+    #     ]).ids
 
-        all_task_ids = list(set(direct_task_ids) | set(project_task_ids))
+    #     all_task_ids = list(set(direct_task_ids) | set(project_task_ids))
 
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Tasks',
-            'res_model': 'project.task',
-            'view_mode': 'kanban,list,form',
-            'domain': [('id', 'in', all_task_ids)],
-            'context': {'default_lead_id': self.id}
-        }
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': 'Tasks',
+    #         'res_model': 'project.task',
+    #         'view_mode': 'kanban,list,form',
+    #         'domain': [('id', 'in', all_task_ids)],
+    #         'context': {'default_lead_id': self.id}
+    #     }
 
 
-    def action_view_projects(self):
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Projects',
-            'res_model': 'project.project',
-            'view_mode': 'list,form',
-            'domain': [('lead_id', '=', self.id)],
-            'context': {'default_lead_id': self.id}
-        }
+    # def action_view_projects(self):
+    #     self.ensure_one()
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': 'Projects',
+    #         'res_model': 'project.project',
+    #         'view_mode': 'list,form',
+    #         'domain': [('lead_id', '=', self.id)],
+    #         'context': {'default_lead_id': self.id}
+    #     }
 
 
 
@@ -545,28 +669,28 @@ class CrmLead(models.Model):
 
 
 
-    def action_open_project_wizard(self):
-        self.ensure_one()
-        return {
-            'name': 'Create a Project',
-            'type': 'ir.actions.act_window',
-            'res_model': 'project.project',
-            'view_mode': 'form',
-            'view_id': self.env.ref('project.project_project_view_form_simplified_footer').id,
-            'target': 'new',
-            'context': {
-                'default_name': self.name,
-                'default_lead_id': self.id,
-                'active_id': self.id,
-                'active_model': self._name,
-                'default_package_name': self.name,
-                'default_number_of_passengers': self.number_of_passengers,
-                'default_destination': self.destination,
-                'default_travel_date_from': self.travel_date_from,
-                'default_travel_date_to': self.travel_date_to,
-                'default_lead_currency_id': self.lead_currency_id.id,
-            }
-        }
+    # def action_open_project_wizard(self):
+    #     self.ensure_one()
+    #     return {
+    #         'name': 'Create a Project',
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'project.project',
+    #         'view_mode': 'form',
+    #         'view_id': self.env.ref('project.project_project_view_form_simplified_footer').id,
+    #         'target': 'new',
+    #         'context': {
+    #             'default_name': self.name,
+    #             'default_lead_id': self.id,
+    #             'active_id': self.id,
+    #             'active_model': self._name,
+    #             'default_package_name': self.name,
+    #             'default_number_of_passengers': self.number_of_passengers,
+    #             'default_destination': self.destination,
+    #             'default_travel_date_from': self.travel_date_from,
+    #             'default_travel_date_to': self.travel_date_to,
+    #             'default_lead_currency_id': self.lead_currency_id.id,
+    #         }
+    #     }
 
 
 
@@ -586,26 +710,43 @@ class CrmLead(models.Model):
         return lead_type.tag_ids.ids
 
 
-    def action_sale_quotations_new(self):
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Travel Quotation',
-            'res_model': 'travel.quotation',  
-            'view_mode': 'form',
-            'views': [(self.env.ref('jt_travel.view_travel_quotation_form').id, 'form')],
-            'target': 'current',
-            'context': {
-                'default_lead_id': self.id,
-                'default_destination': self.destination,
-                'default_travel_date_from': self.travel_date_from,
-                'default_travel_date_to': self.travel_date_to,
-                'default_number_of_passengers': self.number_of_passengers,
-                'default_lead_type_id': self.lead_type_id.id,
-                'default_tag_ids': [(6, 0, self.tag_ids.ids)],
-            }
-        }
+    # def action_sale_quotations_new(self):
+    #     self.ensure_one()
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': 'Travel Quotation',
+    #         'res_model': 'travel.quotation',  
+    #         'view_mode': 'form',
+    #         'views': [(self.env.ref('jt_travel.view_travel_quotation_form').id, 'form')],
+    #         'target': 'current',
+    #         'context': {
+    #             'default_lead_id': self.id,
+    #             'default_destination': self.destination,
+    #             'default_travel_date_from': self.travel_date_from,
+    #             'default_travel_date_to': self.travel_date_to,
+    #             'default_number_of_passengers': self.number_of_passengers,
+    #             'default_lead_type_id': self.lead_type_id.id,
+    #             'default_tag_ids': [(6, 0, self.tag_ids.ids)],
+    #         }
+    #     }
     
+    # @api.constrains('lead_type_id')
+    # def _check_lead_type_change(self):
+    #     visa_type = self.env.ref('jt_travel.lead_type_visa_assistance', raise_if_not_found=False)
+    #     for rec in self:
+    #         if not visa_type:
+    #             continue
+    #         if rec.lead_type_id != visa_type:
+    #             visa_exists = self.env['travel.visa.application'].search_count([
+    #                 ('lead_id', '=', rec.id),
+    #                 ('task_id', '=', False),
+    #             ])
+    #             if visa_exists:
+    #                 raise ValidationError(
+    #                     "You cannot change the Lead Type because visa applications exist on this lead."
+    #                 )
+                
+
     @api.constrains('lead_type_id')
     def _check_lead_type_change(self):
         visa_type = self.env.ref('jt_travel.lead_type_visa_assistance', raise_if_not_found=False)
@@ -615,13 +756,11 @@ class CrmLead(models.Model):
             if rec.lead_type_id != visa_type:
                 visa_exists = self.env['travel.visa.application'].search_count([
                     ('lead_id', '=', rec.id),
-                    ('task_id', '=', False),
                 ])
                 if visa_exists:
                     raise ValidationError(
                         "You cannot change the Lead Type because visa applications exist on this lead."
                     )
-                
 
 
 class MailActivity(models.Model):

@@ -24,11 +24,12 @@ from . import lead_type
 from . import res_currency_inh
 from . import crm_lead_inh
 from . import travel_teams
-from . import project_project
-from . import project_task
+# from . import project_project
+# from . import project_task
 from . import res_partner_inh
-from . import travel_quotation
+# from . import travel_quotation
 from . import travel_billing
 from . import visa_application
-from . import spreadsheet_inh
+# from . import spreadsheet_inh
 from . import project_quotation_line
+from . import google_sheet_link

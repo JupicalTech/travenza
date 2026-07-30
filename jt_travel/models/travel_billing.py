@@ -37,12 +37,22 @@ class TravelBilling(models.Model):
     lead_type_id = fields.Many2one('lead.type', string="Lead Type", store=True, tracking=True)
     lead_type_name = fields.Char(related='lead_type_id.name', string="Type Name", tracking=True, store=True)
     date_submitted = fields.Datetime(string="Submitted On")
+    # state = fields.Selection([
+    #     ('draft', 'Draft'),
+    #     ('submitted', 'Submitted'),
+    #     ('pending', 'Pending'),
+    #     ('completed', 'Completed')
+    # ], string='Status', default='draft', tracking=True)
+
     state = fields.Selection([
         ('draft', 'Draft'),
         ('submitted', 'Submitted'),
         ('pending', 'Pending'),
-        ('completed', 'Completed')
+        ('completed', 'Completed'),
+        ('refunded', 'Refunded')
     ], string='Status', default='draft', tracking=True)
+
+    refund_reason = fields.Text(string="Refund Reason", tracking=True)
 
     accountant_remark = fields.Text(string="Remarks", tracking=True)
     bill_ref_no = fields.Char(string="Bill Reference", tracking=True)
@@ -50,8 +60,9 @@ class TravelBilling(models.Model):
     gst_details = fields.Char(string="GST Details", tracking=True)
     reffered_by_name = fields.Char(string="Referred By",tracking=True)
 
-    # --- Common Fields ---
+   
     passenger_name = fields.Char(string="Passenger Name", tracking=True)
+    passenger_phone = fields.Char(string="Passenger Phone No.", tracking=True)
     currency_id = fields.Many2one(
         'res.currency', 
         string="Currency", 
@@ -147,7 +158,17 @@ class TravelBilling(models.Model):
                 raise ValidationError("Invoice Number is required before marking the bill as Completed.")
         self.write({'state': 'completed'})
 
-
+    def action_open_mark_refunded_wizard(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Mark Refunded',
+            'res_model': 'travel.billing.refund.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_billing_id': self.id},
+        }
+    
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:

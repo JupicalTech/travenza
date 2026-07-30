@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-    <t t-inherit="mail.Chatter" t-inherit-mode="extension">
+    <!-- <t t-inherit="mail.Chatter" t-inherit-mode="extension">
         <xpath expr="//button[contains(@class, 'o-mail-Chatter-sendMessage')]" position="replace">
             <button class="o-mail-Chatter-sendMessage btn text-nowrap me-1" 
                     t-att-class="{
@@ -15,6 +15,10 @@
                 Send Email
             </button>
         </xpath>
+    </t> -->
+
+     <t t-inherit="mail.Chatter" t-inherit-mode="extension">
+        <xpath expr="//button[contains(@class, 'o-mail-Chatter-sendMessage')]" position="replace"/>
     </t>
 
 
