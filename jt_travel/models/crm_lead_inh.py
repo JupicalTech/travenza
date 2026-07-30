@@ -37,8 +37,8 @@ class CrmLead(models.Model):
     destination = fields.Char("Destination")
     travel_date_from = fields.Date("Travel Date From")
     travel_date_to = fields.Date("Travel Date To")
-    client_price = fields.Float("Client Selling Price")
-    advance_payment = fields.Float("Advance / Payment Received")
+    client_price = fields.Monetary("Client Selling Price", currency_field='lead_currency_id')
+    advance_payment = fields.Monetary("Advance / Payment Received", currency_field='lead_currency_id')
     priority = fields.Selection(default='1')
     proj_ref = fields.Char(string="Reference Number", copy=False, readonly=True)
     lead_currency_id = fields.Many2one(

@@ -166,6 +166,8 @@
                 <field name="travel_date_to" nolabel="1" class="oe_inline" placeholder="To" widget="custom_datetime"/>
             </div>
             <field name="lead_currency_id"/>
+            <field name="client_price" widget="monetary" options="{'currency_field': 'lead_currency_id'}" invisible="not is_project_type"/>
+            <field name="advance_payment" widget="monetary" options="{'currency_field': 'lead_currency_id'}" invisible="not is_project_type"/>
         </xpath>
 
         <!-- <xpath expr="//div[field[@name='date_deadline']]/field[@name='priority']" position="attributes">
@@ -504,6 +506,7 @@
 
 <menuitem id="project_todo.menu_todo_todos" active="False"/>
 
+<menuitem id="project.menu_main_pm" active="False"/>
 
 <record id="view_attachment_form_preview" model="ir.ui.view">
     <field name="name">ir.attachment.form.preview</field>
