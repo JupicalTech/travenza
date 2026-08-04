@@ -24,7 +24,7 @@
     'name': 'Travenza Holidays',
     'summary': 'Comprehensive Travel CRM and Operations Management for Travenza Holidays',
     'description': 'A comprehensive ERP solution for managing travel inquiries, specialized holiday quotations, automated project creation for bookings, and document-linked billing processes.',
-    'version': '19.0.1.0.7',
+    'version': '19.0.1.0.8',
     'author': 'Jupical Technologies Pvt. Ltd.',
     'maintainer': 'Jupical Technologies Pvt. Ltd.',
     'website': 'https://www.jupical.io',

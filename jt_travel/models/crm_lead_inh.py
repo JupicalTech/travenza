@@ -157,7 +157,21 @@ class CrmLead(models.Model):
             'domain': [('lead_id', '=', self.id)],
             'context': {'default_lead_id': self.id},
         }
-    
+
+
+    @api.constrains('travel_date_from', 'travel_date_to')
+    def _check_travel_dates(self):
+        for rec in self:
+            if (
+                rec.travel_date_from
+                and rec.travel_date_to
+                and rec.travel_date_from >= rec.travel_date_to
+            ):
+                raise ValidationError(
+                    "Travel Start Date must be earlier than Travel End Date."
+                )
+
+            
     # def _compute_visa_count(self):
     #     for rec in self:
     #         count = self.env['travel.visa.application'].search_count([
