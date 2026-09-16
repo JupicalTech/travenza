@@ -36,6 +36,7 @@ class TravelBilling(models.Model):
     lead_id = fields.Many2one('crm.lead', string="Lead", ondelete='cascade')
     lead_type_id = fields.Many2one('lead.type', string="Lead Type", store=True, tracking=True)
     lead_type_name = fields.Char(related='lead_type_id.name', string="Type Name", tracking=True, store=True)
+    is_project_type = fields.Boolean(related='lead_type_id.is_project_type', string="Is Package Lead Type", store=True)
     date_submitted = fields.Datetime(string="Submitted On")
     # state = fields.Selection([
     #     ('draft', 'Draft'),

@@ -57,10 +57,11 @@
                             <field name="lead_id" invisible="1" required="1" readonly="is_readonly_for_accountant"/>
                             <field name="lead_type_id"  options="{'no_create': True, 'no_open': True}"/>
                             <field name="lead_type_name" invisible="1" readonly="is_readonly_for_accountant"/>
+                            <field name="is_project_type" invisible="1"/>
                             <field name="passenger_name" required="1" readonly="is_readonly_for_accountant"/>
-                            <field name="passenger_phone" readonly="is_readonly_for_accountant"/>
+                            <field name="passenger_phone" invisible="is_project_type" readonly="is_readonly_for_accountant"/>
                             <field name="vendor_id" readonly="is_readonly_for_accountant" required="1"/>
-                            <field name="reffered_by_name"/>
+                            <field name="reffered_by_name" invisible="1"/>
                             <field name="card_used" invisible="billing_type_name in ['Forex', 'Passport Renewal', 'Miscellaneous']" readonly="is_readonly_for_accountant"/>
                             <field name="card_no" 
                                     invisible="not card_used" 
@@ -69,7 +70,7 @@
                                 
                         </group>
                         <group>
-                            <field name="billing_account" readonly="is_readonly_for_accountant" />
+                            <field name="billing_account" invisible="is_project_type" readonly="is_readonly_for_accountant" />
                             <label for="net_cost"/>
                             <div class="o_row">
                                <field name="currency_id" 
