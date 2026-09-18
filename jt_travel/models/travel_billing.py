@@ -103,6 +103,16 @@ class TravelBilling(models.Model):
     rejection_reason = fields.Text(string="Reason for Rejection (If rejected)",tracking=True)
     vendor_type_card = fields.Many2one('res.partner', string="Vendor Type/Card",tracking=True)
     billing_party = fields.Char(string="Billing Party",tracking=True)
+    payment_received_from_customer = fields.Selection([
+        ('yes', 'Yes'),
+        ('no', 'No'),
+        ('partial', 'Partial')
+    ], string="Payment Received from Customer", tracking=True)
+    payment_mode = fields.Selection([
+        ('cash', 'Cash'),
+        ('card', 'Card'),
+        ('upi', 'UPI')
+    ], string="Mode of Payment", tracking=True)
     
     # Hotel Fields
     hotel_name = fields.Char(string="Hotel Name",tracking=True)

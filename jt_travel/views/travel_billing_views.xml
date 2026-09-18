@@ -105,6 +105,8 @@
                         <field name="visa_expected_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
                         <field name="rejection_reason" readonly="is_readonly_for_accountant"/>
                         <field name="vendor_type_card" readonly="is_readonly_for_accountant"/>
+                        <field name="payment_received_from_customer" readonly="is_readonly_for_accountant"/>
+                        <field name="payment_mode" readonly="is_readonly_for_accountant"/>
                     </group>
 
                     <group string="Hotel Details" invisible="billing_type_name != 'Hotels'">
