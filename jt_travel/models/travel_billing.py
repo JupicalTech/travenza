@@ -62,6 +62,7 @@ class TravelBilling(models.Model):
     reffered_by_name = fields.Char(string="Referred By",tracking=True)
 
    
+    activity_hotel_name = fields.Char(string="Activity/Hotel name", tracking=True)
     passenger_name = fields.Char(string="Passenger Name", tracking=True)
     passenger_phone = fields.Char(string="Passenger Phone No.", tracking=True)
     currency_id = fields.Many2one(

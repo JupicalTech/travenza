@@ -60,6 +60,7 @@
                             <field name="is_project_type" invisible="1"/>
                             <field name="passenger_name" required="1" readonly="is_readonly_for_accountant"/>
                             <field name="passenger_phone" invisible="is_project_type" readonly="is_readonly_for_accountant"/>
+                            <field name="activity_hotel_name" readonly="is_readonly_for_accountant"/>
                             <field name="vendor_id" readonly="is_readonly_for_accountant" required="1"/>
                             <field name="reffered_by_name" invisible="1"/>
                             <field name="card_used" invisible="billing_type_name in ['Forex', 'Passport Renewal', 'Miscellaneous']" readonly="is_readonly_for_accountant"/>
@@ -161,6 +162,7 @@
                 <field name="passenger_name"/>
                 <field name="billing_account"/>
                 <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
+                <field name="activity_hotel_name"/>
                 <field name="currency_id" column_invisible="True"/> <field name="net_cost" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Net Cost"/>
                 <field name="billing_amount" sum="Total Billing"/>
                 <field name="state" 
