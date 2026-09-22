@@ -112,7 +112,6 @@
 
                     <group string="Hotel Details" invisible="billing_type_name != 'Hotels'">
                         <field name="reference_number" readonly="is_readonly_for_accountant"/>
-                        <field name="hotel_name" readonly="is_readonly_for_accountant"/>
                         <field name="check_in_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
                         <field name="voucher_upload" filename="voucher_upload_name" readonly="is_readonly_for_accountant"/>
                         <field name="voucher_upload_name" invisible="1" readonly="is_readonly_for_accountant"/>
