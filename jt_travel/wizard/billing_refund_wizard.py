@@ -39,3 +39,21 @@ class TravelBillingRefundWizard(models.TransientModel):
             'state': 'refunded',
             'refund_reason': self.reason,
         })
+        self._notify_accounts_team()
+
+    def _notify_accounts_team(self):
+        billing = self.billing_id
+        accounts_teams = self.env['travel.team'].search([
+            ('team_type_id.name', '=ilike', 'Accounts')
+        ])
+        users = accounts_teams.team_leader_id | accounts_teams.member_ids
+        partners = users.mapped('partner_id')
+        if not partners:
+            return
+        billing.with_context(
+            mail_notify_author=True,
+            mail_notify_author_mention=True,
+        ).message_post(
+            body=f"Bill {billing.name} has been marked as Refunded. Reason: {self.reason}",
+            partner_ids=partners.ids,
+        )

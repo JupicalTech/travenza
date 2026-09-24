@@ -60,7 +60,6 @@
                             <field name="is_project_type" invisible="1"/>
                             <field name="passenger_name" required="1" readonly="is_readonly_for_accountant"/>
                             <field name="passenger_phone" invisible="is_project_type" readonly="is_readonly_for_accountant"/>
-                            <field name="activity_hotel_name" readonly="is_readonly_for_accountant"/>
                             <field name="vendor_id" readonly="is_readonly_for_accountant" required="1"/>
                             <field name="reffered_by_name" invisible="1"/>
                             <field name="card_used" invisible="billing_type_name in ['Forex', 'Passport Renewal', 'Miscellaneous']" readonly="is_readonly_for_accountant"/>
@@ -112,6 +111,7 @@
 
                     <group string="Hotel Details" invisible="billing_type_name != 'Hotels'">
                         <field name="reference_number" readonly="is_readonly_for_accountant"/>
+                        <field name="hotel_name" readonly="is_readonly_for_accountant"/>
                         <field name="check_in_date" widget="custom_datetime" readonly="is_readonly_for_accountant"/>
                         <field name="voucher_upload" filename="voucher_upload_name" readonly="is_readonly_for_accountant"/>
                         <field name="voucher_upload_name" invisible="1" readonly="is_readonly_for_accountant"/>
@@ -161,7 +161,9 @@
                 <field name="passenger_name"/>
                 <field name="billing_account"/>
                 <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
-                <field name="activity_hotel_name"/>
+                <field name="hotel_name"/>
+                <field name="activity_name"/>
+                <field name="pnr_ref_number"/>
                 <field name="currency_id" column_invisible="True"/> <field name="net_cost" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Net Cost"/>
                 <field name="billing_amount" sum="Total Billing"/>
                 <field name="state" 
@@ -205,6 +207,64 @@
               action="action_travel_billing_all"
               sequence="2"
               groups="jt_travel.group_travenza_holidays_accountant,jt_travel.group_travenza_holidays_manager,jt_travel.group_travenza_holidays_admin"/>
+
+    <record id="view_travel_billing_refund_list" model="ir.ui.view">
+        <field name="name">travel.billing.refund.list</field>
+        <field name="model">travel.billing</field>
+        <field name="arch" type="xml">
+            <list string="Refunds">
+                <field name="name"/>
+                <field name="lead_type_id" options="{'no_create': True, 'no_open': True}"/>
+                <field name="refund_reason"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_travel_billing_refund_search" model="ir.ui.view">
+        <field name="name">travel.billing.refund.search</field>
+        <field name="model">travel.billing</field>
+        <field name="arch" type="xml">
+            <search string="Refunds">
+                <field name="name"/>
+                <field name="lead_type_id"/>
+                <group>
+                    <filter name="group_by_lead_type"
+                            string="Lead Type"
+                            context="{'group_by': 'lead_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_travel_billing_refund" model="ir.actions.act_window">
+        <field name="name">Refunds</field>
+        <field name="res_model">travel.billing</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'refunded')]</field>
+        <field name="search_view_id" ref="view_travel_billing_refund_search"/>
+        <field name="context">{'search_default_group_by_lead_type': 1}</field>
+    </record>
+
+    <record id="action_travel_billing_refund_view_list" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_travel_billing_refund_list"/>
+        <field name="act_window_id" ref="action_travel_billing_refund"/>
+    </record>
+
+    <record id="action_travel_billing_refund_view_form" model="ir.actions.act_window.view">
+        <field name="sequence">2</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_travel_billing_form"/>
+        <field name="act_window_id" ref="action_travel_billing_refund"/>
+    </record>
+
+    <menuitem id="menu_travenza_accountant_billing_refund"
+              name="Refunds"
+              parent="menu_travenza_accountant_billing"
+              action="action_travel_billing_refund"
+              sequence="1"
+              groups="base.group_system,jt_travel.group_travenza_holidays_admin,jt_travel.group_travenza_holidays_accountant"/>
 
 <!-- Menu visibility -->
  

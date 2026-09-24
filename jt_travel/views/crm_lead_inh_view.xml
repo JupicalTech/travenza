@@ -163,7 +163,7 @@
             <div class="o_row">
                 <field name="travel_date_from" nolabel="1" class="oe_inline" placeholder="From" widget="custom_datetime"/>
                 <i class="fa fa-long-arrow-right mx-2 mt-1 text-muted" title="Arrow" aria-hidden="true"/>
-                <field name="travel_date_to" nolabel="1" class="oe_inline" placeholder="To" widget="custom_datetime"/>
+                <field name="travel_date_to" nolabel="1" class="oe_inline" placeholder="To" widget="linked_custom_datetime" options="{'min_date_field': 'travel_date_from'}"/>
             </div>
             <field name="lead_currency_id"/>
             <field name="client_price" widget="monetary" options="{'currency_field': 'lead_currency_id'}" invisible="not is_project_type"/>

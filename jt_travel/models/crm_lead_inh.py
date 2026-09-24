@@ -238,6 +238,7 @@ class CrmLead(models.Model):
         billing = self.env['travel.billing'].create({
             'lead_id': self.id,
             'passenger_name': self.contact_name or (self.partner_id.name if self.partner_id else ''),
+            'passenger_phone': self.phone or '',
             'billing_type_name': self.lead_type_id.name or '',
         })
         return {
